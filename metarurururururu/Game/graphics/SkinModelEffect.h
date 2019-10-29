@@ -12,7 +12,9 @@ protected:
 	Shader* m_pPSShader = nullptr;
 	Shader m_vsShader;
 	Shader m_psShader;
+	Shader m_psSilhouette;			//シルエット用のピクセルシェーダー。
 	bool isSkining;
+	bool m_renderMode = 0;
 	ID3D11ShaderResourceView* m_albedoTex = nullptr;
 
 public:
@@ -48,7 +50,10 @@ public:
 	{
 		return wcscmp(name, m_materialName.c_str()) == 0;
 	}
-	
+	void SetRenderMode(int renderMode)
+	{
+		m_renderMode = renderMode;
+	}
 };
 /*!
 *@brief

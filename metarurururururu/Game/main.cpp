@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "Font.h"
+#include "Title.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -15,7 +16,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 	
-	NewGO<Game>(0, "Game");
+	//NewGO<Game>(0, "Game");
+	NewGO<Title>(0);
 	StopWatch stopWatch;
 
 	//ゲームループ。

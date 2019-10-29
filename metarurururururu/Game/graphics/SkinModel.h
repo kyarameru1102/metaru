@@ -79,6 +79,21 @@ public:
 		enSkinModelSRVReg_DiffuseTexture = 0,		//!<ディフューズテクスチャ。
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
 	};
+	/// <summary>
+	/// シャドウレシーバーのフラグを設定する。
+	/// </summary>
+	/// <param name="flag">trueを渡すとシャドウレシーバーになる</param>
+	/// <remarks>
+	/// シャドウレシーバーとは影を落とされるオブジェクトのことです。
+	/// シャドウキャスターによって生成された、シャドウマップを利用して
+	/// 自身に影を落とします。
+	/// オブジェクトがシャドウレシーバーかつシャドウキャスターになっている場合は
+	/// セルフシャドウ(自分の影が自分に落ちる)を行うことができます。
+	/// </remarks>
+	void SetShadowReciever(bool flag)
+	{
+		m_isShadowReciever = flag;
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -127,5 +142,6 @@ private:
 	ID3D11Buffer*				m_lightCb = nullptr;			//ライト用の定数バッファ。
 	Light						m_Light;						//ライト。
 	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV
+	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
 };
 

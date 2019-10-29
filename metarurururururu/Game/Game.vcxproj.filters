@@ -58,6 +58,12 @@
     <Filter Include="NowGame\Astar">
       <UniqueIdentifier>{78b90ab9-3fb7-4abf-bebe-b0a140f421a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\sprite">
+      <UniqueIdentifier>{78353d47-13e5-4685-afa1-5c2e113b3d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sound">
+      <UniqueIdentifier>{f486cc96-f8cf-4f3c-b73b-fd7be5e39338}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\Vector.cpp">
@@ -201,7 +207,23 @@
     <ClCompile Include="Font.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Bullet.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Astar.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -360,7 +382,23 @@
     <ClInclude Include="Font.h">
       <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="Ground.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Bullet.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Astar.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -375,5 +413,11 @@
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\dangan.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Title.png" />
   </ItemGroup>
 </Project>

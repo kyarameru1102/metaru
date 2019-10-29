@@ -5,6 +5,7 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateMove.h"
 #include "SkinModelRender.h"
+#include "Bullet.h"
 
 extern Pad g_pad[Pad::CONNECT_PAD_MAX];
 
@@ -28,6 +29,8 @@ public:
 	void Rotation();
 	//銃を構えているときの回転処理。
 	void HoldRotation();
+	//銃を撃つ処理。弾丸を生成する処理。
+	void Firing();
 	//カメラの切り替え処理。FPSカメラに切り替える。
 	void CameraSwitchFPS();
 	//カメラの切り替え処理。TPSカメラに切り替える。
@@ -72,6 +75,7 @@ private:
 		enAnimationClip_run,
 		enAnimationClip_Num,
 	};
-	AnimationClip m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
+	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
+	Bullet*				m_bullet = nullptr;							//弾丸。
 };
 

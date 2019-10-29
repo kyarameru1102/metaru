@@ -99,6 +99,8 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Astar.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraCollisionSolver.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
@@ -142,7 +144,10 @@
     <ClCompile Include="PlayerStateHoldGun.cpp" />
     <ClCompile Include="PlayerStateIdle.cpp" />
     <ClCompile Include="PlayerStateMove.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
+    <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -150,8 +155,11 @@
     </ClCompile>
     <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astar.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraCollisionSolver.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="DirectionLight.h" />
@@ -200,13 +208,18 @@
     <ClInclude Include="PlayerStateHoldGun.h" />
     <ClInclude Include="PlayerStateIdle.h" />
     <ClInclude Include="PlayerStateMove.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkinModelRender.h" />
+    <ClInclude Include="SoundSource.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StopWatch.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\dangan.FBX" />
     <MeshContentTask Include="Assets\modelData\ground.FBX" />
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
     <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
@@ -214,6 +227,12 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Title.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

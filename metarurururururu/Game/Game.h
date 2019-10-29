@@ -16,7 +16,7 @@ public:
 private:
 	GameCamera*			m_gameCamera = nullptr;
 	Level				m_level;
-	NaviMesh			m_navi;
+	//NaviMesh			m_navi;
 	SkinModel			m_model;
 };
 

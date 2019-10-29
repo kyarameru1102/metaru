@@ -35,6 +35,7 @@ bool Player::Start()
 	m_skinModelRender->Init(L"Assets/modelData/unityChan.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisY);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle);
 
+	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 	return true;
 }
 
@@ -66,7 +67,17 @@ void Player::Update()
 		Move();
 		MoveAnimation();
 	}
-	
+	if (m_currentstate->IsPossibleGunShoot()) {
+		if (g_pad[0].IsPress(enButtonRB1))
+		{
+			/*auto mRot = CMatrix::Identity;
+			mRot.MakeRotationFromQuaternion(m_rotation);
+			m_forward.x = mRot.m[2][0];
+			m_forward.y = mRot.m[2][1];
+			m_forward.z = mRot.m[2][2];*/
+			Firing();
+		}
+	}
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
@@ -173,7 +184,7 @@ void Player::Rotation()
 
 void Player::HoldRotation()
 {
-	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
+	
 	CVector3 moveSpeedXZ = CVector3::One();
 	if (m_fpsCamera != NULL) {
 		moveSpeedXZ = m_fpsCamera->Getdirection();
@@ -190,12 +201,29 @@ void Player::HoldRotation()
 
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
+void Player::Firing()
+{
+	m_bullet = NewGO<Bullet>(0, "bullet");
+	CVector3 Bulletpos = m_position;
+	Bulletpos.y += 50.0f;
+	m_bullet->SetPosition(Bulletpos);
+	CVector3 BulletDrc;
+	if (m_fps) {
+		BulletDrc = m_fpsCamera->Getdirection();
+	}
+	else if (!m_fps) {
+		BulletDrc = m_gameCamera->Getdirection() * -1;
+	}
+	BulletDrc.Normalize();
+	BulletDrc *= 500;
+	m_bullet->SetmoveSpeed(BulletDrc);
+}
 //FPSƒJƒƒ‰‚ÉØ‚è‘Ö‚¦‚éŠÖ”B
 void Player::CameraSwitchFPS()
 {
 	if (m_fps == false)
 	{
-		
+		DeleteGO(m_skinModelRender);
 		CVector3 direction;
 		direction = m_gameCamera->Getdirection();
 		DeleteGO(m_gameCamera);
@@ -214,6 +242,8 @@ void Player::CameraSwitchTPS()
 {
 	if (m_fps == true)
 	{
+		m_skinModelRender = NewGO<SkinModelRender>(0);
+		m_skinModelRender->Init(L"Assets/modelData/unityChan.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisY);
 		CVector3 direction;
 		direction = m_fpsCamera->Getdirection();
 		DeleteGO(m_fpsCamera);

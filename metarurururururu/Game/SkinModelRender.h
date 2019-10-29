@@ -1,4 +1,6 @@
 #pragma once
+#include "ShadowMap.h"
+
 //3Dモデルを表示する機能を提供するクラス。
 class SkinModelRender : public IGameObject
 {
@@ -73,5 +75,6 @@ private:
 	SkinModel					m_skinModel;							//スキンモデル。
 	Animation					m_animation;							//アニメーション。
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
+	ShadowMap					m_shadowMap;							//シャドウマップ。
 };
 

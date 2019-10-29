@@ -40,7 +40,10 @@ cbuffer LightCb : register(b1) {
 	float specPow;
 };
 
-
+//シャドウマップ用の定数バッファ
+cbuffer ShadowMapCb : register(b1) {
+	float4x4 lightViewProjMatrix;	//ライトビュープロジェクション行列。
+}
 
 /////////////////////////////////////////////////////////////
 //各種構造体

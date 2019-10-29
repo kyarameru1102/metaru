@@ -52,9 +52,7 @@ bool Game::Start()
 			return 0;
 		}
 	);
-	//ナビメッシュ。
-	m_model.Init(L"Assets/modelData/ground.cmo");
-	m_navi.Create(m_model);
+	GetNaviMesh();
 	
 	NewGO<Ground>(0);
 

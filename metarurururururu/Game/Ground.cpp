@@ -36,7 +36,7 @@ bool Ground::Start()
 
 	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_ground);
 	g_physics.AddRigidBody(m_rigidBody);
-
+	m_skinModelRender->GetSkinModel().SetShadowReciever(true);
 	return true;
 }
 

@@ -34,6 +34,14 @@ void SkinModelRender::Update()
 {
 	m_skinModel.UpdateWorldMatrix(m_position, m_rotation, m_scale);	
 	m_animation.Update(GameTime().GetFrameDeltaTime());
+	//シャドウレシーバーを登録。
+	m_skinModel.SetShadowReciever(true);
+	//シャドウキャスターを登録。
+	m_shadowMap.RegistShadowCaster(&m_skinModel);
+	m_shadowMap.UpdateFromLightTarget(
+		{ 1000.0f,1000.0f,1000.0f },
+		{ 0.0f,0.0f,0.0f }
+	);
 }
 
 void SkinModelRender::Render()

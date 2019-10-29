@@ -24,7 +24,10 @@ struct MeshCallBack : public btCollisionWorld::ClosestConvexResultCallback
 
 NaviMesh::NaviMesh()
 {
+	//ナビメッシュ。
 	m_collider.Create(1.0f, 30.0f);
+	m_model.Init(L"Assets/modelData/ground.cmo");
+	Create(m_model);
 }
 
 
@@ -111,25 +114,25 @@ void NaviMesh::Create(SkinModel & model)
 			cell->vertexPos[2] = vertexBufferArray[i]->at(indexBufferArray[i]->at(j++));
 
 			//上にオブジェクトがあるかどうか。
-			CVector3 centerPos = cell->vertexPos[0] + cell->vertexPos[1];
-			centerPos += cell->vertexPos[2];
-			centerPos /= 3.0f;
+			cell->centerPos = cell->vertexPos[0] + cell->vertexPos[1];
+			cell->centerPos += cell->vertexPos[2];
+			cell->centerPos /= 3.0f;
 			CVector3 radius;
-			radius = centerPos - cell->vertexPos[0]; 
+			radius = cell->centerPos - cell->vertexPos[0]; 
 			m_collider.GetBody()->setLocalScaling(btVector3(radius.Length(),1.0f,radius.Length()));
 			btTransform start, end;
 			start.setIdentity();
 			end.setIdentity();
-			start.setOrigin(btVector3(centerPos.x, centerPos.y, centerPos.z));
-			end.setOrigin(btVector3(centerPos.x, centerPos.y + 10.0f, centerPos.z));
+			start.setOrigin(btVector3(cell->centerPos.x, cell->centerPos.y, cell->centerPos.z));
+			end.setOrigin(btVector3(cell->centerPos.x, cell->centerPos.y + 10.0f, cell->centerPos.z));
 			MeshCallBack callback;
 			
 			g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 			if (callback.hit == false) {
 				//オブジェクトが上にあったら消えているかどうかの確認用。
-				m_skin = NewGO<SkinModelRender>(0);
+				/*m_skin = NewGO<SkinModelRender>(0);
 				m_skin->Init(L"Assets/modelData/takatozin.cmo");
-				m_skin->SetPosition(centerPos);
+				m_skin->SetPosition(cell->centerPos);*/
 
 				m_cells.push_back(cell);
 			}
@@ -158,12 +161,15 @@ void NaviMesh::Create(SkinModel & model)
 								if (CommonVertex == 2) {
 									if (vertexNo[0] == 0 && vertexNo[1] == 1 || vertexNo[0] == 1 && vertexNo[1] == 0) {
 										all->linkCells[0] = portion;
+										all->linkMax++;
 									}
 									else if (vertexNo[0] == 1 && vertexNo[1] == 2 || vertexNo[0] == 2 && vertexNo[1] == 1) {
 										all->linkCells[1] = portion;
+										all->linkMax++;
 									}
 									else if (vertexNo[0] == 2 && vertexNo[1] == 0 || vertexNo[0] == 0 && vertexNo[1] == 2) {
 										all->linkCells[2] = portion;
+										all->linkMax++;
 									}
 									break;
 								}
