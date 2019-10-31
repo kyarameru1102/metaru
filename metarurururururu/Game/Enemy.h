@@ -8,6 +8,11 @@
 #include <vector>
 #include <string>
 #include "Astar.h"
+#include "AstarDebug.h"
+/// <summary>
+/// 敵兵のクラス。
+/// </summary>
+//このクラスのインスタンスが生成されるとナビゲーションメッシュが生成される。
 
 class Player;
 class Enemy : public IGameObject
@@ -66,6 +71,8 @@ private:
 	CharacterController			m_charaCon;									//キャラクターコントローラー。
 	Level						m_level;
 	wchar_t						m_initPath[3];
-	Astar						m_astar;
+	Astar						m_astar;									//A*(ナビメッシュも生成している。
+	AstarDebug*					m_astarDebug = nullptr;
+	int	AstarEXEcount = 0;
 };
 

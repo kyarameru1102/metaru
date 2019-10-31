@@ -25,6 +25,14 @@ public:
 			return false;
 		}
 	}
+	auto GetAStarAnswerEnd()
+	{
+		return AStarAnswer.end();
+	}
+	auto GetAStarAnswerIt()
+	{
+		return AStarAnswerIt;
+	}
 private:
 	NaviMesh* m_naviMesh = nullptr;
 	std::list<Cell*> AStarAnswer;

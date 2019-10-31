@@ -22,14 +22,25 @@ bool Game::Start()
 {
 	std::wstring p[10];
 
-	m_level.Init(L"Assets/level/stage_00.tkl",
+	//敵キャラ以外のレベルデータをロード。
+	m_level.Init(L"Assets/level/stage_test.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.EqualObjectName(L"unityChan")) {
 				Player* pl = NewGO<Player>(0, "player");
 				pl->SetPosition(obiData.position);
 				return true;
 			}
-			else if (obiData.FindName(L"takatozin_")) {
+			else if (obiData.EqualObjectName(L"ground"))
+			{
+				return true;
+			}
+			return 0;
+		}
+	);
+	//敵キャラのレベルデータ。
+	m_level.Init(L"Assets/level/Enemy_level00.tkl",
+		[&](LevelObjectData& obiData)->int {
+			if (obiData.FindName(L"takatozin_")) {
 				wchar_t last[3];
 				size_t l = wcslen(obiData.name);
 				wchar_t la = obiData.name[l - 2];
@@ -45,15 +56,10 @@ bool Game::Start()
 
 				return true;
 			}
-			else if (obiData.EqualObjectName(L"ground"))
-			{
-				return true;
-			}
 			return 0;
 		}
 	);
-	GetNaviMesh();
-	
+	//ナビゲーションメッシュを生成した後に地面を生成。
 	NewGO<Ground>(0);
 
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");

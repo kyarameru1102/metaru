@@ -54,7 +54,7 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 
 	//スタートからエンドまでの距離を計算。
 	CVector3 toTarget;
-	toTarget.Subtract(targetPos, startPos);
+	toTarget = endCell->centerPos - startCell->centerPos;
 	toTarget.y = 0.0f;
 	float startToTargetSq = toTarget.LengthSq();
 	
@@ -78,7 +78,7 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 			closeCellList.push_back(crtCell);
 			//リンクしているセルの数を取得。
 			auto linkMax = crtCell->GetLinkCellMax();
-			for (short i = 0; i < linkMax; ++i) {
+			for (short i = 0; i < 3; ++i) {
 				linkCell = crtCell->GetLinkCell(i);
 				if (!linkCell) {
 					//隣接セルがなかったら。
@@ -113,7 +113,7 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 						closeCellList.erase(closeListIt);
 						openCellList.push_back(linkCell);
 					}
-					else /*if (openListIt == openCellList.end())*/ {
+					else if (openListIt == openCellList.end()) {
 						openCellList.push_back(linkCell);
 					}
 				}

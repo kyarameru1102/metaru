@@ -118,21 +118,22 @@ void NaviMesh::Create(SkinModel & model)
 			cell->centerPos += cell->vertexPos[2];
 			cell->centerPos /= 3.0f;
 			CVector3 radius;
-			radius = cell->centerPos - cell->vertexPos[0]; 
-			m_collider.GetBody()->setLocalScaling(btVector3(radius.Length(),1.0f,radius.Length()));
+			radius = cell->centerPos - cell->vertexPos[0];
+			m_collider.GetBody()->setLocalScaling(btVector3(radius.Length(), 1.0f, radius.Length()));
 			btTransform start, end;
 			start.setIdentity();
 			end.setIdentity();
 			start.setOrigin(btVector3(cell->centerPos.x, cell->centerPos.y, cell->centerPos.z));
 			end.setOrigin(btVector3(cell->centerPos.x, cell->centerPos.y + 10.0f, cell->centerPos.z));
 			MeshCallBack callback;
-			
+
 			g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 			if (callback.hit == false) {
 				//オブジェクトが上にあったら消えているかどうかの確認用。
-				/*m_skin = NewGO<SkinModelRender>(0);
-				m_skin->Init(L"Assets/modelData/takatozin.cmo");
-				m_skin->SetPosition(cell->centerPos);*/
+				m_skin = NewGO<SkinModelRender>(0);
+				m_skin->Init(L"Assets/modelData/yazirusi.cmo");
+				m_skin->SetPosition(cell->centerPos);
+				m_skin->SetScale({ 10.0f,10.0f,10.0f });
 
 				m_cells.push_back(cell);
 			}
@@ -144,41 +145,74 @@ void NaviMesh::Create(SkinModel & model)
 		}
 	}
 
-		for (auto &all : m_cells) {
-			for (const auto &portion : m_cells) {
-				if (all != portion) {
-					int CommonVertex = 0;
-					int vertexNo[2] = { 0,0 };
-					for (int i = 0; i < 3 && CommonVertex < 2; i++) {
-						CVector3 pos;
-						pos = all->vertexPos[i];
-						for (int j = 0; j < 3; j++) {
-							CVector3 len;
-							len = pos - portion->vertexPos[j];
-							if (len.Length() <= 0.01f) {
-								vertexNo[CommonVertex] = i;
-								CommonVertex++;
-								if (CommonVertex == 2) {
-									if (vertexNo[0] == 0 && vertexNo[1] == 1 || vertexNo[0] == 1 && vertexNo[1] == 0) {
-										all->linkCells[0] = portion;
-										all->linkMax++;
-									}
-									else if (vertexNo[0] == 1 && vertexNo[1] == 2 || vertexNo[0] == 2 && vertexNo[1] == 1) {
-										all->linkCells[1] = portion;
-										all->linkMax++;
-									}
-									else if (vertexNo[0] == 2 && vertexNo[1] == 0 || vertexNo[0] == 0 && vertexNo[1] == 2) {
-										all->linkCells[2] = portion;
-										all->linkMax++;
-									}
-									break;
+	for (auto &all : m_cells) {
+		for (const auto &portion : m_cells) {
+			if (all != portion) {
+				int CommonVertex = 0;
+				int vertexNo[2] = { 0,0 };
+				for (int i = 0; i < 3 && CommonVertex < 2; i++) {
+					CVector3 pos;
+					pos = all->vertexPos[i];
+					for (int j = 0; j < 3; j++) {
+						CVector3 len;
+						len = pos - portion->vertexPos[j];
+						if (len.Length() <= 0.01f) {
+							vertexNo[CommonVertex] = i;
+							CommonVertex++;
+							if (CommonVertex == 2) {
+								if (vertexNo[0] == 0 && vertexNo[1] == 1 || vertexNo[0] == 1 && vertexNo[1] == 0) {
+									all->linkCells[0] = portion;
+									all->linkMax++;
 								}
+								else if (vertexNo[0] == 1 && vertexNo[1] == 2 || vertexNo[0] == 2 && vertexNo[1] == 1) {
+									all->linkCells[1] = portion;
+									all->linkMax++;
+								}
+								else if (vertexNo[0] == 2 && vertexNo[1] == 0 || vertexNo[0] == 0 && vertexNo[1] == 2) {
+									all->linkCells[2] = portion;
+									all->linkMax++;
+								}
+								break;
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+	for (int i = 0; i < m_cells.size(); i++)
+	{
+		CVector3 c_position;
+		c_position = m_cells[i]->centerPos;
+		for (int j = 0; j < 3; j++) {
+			if (m_cells[i]->linkCells[j]!= nullptr)
+			{
+				auto cell = m_cells[i]->linkCells[j];
+				CVector3 Vector = CVector3::Zero();
+				Vector = cell->centerPos - c_position;
+				Vector.Normalize();
+				CQuaternion Rot = CQuaternion::Identity();
+				float kakuo = acos(Vector.Dot(CVector3::AxisY()));
+				if (kakuo > 0.0f || kakuo < -FLT_MIN)
+				{
+					kakuo = CMath::RadToDeg(kakuo);
+					CVector3 jiku;
+					jiku.Cross(CVector3::AxisY(), Vector);
+					if (kakuo > 0.0f || kakuo < -FLT_MIN)
+					{
+						jiku.Normalize();
+						Rot.SetRotationDeg(jiku, kakuo);
+					}
 
-	int i = 0;
+				}
+
+				SkinModelRender* skin = NewGO<SkinModelRender>(0);
+				skin->Init(L"Assets/modelData/takatozin.cmo");
+				skin->SetPosition(c_position);
+				skin->SetRotation(Rot);
+				skin->SetScale({ 0.5f,0.5f,0.5f });
+			}
+		}
+	}
+		int i = 0;
 }

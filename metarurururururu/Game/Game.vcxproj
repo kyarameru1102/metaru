@@ -100,6 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Astar.cpp" />
+    <ClCompile Include="AstarDebug.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraCollisionSolver.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar.h" />
+    <ClInclude Include="AstarDebug.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraCollisionSolver.h" />
     <ClInclude Include="character\CharacterController.h" />
@@ -228,6 +230,7 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\yazirusi.FBX" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">

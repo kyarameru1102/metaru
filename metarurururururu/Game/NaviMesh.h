@@ -5,7 +5,7 @@
 //ナビゲーションメッシュ。
 struct Cell {
 	CVector3			vertexPos[3];
-	Cell*				linkCells[3];		//隣接しているセル。
+	Cell*				linkCells[3] = {nullptr};		//隣接しているセル。
 	Cell*				parent;				//ひらかれた時の親のセルを記録する。
 	CVector3			centerPos;
 	//コストを設定する関数。

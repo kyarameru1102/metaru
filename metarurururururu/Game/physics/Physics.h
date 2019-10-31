@@ -47,6 +47,7 @@ public:
 	{
 		dynamicWorld->contactTest(colObj, resultCallback);
 	}
+	
 };
 
 extern PhysicsWorld g_physics;

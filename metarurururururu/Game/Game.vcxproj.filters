@@ -224,6 +224,7 @@
       <Filter>NowGame\Astar</Filter>
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="AstarDebug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -399,6 +400,7 @@
       <Filter>NowGame\Astar</Filter>
     </ClInclude>
     <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="AstarDebug.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -417,6 +419,9 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\ground_test.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\yazirusi.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>
