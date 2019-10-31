@@ -34,7 +34,7 @@ bool Player::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/unityChan.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisY);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle);
-
+	
 	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 	return true;
 }
@@ -223,7 +223,7 @@ void Player::CameraSwitchFPS()
 {
 	if (m_fps == false)
 	{
-		DeleteGO(m_skinModelRender);
+		m_skinModelRender->SetRenderOn(false);
 		CVector3 direction;
 		direction = m_gameCamera->Getdirection();
 		DeleteGO(m_gameCamera);
@@ -242,8 +242,7 @@ void Player::CameraSwitchTPS()
 {
 	if (m_fps == true)
 	{
-		m_skinModelRender = NewGO<SkinModelRender>(0);
-		m_skinModelRender->Init(L"Assets/modelData/unityChan.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisY);
+		m_skinModelRender->SetRenderOn(true);
 		CVector3 direction;
 		direction = m_fpsCamera->Getdirection();
 		DeleteGO(m_fpsCamera);

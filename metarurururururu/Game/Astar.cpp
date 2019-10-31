@@ -59,6 +59,7 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 	float startToTargetSq = toTarget.LengthSq();
 	
 	crtCell->SetCost(startToTargetSq);
+	crtCell->SetFromStartCost(0.0);
 
 	Cell* linkCell;
 
@@ -66,9 +67,11 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 	while (!openCellList.empty()) {
 		//オープンリストから最も安いセルを取得。
 		crtCell = PopMostLowCostCell(openCellList);
-		if (crtCell == endCell) {
+		if (crtCell == endCell) {	
+			//現在のセルをクローズリストに追加。
+			closeCellList.push_back(crtCell);
 			//A*アルゴリズム成功。
-			return true;
+			break;
 		}
 		else {
 			//現在のセルをクローズリストに追加。
@@ -94,9 +97,47 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 				);
 
 				//コスト計算。
-
+				float fromStartCost = (linkCell->centerPos - crtCell->centerPos).Length() + crtCell->GetFromStartCost();
+				linkCell->SetFromStartCost(fromStartCost);
+				float toEndCost = (endCell->centerPos - linkCell->centerPos).Length();
+				float cost = fromStartCost + toEndCost;
+				if ((openListIt != openCellList.end() && cost > (*openListIt)->GetCost())
+					|| (closeListIt != closeCellList.end() && cost > (*closeListIt)->GetCost()))
+				{
+					continue;
+				}
+				else {
+					linkCell->SetCost(cost);
+					linkCell->parent = crtCell;
+					if (closeListIt != closeCellList.end()) {
+						closeCellList.erase(closeListIt);
+						openCellList.push_back(linkCell);
+					}
+					else /*if (openListIt == openCellList.end())*/ {
+						openCellList.push_back(linkCell);
+					}
+				}
 			}
 		}
 	}
+	
+	closeListIt = std::find(
+		closeCellList.begin(),
+		closeCellList.end(),
+		endCell
+	);
+	AStarAnswer;
+	while (startCell != *closeListIt)
+	{
+		AStarAnswer.push_back(*closeListIt);
+		closeListIt = std::find(
+			closeCellList.begin(),
+			closeCellList.end(),
+			(*closeListIt)->parent
+		);
+	}
+	AStarAnswer.push_back(startCell);
+	std::reverse(AStarAnswer.begin(), AStarAnswer.end());
+	AStarAnswerIt = AStarAnswer.begin();
 	return true;
 }

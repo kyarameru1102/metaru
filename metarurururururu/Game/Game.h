@@ -18,5 +18,6 @@ private:
 	Level				m_level;
 	//NaviMesh			m_navi;
 	SkinModel			m_model;
+	ShadowMap			m_shadowMap;				//シャドウマップ。
 };
 

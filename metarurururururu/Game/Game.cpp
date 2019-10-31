@@ -79,4 +79,32 @@ void Game::OnDestroy()
 
 void Game::Render()
 {
+	////シャドウマップ。
+	//auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	////現在のレンダリングターゲットをバックアップしておく。
+	//ID3D11RenderTargetView* oldRenderTargetView;
+	//ID3D11DepthStencilView* oldDepthStencilView;
+	//d3dDeviceContext->OMGetRenderTargets(
+	//	1,
+	//	&oldRenderTargetView,
+	//	&oldDepthStencilView
+	//);
+	////ビューポートもバックアップを取っておく。
+	//unsigned int numViewport = 1;
+	//D3D11_VIEWPORT oldViewports;
+	//d3dDeviceContext->RSGetViewports(&numViewport, &oldViewports);
+	////シャドウマップにレンダリング。
+	//m_shadowMap.RenderToShadowMap();
+
+	////元に戻す。
+	//d3dDeviceContext->OMSetRenderTargets(
+	//	1,
+	//	&oldRenderTargetView,
+	//	oldDepthStencilView
+	//);
+	//d3dDeviceContext->RSSetViewports(numViewport, &oldViewports);
+	////レンダリングターゲットとデプスステンシルの参照カウンタを下す。
+	//oldRenderTargetView->Release();
+	//oldDepthStencilView->Release();
+
 }

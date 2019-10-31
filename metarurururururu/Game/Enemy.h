@@ -7,6 +7,7 @@
 #include "character/CharacterController.h"
 #include <vector>
 #include <string>
+#include "Astar.h"
 
 class Player;
 class Enemy : public IGameObject
@@ -65,5 +66,6 @@ private:
 	CharacterController			m_charaCon;									//キャラクターコントローラー。
 	Level						m_level;
 	wchar_t						m_initPath[3];
+	Astar						m_astar;
 };
 

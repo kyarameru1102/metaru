@@ -118,6 +118,9 @@ private:
 		CMatrix mWorld;
 		CMatrix mView;
 		CMatrix mProj;
+		CMatrix mLightView;		//ライトビュー行列。
+		CMatrix mLightProj;		//ライトプロジェクション行列。
+		int isShadowReciever;	//シャドウレシーバーのフラグ。
 	};
 	
 	//ディレクションライト。
@@ -143,5 +146,6 @@ private:
 	Light						m_Light;						//ライト。
 	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
+	//SkinModelRender*			m_skinRender = nullptr;
 };
 

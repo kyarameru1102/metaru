@@ -13,22 +13,31 @@ struct Cell {
 	{
 		Cost = cost;
 	}
+	void SetFromStartCost(float cost)
+	{
+		FromStartCost = cost;
+	}
 	//リンクしているセルの数を返してくる関数。
-	auto GetLinkCellMax()
+	short GetLinkCellMax()
 	{
 		return linkMax;
 	}
 	//リンクセルを取得。
-	auto GetLinkCell(short i)
+	Cell* GetLinkCell(short i)
 	{
 		return linkCells[i];
 	}
 	//
-	auto GetCost()
+	float GetCost()
 	{
 		return Cost;
 	}
-	float				Cost;
+	float GetFromStartCost()
+	{
+		return FromStartCost;
+	}
+	float				Cost = FLT_MAX;
+	float				FromStartCost = FLT_MAX;
 	short				linkMax = 0;			//リンクしているセルの数。
 };
 class NaviMesh
@@ -50,9 +59,10 @@ public:
 		closepos.z = FLT_MAX;
 		Cell* cell = nullptr;
 		for (auto Node : m_cells) {
-			auto Pos = cell->centerPos - pos;
+			auto Pos = Node->centerPos - pos;
 			if (closepos.Length() >= Pos.Length()) {
 				cell = Node;
+				closepos = Pos;
 			}
 		}
 		return cell;

@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "GameTime.h"
+#include "Astar.h"
 
 Enemy::Enemy()
 {
@@ -28,77 +29,85 @@ bool Enemy::Start()
 	m_skinModelRender->Init(L"Assets/modelData/takatozin.cmo");
 	m_currentPath = 0;
 	m_position = PathList[0].position;
+	m_astar.Execute(m_position, m_player->GetPosition());
 	return true;
 }
 
 void Enemy::Update()
 {
-	m_moveSpeed = CVector3::Zero();
-	//œpœj’†B
-	if (m_currentstate == &m_hesitate) {
-		PathMove();
-	}
-	//í“¬‘Ô¨’†‚Ìs“®B
-	if (m_currentstate == &m_battlePosture) {
-		BattleMove();
+	//m_moveSpeed = CVector3::Zero();
+	////œpœj’†B
+	//if (m_currentstate == &m_hesitate) {
+	//	PathMove();
+	//}
+	////í“¬‘Ô¨’†‚Ìs“®B
+	//if (m_currentstate == &m_battlePosture) {
+	//	BattleMove();
+	//}
+
+	//
+
+	////‹–ìŠp‚ÌŒvZB
+	//CVector3 toPlayer = m_player->GetPosition() - m_position;
+	//float toPlayerLen = toPlayer.Length();
+	//toPlayer.Normalize();
+	//if (m_moveSpeed.Length() > 0.01) {
+	//	m_oldMoveSpeed = m_moveSpeed;
+	//}
+	//m_oldMoveSpeed.Normalize();
+	//float angle = toPlayer.Dot(m_oldMoveSpeed);
+	//angle = acos(angle);
+	//
+	////œpœj’†‚à‚µ‚­‚ÍŒx‰ú‘Ô¨‚È‚çB
+	//if (m_currentstate == &m_hesitate || m_currentstate == &m_vigilance) {
+	//	float a = fabsf(angle);
+	//	
+	//		CMath::DegToRad(15.0f);
+	//		float ab = CMath::RadToDeg(a);
+	//	//‹–ìŠp‚É“ü‚Á‚½‚Æ‚«‚Ìˆ—B
+	//	if (ab < 15.0f && toPlayerLen < 500.0f) {
+	//		if (m_currentstate != &m_vigilance) {
+	//			//Œx‰ú‘Ì§‚ÉˆÚsB
+	//			ChangeState(&m_vigilance);
+	//		}
+	//		//‰½‚©‚ğŒ©‚Â‚¯‚½B(‚Ü‚¾Šm’è‚Å‚Í‚È‚¢B
+	//		m_discovery = true;
+	//	}
+	//	//‹–ìŠp‚©‚ço‚½B
+	//	else if (ab > 15.0f)
+	//	{
+	//		m_discovery = false;
+	//		if (m_currentstate != &m_hesitate) {
+	//			ChangeState(&m_hesitate);
+	//		}
+	//	}
+	//	if (m_discovery) {
+	//		m_timer += GameTime().GetFrameDeltaTime();
+	//	}
+
+	//	//‹–ìŠp“à‚É‚¢‚éó‘Ô‚Å3•b‚½‚Á‚½‚ç“G”­Œ©Šm’èBí“¬‘Ô¨‚ğ‚Æ‚éB
+	//	if (m_timer >= 3.0f) {
+	//		if (m_currentstate != &m_battlePosture) {
+	//			//í“¬‘Ô¨‚ÉˆÚsB
+	//			ChangeState(&m_battlePosture);
+	//		}
+	//		m_timer = 0.0f;
+	//	}
+	//}
+	//if (toPlayerLen > 500.0f) {
+	//	if (m_currentstate != &m_hesitate) {
+	//		ChangeState(&m_hesitate);
+	//		m_discovery = false;
+	//		m_timer = 0.0f;
+	//	}
+	//}
+
+	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+	if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
+	{
+		m_astar.AdvanceIt();
 	}
 
-	
-
-	//‹–ìŠp‚ÌŒvZB
-	CVector3 toPlayer = m_player->GetPosition() - m_position;
-	float toPlayerLen = toPlayer.Length();
-	toPlayer.Normalize();
-	if (m_moveSpeed.Length() > 0.01) {
-		m_oldMoveSpeed = m_moveSpeed;
-	}
-	m_oldMoveSpeed.Normalize();
-	float angle = toPlayer.Dot(m_oldMoveSpeed);
-	angle = acos(angle);
-	
-	//œpœj’†‚à‚µ‚­‚ÍŒx‰ú‘Ô¨‚È‚çB
-	if (m_currentstate == &m_hesitate || m_currentstate == &m_vigilance) {
-		float a = fabsf(angle);
-		
-			CMath::DegToRad(15.0f);
-			float ab = CMath::RadToDeg(a);
-		//‹–ìŠp‚É“ü‚Á‚½‚Æ‚«‚Ìˆ—B
-		if (ab < 15.0f && toPlayerLen < 500.0f) {
-			if (m_currentstate != &m_vigilance) {
-				//Œx‰ú‘Ì§‚ÉˆÚsB
-				ChangeState(&m_vigilance);
-			}
-			//‰½‚©‚ğŒ©‚Â‚¯‚½B(‚Ü‚¾Šm’è‚Å‚Í‚È‚¢B
-			m_discovery = true;
-		}
-		//‹–ìŠp‚©‚ço‚½B
-		else if (ab > 15.0f)
-		{
-			m_discovery = false;
-			if (m_currentstate != &m_hesitate) {
-				ChangeState(&m_hesitate);
-			}
-		}
-		if (m_discovery) {
-			m_timer += GameTime().GetFrameDeltaTime();
-		}
-
-		//‹–ìŠp“à‚É‚¢‚éó‘Ô‚Å3•b‚½‚Á‚½‚ç“G”­Œ©Šm’èBí“¬‘Ô¨‚ğ‚Æ‚éB
-		if (m_timer >= 3.0f) {
-			if (m_currentstate != &m_battlePosture) {
-				//í“¬‘Ô¨‚ÉˆÚsB
-				ChangeState(&m_battlePosture);
-			}
-			m_timer = 0.0f;
-		}
-	}
-	if (toPlayerLen > 500.0f) {
-		if (m_currentstate != &m_hesitate) {
-			ChangeState(&m_hesitate);
-			m_discovery = false;
-			m_timer = 0.0f;
-		}
-	}
 	Rotation();
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);

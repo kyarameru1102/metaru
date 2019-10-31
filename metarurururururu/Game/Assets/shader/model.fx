@@ -26,6 +26,9 @@ cbuffer VSPSCb : register(b0){
 	float4x4 mWorld;
 	float4x4 mView;
 	float4x4 mProj;
+	float4x4 mLightView;	//ライトビュー行列。
+	float4x4 mLightProj;	//ライトプロジェクション行列。
+	int isShadowReciever;	//シャドウレシーバーフラグ。
 };
 
 //ライト用の定数バッファ。
@@ -79,6 +82,7 @@ struct PSInput{
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
+	float4 posInLVP		: TEXCOORD1;	//ライトビュープロジェクション空間での座標。
 };
 /*!
  *@brief	スキン行列を計算。
@@ -110,6 +114,16 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 	psInput.TexCoord = In.TexCoord;
 	psInput.Normal = normalize(mul(mWorld, In.Normal));
 	psInput.Tangent = normalize(mul(mWorld, In.Tangent));
+	//if (isShadowReciever == 1) {
+	//	//続いて、ライトビュープロジェクション空間に変換。
+	//	psInput.posInLVP = mul(mLightView, worldPos);
+	//	psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
+	//}
+
+	//UV座標はそのままピクセルシェーダーに渡す。
+	psInput.TexCoord = In.TexCoord;
+	//法線はそのままピクセルシェーダーに渡す。
+	psInput.Normal = In.Normal;
 	return psInput;
 }
 
@@ -153,6 +167,18 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	psInput.TexCoord = In.TexCoord;
     return psInput;
 }
+/// <summary>
+/// シャドウマップ生成用の頂点シェーダー。
+/// </summary>
+//PSInput_ShadowMap VSMain_ShadowMap(VSInputNmTxVcTangent In)
+//{
+//	PSInput_ShadowMap psInput = (PSInput_ShadowMap)0;
+//	float4 pos = mul(mWorld, In.Position);
+//	pos = mul(mView, pos);
+//	pos = mul(mProj, pos);
+//	psInput.Position = pos;
+//	return psInput;
+//}
 //--------------------------------------------------------------------------------------
 // ピクセルシェーダーのエントリ関数。
 //--------------------------------------------------------------------------------------

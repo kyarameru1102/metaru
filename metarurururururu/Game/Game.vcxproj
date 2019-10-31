@@ -221,6 +221,7 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\dangan.FBX" />
     <MeshContentTask Include="Assets\modelData\ground.FBX" />
+    <MeshContentTask Include="Assets\modelData\ground_test.FBX" />
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
     <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

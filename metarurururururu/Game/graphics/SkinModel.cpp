@@ -146,12 +146,19 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
 
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-
+	/*auto shadowMap = m_skinRender->GetShadowMap();*/
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
 	vsCb.mWorld = m_worldMatrix;
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
+
+	if (m_isShadowReciever == true) {
+		vsCb.isShadowReciever = 1;
+	}
+	else {
+		vsCb.isShadowReciever = 0;
+	}
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	m_Light.eyePos = g_camera3D.GetPosition();
 	//ライト用の定数バッファを更新。

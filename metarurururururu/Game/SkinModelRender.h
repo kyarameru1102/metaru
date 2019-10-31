@@ -61,6 +61,14 @@ public:
 	}
 	//アニメーションの初期化。
 	void InitAnimation(AnimationClip* animationClips, int numAnimationClips);
+	void SetRenderOn(bool on)
+	{
+		m_RenderOn = on;
+	}
+	/*auto* GetShadowMap()
+	{
+		return &m_shadowMap;
+	}*/
 private:
 	bool Start() override;
 	void Update() override;
@@ -75,6 +83,7 @@ private:
 	SkinModel					m_skinModel;							//スキンモデル。
 	Animation					m_animation;							//アニメーション。
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
-	ShadowMap					m_shadowMap;							//シャドウマップ。
+	//ShadowMap					m_shadowMap;							//シャドウマップ。
+	bool						m_RenderOn = true;						//描画されるかどうか。
 };
 
