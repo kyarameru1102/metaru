@@ -3,6 +3,7 @@
 #include "EnemyStateBattlePosture.h"
 #include "EnemyStateHesitate.h"
 #include "EnemyStateVigilance.h"
+#include "EnemyStateVigilanceCancel.h"
 #include "Path.h"
 #include "character/CharacterController.h"
 #include <vector>
@@ -61,6 +62,7 @@ private:
 	EnemyStateBattlePosture		m_battlePosture;							//戦闘態勢のステート。
 	EnemyStateHesitate			m_hesitate;									//徘徊ステート。
 	EnemyStateVigilance			m_vigilance;								//警戒ステート。
+	EnemyStateVigilanceCancel	m_vigilanceCancel;							//警戒解除ステート。
 	std::vector<Path>			PathList;
 	int							m_currentPath;								//現在のパス。
 	CVector3					m_Enxz;
@@ -73,6 +75,7 @@ private:
 	wchar_t						m_initPath[3];
 	Astar						m_astar;									//A*(ナビメッシュも生成している。
 	AstarDebug*					m_astarDebug = nullptr;
-	int	AstarEXEcount = 0;
+	int							AstarEXEcount = 0;
+	CVector3					m_beforeAstar = CVector3::Zero();
 };
 

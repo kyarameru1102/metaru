@@ -49,6 +49,7 @@ void Enemy::Update()
 	if (m_currentstate == &m_vigilance) {
 		if (AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
+			m_beforeAstar = m_position;
 		}
 		AstarEXEcount++;
 		//A*経路探査で出た結果でパス移動。
@@ -59,7 +60,7 @@ void Enemy::Update()
 			if (m_astar.GetAStarAnswerIt() != m_astar.GetAStarAnswerEnd()) {
 				//////////////////////////////////////////////
 				//ナビゲーションメッシュのリンク確認用処理。
-				m_astarDebug = NewGO<AstarDebug>(0);
+				/*m_astarDebug = NewGO<AstarDebug>(0);
 				m_astarDebug->SetPosition(m_position);
 				auto len = m_astar.GetAStarAnswerPos();
 				len = len - m_position;
@@ -78,14 +79,25 @@ void Enemy::Update()
 					}
 
 				}
-				m_astarDebug->SetQuaternion(Rot);
-				//m_astarDebug->SetScale({10.0f,10.0f,10.0f});
+				m_astarDebug->SetQuaternion(Rot);*/
+				
 				//////////////////////////////////////////////
 			}
 			else {
 				//パスの最後まで行ったら。
-				ChangeState(&m_hesitate);
+				m_astar.Execute(m_position, m_beforeAstar);
+				ChangeState(&m_vigilanceCancel);
 				AstarEXEcount = 0;
+			}
+		}
+	}
+	if (m_currentstate == &m_vigilanceCancel) {
+		m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+		if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
+		{
+			m_astar.AdvanceIt();
+			if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+				ChangeState(&m_hesitate);
 			}
 		}
 	}
@@ -220,7 +232,7 @@ void Enemy::BattleMove()
 
 void Enemy::Rotation()
 {
-	CVector3 moveSpeedXZ = m_oldMoveSpeed;
+	CVector3 moveSpeedXZ = m_moveSpeed;
 	moveSpeedXZ.y = 0.0f;
 	moveSpeedXZ.Normalize();
 

@@ -109,6 +109,7 @@
     <ClCompile Include="EnemyStateBattlePosture.cpp" />
     <ClCompile Include="EnemyStateHesitate.cpp" />
     <ClCompile Include="EnemyStateVigilance.cpp" />
+    <ClCompile Include="EnemyStateVigilanceCancel.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="EnemyStateBattlePosture.h" />
     <ClInclude Include="EnemyStateHesitate.h" />
     <ClInclude Include="EnemyStateVigilance.h" />
+    <ClInclude Include="EnemyStateVigilanceCancel.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="Game.h" />

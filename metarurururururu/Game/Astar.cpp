@@ -121,21 +121,16 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 		}
 	}
 	
-	closeListIt = std::find(
-		closeCellList.begin(),
-		closeCellList.end(),
-		endCell
-	);
-	AStarAnswer;
-	while (startCell != *closeListIt)
+	AStarAnswer.clear();
+	
+	Cell* pCell = endCell;
+	while (startCell != pCell)
 	{
-		AStarAnswer.push_back(*closeListIt);
-		closeListIt = std::find(
-			closeCellList.begin(),
-			closeCellList.end(),
-			(*closeListIt)->parent
-		);
+		AStarAnswer.push_back(pCell);
+		//e‚ÌƒZƒ‹‚ÉˆÚ“®‚·‚é
+		pCell = pCell->parent;
 	}
+	
 	AStarAnswer.push_back(startCell);
 	std::reverse(AStarAnswer.begin(), AStarAnswer.end());
 	AStarAnswerIt = AStarAnswer.begin();

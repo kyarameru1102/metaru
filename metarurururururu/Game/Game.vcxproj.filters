@@ -225,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="AstarDebug.cpp" />
+    <ClCompile Include="EnemyStateVigilanceCancel.cpp">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -401,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="AstarDebug.h" />
+    <ClInclude Include="EnemyStateVigilanceCancel.h">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
