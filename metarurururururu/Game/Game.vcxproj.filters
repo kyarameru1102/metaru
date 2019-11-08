@@ -224,9 +224,11 @@
       <Filter>NowGame\Astar</Filter>
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp" />
-    <ClCompile Include="AstarDebug.cpp" />
     <ClCompile Include="EnemyStateVigilanceCancel.cpp">
       <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="AstarDebug.cpp">
+      <Filter>NowGame\Astar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,9 +405,11 @@
       <Filter>NowGame\Astar</Filter>
     </ClInclude>
     <ClInclude Include="ShadowMap.h" />
-    <ClInclude Include="AstarDebug.h" />
     <ClInclude Include="EnemyStateVigilanceCancel.h">
       <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="AstarDebug.h">
+      <Filter>NowGame\Astar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -428,6 +432,9 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\yazirusi.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\souko.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>

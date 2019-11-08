@@ -30,7 +30,7 @@ bool Game::Start()
 				pl->SetPosition(obiData.position);
 				return true;
 			}
-			else if (obiData.EqualObjectName(L"ground"))
+			else if (obiData.EqualObjectName(L"ground_test"))
 			{
 				return true;
 			}
@@ -38,7 +38,7 @@ bool Game::Start()
 		}
 	);
 	//敵キャラのレベルデータ。
-	m_level.Init(L"Assets/level/Enemy_level00.tkl",
+	m_level.Init(L"Assets/level/Enemy_level01.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.FindName(L"takatozin_")) {
 				wchar_t last[3];

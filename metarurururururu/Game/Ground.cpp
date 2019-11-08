@@ -16,7 +16,7 @@ Ground::~Ground()
 bool Ground::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init(L"Assets/modelData/ground.cmo");
+	m_skinModelRender->Init(L"Assets/modelData/ground_test.cmo");
 
 	CMatrix mTranse, mRot, mScale, mWorld;
 	//•½sˆÚ“®s—ñ‚ğì¬B

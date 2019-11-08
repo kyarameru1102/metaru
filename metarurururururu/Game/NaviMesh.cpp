@@ -26,7 +26,7 @@ NaviMesh::NaviMesh()
 {
 	//ナビメッシュ。
 	m_collider.Create(1.0f, 30.0f);
-	m_model.Init(L"Assets/modelData/ground.cmo");
+	m_model.Init(L"Assets/modelData/ground_test.cmo");
 	Create(m_model);
 }
 
@@ -178,6 +178,19 @@ void NaviMesh::Create(SkinModel & model)
 					}
 				}
 			}
+		}
+	}
+	//リンクがないセルを消す
+	auto &itr = m_cells.begin();
+	while (itr != m_cells.end())
+	{
+		if (((*itr)->linkMax == 0))
+		{
+			itr = m_cells.erase(itr);
+		}
+		else
+		{
+			itr++;
 		}
 	}
 	//デバッグ用リンク確認。
