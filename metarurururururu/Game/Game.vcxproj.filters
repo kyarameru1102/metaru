@@ -138,97 +138,101 @@
     <ClCompile Include="level\MapChip.cpp">
       <Filter>level</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GO</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectManager.cpp">
-      <Filter>GO</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="NowGame\Bullet.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="NowGame\DirectionLight.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="NowGame\Font.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>NowGame\Player</Filter>
+    <ClCompile Include="NowGame\Game.cpp">
+      <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerStateIdle.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStateMove.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStateHoldGun.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>NowGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStateHesitate.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStateVigilance.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStateBattlePosture.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTime.cpp">
+    <ClCompile Include="NowGame\GameTime.cpp">
       <Filter>GameTime</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>NowGame\Camera</Filter>
+    <ClCompile Include="NowGame\Ground.cpp">
+      <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>NowGame\Camera</Filter>
+    <ClCompile Include="NowGame\main.cpp">
+      <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="SkinModelRender.cpp">
+    <ClCompile Include="NowGame\RenderTarget.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionLight.cpp">
-      <Filter>NowGame</Filter>
+    <ClCompile Include="NowGame\ShadowMap.cpp">
+      <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>physics</Filter>
+    <ClCompile Include="NowGame\SkinModelRender.cpp">
+      <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CameraCollisionSolver.cpp">
-      <Filter>NowGame\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="NaviMesh.cpp">
-      <Filter>NowGame\Astar</Filter>
-    </ClCompile>
-    <ClCompile Include="StopWatch.cpp">
-      <Filter>GameTime</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="Bullet.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundSource.cpp">
+    <ClCompile Include="NowGame\SoundSource.cpp">
       <Filter>sound</Filter>
     </ClCompile>
-    <ClCompile Include="Astar.cpp">
-      <Filter>NowGame\Astar</Filter>
+    <ClCompile Include="NowGame\SphereCollider.cpp">
+      <Filter>physics</Filter>
     </ClCompile>
-    <ClCompile Include="ShadowMap.cpp" />
-    <ClCompile Include="EnemyStateVigilanceCancel.cpp">
+    <ClCompile Include="NowGame\stdafx.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\StopWatch.cpp">
+      <Filter>GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateBattlePosture.cpp">
       <Filter>NowGame\Enemy\EnemyState</Filter>
     </ClCompile>
-    <ClCompile Include="AstarDebug.cpp">
+    <ClCompile Include="NowGame\EnemyStateHesitate.cpp">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateVigilance.cpp">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateVigilanceCancel.cpp">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Enemy.cpp">
+      <Filter>NowGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateHoldGun.cpp">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateIdle.cpp">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateMove.cpp">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Player.cpp">
+      <Filter>NowGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GO\GameObject.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GO\GameObjectManager.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Title.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AStar\Astar.cpp">
       <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AStar\AstarDebug.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AStar\NaviMesh.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\CameraCollisionSolver.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\FPSCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,103 +317,107 @@
     <ClInclude Include="level\MapChip.h">
       <Filter>level</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectManager.h">
-      <Filter>GO</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="NowGame\Bullet.h">
       <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="NowGame\DirectionLight.h">
       <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
+    <ClInclude Include="NowGame\Font.h">
+      <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>NowGame\Player</Filter>
+    <ClInclude Include="NowGame\Game.h">
+      <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateIdle.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateMove.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateHoldGun.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>NowGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateHesitate.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateVigilance.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateBattlePosture.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
+    <ClInclude Include="NowGame\GameTime.h">
       <Filter>GameTime</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>NowGame\Camera</Filter>
+    <ClInclude Include="NowGame\Ground.h">
+      <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>NowGame\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="SkinModelRender.h">
+    <ClInclude Include="NowGame\RenderTarget.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionLight.h">
-      <Filter>NowGame</Filter>
+    <ClInclude Include="NowGame\ShadowMap.h">
+      <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>NowGame</Filter>
+    <ClInclude Include="NowGame\SkinModelRender.h">
+      <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>physics</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraCollisionSolver.h">
-      <Filter>NowGame\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="NaviMesh.h">
-      <Filter>NowGame\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="StopWatch.h">
-      <Filter>GameTime</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="Bullet.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundSource.h">
+    <ClInclude Include="NowGame\SoundSource.h">
       <Filter>sound</Filter>
     </ClInclude>
-    <ClInclude Include="Astar.h">
-      <Filter>NowGame\Astar</Filter>
+    <ClInclude Include="NowGame\SphereCollider.h">
+      <Filter>physics</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowMap.h" />
-    <ClInclude Include="EnemyStateVigilanceCancel.h">
+    <ClInclude Include="NowGame\stdafx.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\StopWatch.h">
+      <Filter>GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Title.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Path.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyState.h">
       <Filter>NowGame\Enemy\EnemyState</Filter>
     </ClInclude>
-    <ClInclude Include="AstarDebug.h">
+    <ClInclude Include="NowGame\EnemyStateBattlePosture.h">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateHesitate.h">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateVigilance.h">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateVigilanceCancel.h">
+      <Filter>NowGame\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Enemy.h">
+      <Filter>NowGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerState.h">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateHoldGun.h">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateIdle.h">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateMove.h">
+      <Filter>NowGame\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Player.h">
+      <Filter>NowGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GO\GameObject.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GO\GameObjectManager.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AStar\Astar.h">
       <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AStar\AstarDebug.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AStar\NaviMesh.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\CameraCollisionSolver.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\FPSCamera.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameCamera.h">
+      <Filter>NowGame\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +443,21 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\souko.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\ground_mesh.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heisi.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\bullet.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>

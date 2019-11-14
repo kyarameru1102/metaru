@@ -143,6 +143,7 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 }
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 {
+	
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
 
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
@@ -152,7 +153,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mWorld = m_worldMatrix;
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
-
+	vsCb.mLightProj = ShadowMap::GetShadowMap().GetLightProjMatrix();
+	vsCb.mLightView = ShadowMap::GetShadowMap().GetLightViewMatrix();
 	if (m_isShadowReciever == true) {
 		vsCb.isShadowReciever = 1;
 	}
@@ -165,16 +167,20 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	d3dDeviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_Light, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
-	//d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_cb);
+	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_cb);
+
 	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_lightCb);
 	//サンプラステートを設定。
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU();
-
+	
 	//アルベドテクスチャを設定する。
 	d3dDeviceContext->PSSetShaderResources(0, 1, &m_albedoTextureSRV);
+	//シャドウマップを設定する。
+	m_shadowMapSRV = ShadowMap::GetShadowMap().GetShadowMapSRV();
+	d3dDeviceContext->PSSetShaderResources(2, 1, &m_shadowMapSRV);
 
 	m_modelDx->Draw(
 		d3dDeviceContext,

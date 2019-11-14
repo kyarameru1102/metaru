@@ -14,7 +14,7 @@ GraphicsEngine::~GraphicsEngine()
 
 void GraphicsEngine::BegineRender()
 {
-	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 0.3f, 0.5f, 0.8f, 1.0f }; //red,green,blue,alpha
 													  //描き込み先をバックバッファにする。
 	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
 	//バックバッファを灰色で塗りつぶす。

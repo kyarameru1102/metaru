@@ -2,6 +2,7 @@
 
 #include "Skeleton.h"
 
+
 /*!
 *@brief	FBXの上方向。
 */
@@ -144,8 +145,8 @@ private:
 	ID3D11SamplerState*			m_samplerState = nullptr;		//!<サンプラステート。
 	ID3D11Buffer*				m_lightCb = nullptr;			//ライト用の定数バッファ。
 	Light						m_Light;						//ライト。
-	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV
+	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV。
+	ID3D11ShaderResourceView*   m_shadowMapSRV = nullptr;		//シャドウマップのSRV.
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
-	//SkinModelRender*			m_skinRender = nullptr;
 };
 

@@ -13,6 +13,7 @@ protected:
 	Shader m_vsShader;
 	Shader m_psShader;
 	Shader m_psSilhouette;			//シルエット用のピクセルシェーダー。
+	Shader m_psShadowMap;
 	bool isSkining;
 	bool m_renderMode = 0;
 	ID3D11ShaderResourceView* m_albedoTex = nullptr;
@@ -21,7 +22,7 @@ public:
 	ModelEffect()
 	{
 		m_psShader.Load("Assets/shader/model.fx", "PSMain", Shader::EnType::PS);
-		
+		m_psShadowMap.Load("Assets/shader/model.fx", "PSMain_ShadowMap", Shader::EnType::PS);
 		m_pPSShader = &m_psShader;
 	}
 	virtual ~ModelEffect()
