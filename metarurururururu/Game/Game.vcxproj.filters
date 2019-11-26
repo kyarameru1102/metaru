@@ -64,6 +64,9 @@
     <Filter Include="sound">
       <UniqueIdentifier>{f486cc96-f8cf-4f3c-b73b-fd7be5e39338}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NowGame\class2D">
+      <UniqueIdentifier>{4cca7bbb-e930-48b3-8363-defcc0ac6d36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\Vector.cpp">
@@ -207,24 +210,6 @@
     <ClCompile Include="NowGame\Player.cpp">
       <Filter>NowGame\Player</Filter>
     </ClCompile>
-    <ClCompile Include="NowGame\GO\GameObject.cpp">
-      <Filter>GO</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\GO\GameObjectManager.cpp">
-      <Filter>GO</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\Title.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\AStar\Astar.cpp">
-      <Filter>NowGame\Astar</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\AStar\AstarDebug.cpp">
-      <Filter>NowGame\Astar</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\AStar\NaviMesh.cpp">
-      <Filter>NowGame\Astar</Filter>
-    </ClCompile>
     <ClCompile Include="NowGame\CameraCollisionSolver.cpp">
       <Filter>NowGame\Camera</Filter>
     </ClCompile>
@@ -233,6 +218,30 @@
     </ClCompile>
     <ClCompile Include="NowGame\GameCamera.cpp">
       <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameObject.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameObjectManager.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Astar.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AstarDebug.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\NaviMesh.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyGeneralCommander.cpp">
+      <Filter>NowGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Title.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\UI.cpp">
+      <Filter>NowGame\class2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +365,6 @@
     <ClInclude Include="NowGame\StopWatch.h">
       <Filter>GameTime</Filter>
     </ClInclude>
-    <ClInclude Include="NowGame\Title.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
     <ClInclude Include="NowGame\Path.h">
       <Filter>NowGame</Filter>
     </ClInclude>
@@ -395,21 +401,6 @@
     <ClInclude Include="NowGame\Player.h">
       <Filter>NowGame\Player</Filter>
     </ClInclude>
-    <ClInclude Include="NowGame\GO\GameObject.h">
-      <Filter>GO</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\GO\GameObjectManager.h">
-      <Filter>GO</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\AStar\Astar.h">
-      <Filter>NowGame\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\AStar\AstarDebug.h">
-      <Filter>NowGame\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\AStar\NaviMesh.h">
-      <Filter>NowGame\Astar</Filter>
-    </ClInclude>
     <ClInclude Include="NowGame\CameraCollisionSolver.h">
       <Filter>NowGame\Camera</Filter>
     </ClInclude>
@@ -418,6 +409,30 @@
     </ClInclude>
     <ClInclude Include="NowGame\GameCamera.h">
       <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameObject.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameObjectManager.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Astar.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AstarDebug.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\NaviMesh.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyGeneralCommander.h">
+      <Filter>NowGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Title.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\UI.h">
+      <Filter>NowGame\class2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -445,9 +460,6 @@
     <MeshContentTask Include="Assets\modelData\souko.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\ground_mesh.FBX">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
@@ -462,6 +474,13 @@
     </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Title.png" />
+    <Image Include="Assets\sprite\kaasoru.png">
+      <Filter>Assets\sprite</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Title.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

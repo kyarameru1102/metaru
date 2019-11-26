@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 #include "Player.h"
-
+#include "Enemy.h"
 
 GameCamera::GameCamera()
 {
@@ -15,6 +15,7 @@ GameCamera::~GameCamera()
 bool GameCamera::Start()
 {
 	m_player = FindGO<Player>("player");
+	m_enemy = FindGO<Enemy>("enemy");
 	m_cameraCollider.Init(5.0f);
 	m_targetCollider.Init(8.0f);
 	m_rightLength = 40.0f;
@@ -69,12 +70,24 @@ void GameCamera::Update()
 	CVector3 CameraToTarget = NewPosition - m_target;
 
 	
-	/*else {
-		m_rightLength = 40;
-	}*/
+	if (g_pad[0].IsPress(enButtonLB1))
+	{
+		m_direction.Normalize();
+		m_direction *= 80.0f;
+		CVector3 PlayerToEnemy;
+		PlayerToEnemy = m_player->GetPosition() - m_enemy->GetPosition();
+		if (PlayerToEnemy.Length() <= 500.0f) {
+			isLookOn(NewPosition);
+		}
+	}
+	else {
+		m_direction.Normalize();
+		m_direction *= 120.0f;
+	}
 	
 	g_camera3D.SetPosition(NewPosition);
 	g_camera3D.SetTarget(targetNewPos);
+	//g_camera3D.SetTarget(m_target);
 	//カメラの更新。
 	g_camera3D.Update();
 }
@@ -88,5 +101,18 @@ void GameCamera::OnDestroy()
 
 void GameCamera::Render()
 {
+}
+
+void GameCamera::isLookOn(CVector3 pos)
+{
+	CVector3 enemyPos = m_enemy->GetPosition();
+	enemyPos.y += 80.0f;
+	m_target = m_target + enemyPos;
+	m_target /= 2;
+	m_direction = m_target - pos;
+	m_direction.Normalize();
+	m_direction *= -100.0f;
+	CVector3 right = g_camera3D.GetRight() * -3.0f;
+	m_direction += right;
 }
 

@@ -1,4 +1,7 @@
 #pragma once
+/// <summary>
+/// 一人称視点のカメラ。
+/// </summary>
 class Player;
 class FPSCamera : public IGameObject
 {
@@ -25,7 +28,7 @@ public:
 	/// <returns>
 	/// 向き。
 	/// </returns>
-	CVector3 Getdirection()
+	CVector3 Getdirection() const
 	{
 		return m_direction;
 	}

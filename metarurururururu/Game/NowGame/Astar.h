@@ -5,11 +5,21 @@ class Astar
 public:
 	Astar();
 	~Astar();
+	/// <summary>
+	/// A*実行関数。Pathデータを作成。
+	/// </summary>
+	/// <param name="startPos">スタート。</param>
+	/// <param name="targetPos">ゴール。</param>
+	/// <returns>trueで成功。</returns>
 	bool Execute(
 		const CVector3& startPos,
 		const CVector3& targetPos
 	);
-	CVector3 GetAStarAnswerPos()
+	/// <summary>
+	/// Executeで作成したPathのポジションを返す関数。
+	/// </summary>
+	/// <returns></returns>
+	CVector3 GetAStarAnswerPos() const
 	{
 		if (AStarAnswerIt == AStarAnswer.end()) {
 			return CVector3::Zero();
@@ -25,11 +35,11 @@ public:
 			return false;
 		}
 	}
-	auto GetAStarAnswerEnd()
+	auto GetAStarAnswerEnd() const
 	{
 		return AStarAnswer.end();
 	}
-	auto GetAStarAnswerIt()
+	auto GetAStarAnswerIt() const
 	{
 		return AStarAnswerIt;
 	}

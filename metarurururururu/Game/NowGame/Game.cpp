@@ -6,6 +6,7 @@
 #include "DirectionLight.h"
 #include <string>
 #include "Ground.h"
+#include "EnemyGeneralCommander.h"
 
 
 Game::Game()
@@ -38,6 +39,8 @@ bool Game::Start()
 		}
 	);
 	//敵キャラのレベルデータ。
+	EnemyGeneralCommander* EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
+
 	m_level.Init(L"Assets/level/Enemy_level01.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.FindName(L"takatozin_")) {
@@ -54,6 +57,8 @@ bool Game::Start()
 
 				en->SetPathNum(last);
 
+				EGC->PushBackEnemy(en);
+
 				return true;
 			}
 			return 0;
@@ -65,6 +70,8 @@ bool Game::Start()
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");
 	//カメラの方向とプレイヤーとの距離を決定。
 	CVector3 direction = { 0.0f, 100.0f, 70.0f };
+	direction.Normalize();
+	direction *= 120.0f;
 	m_gameCamera->Setdirection(direction);
 
 	

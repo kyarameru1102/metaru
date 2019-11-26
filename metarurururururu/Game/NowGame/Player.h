@@ -6,6 +6,7 @@
 #include "PlayerStateMove.h"
 #include "SkinModelRender.h"
 #include "Bullet.h"
+#include "UI.h"
 
 extern Pad g_pad[Pad::CONNECT_PAD_MAX];
 
@@ -15,28 +16,58 @@ class FPSCamera;
 class Player : public IGameObject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Player();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Player();
+	/// <summary>
+	/// 開始関数。
+	/// </summary>
 	bool Start();
+	/// <summary>
+	/// 更新関数。
+	/// </summary>
 	void Update();
-	void OnDestroy();
-	//移動処理。
+	/// <summary>
+	/// 移動処理。
+	/// </summary>
 	void Move();
-	//移動中のアニメーション処理。
+	/// <summary>
+	/// 移動中のアニメーション処理。
+	/// </summary>
 	void MoveAnimation();
-	//銃を構えている時の移動処理。
+	/// <summary>
+	/// 銃を構えている時の移動処理。
+	/// </summary>
 	void HoldMove();
-	//回転処理。
+	/// <summary>
+	/// 回転処理。
+	/// </summary>
 	void Rotation();
-	//銃を構えているときの回転処理。
+	/// <summary>
+	/// 銃を構えているときの回転処理。
+	/// </summary>
 	void HoldRotation();
-	//銃を撃つ処理。弾丸を生成する処理。
+	/// <summary>
+	/// 銃を撃つ処理。弾丸を生成する処理。
+	/// </summary>
 	void Firing();
-	//カメラの切り替え処理。FPSカメラに切り替える。
+	/// <summary>
+	/// カメラの切り替え処理。FPSカメラに切り替える。
+	/// </summary>
 	void CameraSwitchFPS();
-	//カメラの切り替え処理。TPSカメラに切り替える。
+	/// <summary>
+	/// カメラの切り替え処理。TPSカメラに切り替える。
+	/// </summary>
 	void CameraSwitchTPS();
-	//ステートを切り替える関数。
+	/// <summary>
+	///ステートを切り替える関数。 
+	/// </summary>
+	/// <param name="nextState">切り替えたいステート。</param>
 	void ChangeState(IPlayerState* nextState);
 	/// <summary>
 	/// プレイヤーのポジションを設定する関数。
@@ -51,7 +82,7 @@ public:
 	/// <summary>
 	/// プレイヤーのポジションを返してくる関数。
 	/// </summary>
-	CVector3 GetPosition()
+	CVector3 GetPosition() const
 	{
 		return m_position;
 	}
@@ -71,12 +102,12 @@ private:
 	PlayerStateMove		m_moveState;								//移動ステート。
 	CharacterController m_charaCon;									//キャラクターコントローラー。
 	enum EnAnimationClip {											
-		enAnimationClip_idle,
-		enAnimationClip_run,
-		enAnimationClip_shot,
+		enAnimationClip_idle,										//待機。
+		enAnimationClip_run,										//走る。
+		enAnimationClip_shot,										//銃を撃つ。
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
-	//Bullet*				m_bullet = nullptr;							//弾丸。
+	UI*					m_ui = nullptr;
 };
 

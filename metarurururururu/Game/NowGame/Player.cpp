@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+	m_ui = NewGO<UI>(0, "ui");
 }
 
 
@@ -28,18 +29,14 @@ bool Player::Start()
 		m_position
 	);
 	ChangeState(&m_idleState);
-	m_gameCamera = FindGO<GameCamera>("gameCamera");
+
 	//cmoファイルの読み込み。
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle);
-	
+	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 	return true;
-}
-
-void Player::OnDestroy()
-{
 }
 
 void Player::ChangeState(IPlayerState* nextState)
@@ -63,18 +60,21 @@ void Player::Update()
 	}
 	else if (m_currentstate->IsPossibleMove()) 
 	{
-		Move();
-		MoveAnimation();
+		if (m_currentstate != &m_holdGunState) {
+			Move();
+			MoveAnimation();
+		}
 	}
 	if (m_currentstate->IsPossibleGunShoot()) {
 		if (g_pad[0].IsPress(enButtonRB2))
 		{
-			/*auto mRot = CMatrix::Identity;
-			mRot.MakeRotationFromQuaternion(m_rotation);
-			m_forward.x = mRot.m[2][0];
-			m_forward.y = mRot.m[2][1];
-			m_forward.z = mRot.m[2][2];*/
+			ChangeState(&m_holdGunState);
 			Firing();
+		}
+		if (g_pad[0].IsPress(enButtonLB1))
+		{
+			ChangeState(&m_holdGunState);
+			m_skinModelRender->PlayAnimation(enAnimationClip_shot);
 		}
 	}
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
@@ -82,9 +82,11 @@ void Player::Update()
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	
 	if (g_pad[0].IsPress(enButtonLB2)) {
+		m_skinModelRender->SetRenderOn(false);
 		CameraSwitchFPS();
 	}
 	else {
+		m_skinModelRender->SetRenderOn(true);
 		CameraSwitchTPS();
 	}
 	if (!g_pad[0].IsPressAnyKey())
@@ -129,11 +131,6 @@ void Player::MoveAnimation()
 	CVector3 toNextLength;
 	CVector3 nextPos = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	toNextLength = nextPos - m_position;
-	float aaa = toNextLength.Length();
-	/*if (toNextLength.Length() >= 7.0f)
-	{
-		m_skinModelRender->PlayAnimation(enAnimationClip_run,0.5);
-	}*/
 	if(toNextLength.Length() >= 0.1f)
 	{
 		m_skinModelRender->PlayAnimation(enAnimationClip_run,0.5);
@@ -184,8 +181,14 @@ void Player::HoldRotation()
 {
 	
 	CVector3 moveSpeedXZ = CVector3::One();
-	if (m_fpsCamera != NULL) {
+	if (m_fps == true) {
+		m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 		moveSpeedXZ = m_fpsCamera->Getdirection();
+	}
+	else {
+		m_gameCamera = FindGO<GameCamera>("gameCamera");
+		moveSpeedXZ = m_gameCamera->Getdirection();
+		moveSpeedXZ *= -1.0f;
 	}
 	moveSpeedXZ.y = 0.0f;
 	moveSpeedXZ.Normalize();
@@ -211,8 +214,10 @@ void Player::Firing()
 		BulletDrc = m_gameCamera->Getdirection() * -1;
 	}
 	BulletDrc.Normalize();
-	BulletDrc *= 500;
+	BulletDrc *= 100;
+	bullet->SetPosition(m_position);
 	bullet->SetmoveSpeed(BulletDrc);
+	bullet->SetPlayer();
 	m_skinModelRender->PlayAnimation(enAnimationClip_shot);
 }
 //FPSカメラに切り替える関数。
@@ -220,7 +225,6 @@ void Player::CameraSwitchFPS()
 {
 	if (m_fps == false)
 	{
-		m_skinModelRender->SetRenderOn(false);
 		CVector3 direction;
 		direction = m_gameCamera->Getdirection();
 		DeleteGO(m_gameCamera);
@@ -239,7 +243,7 @@ void Player::CameraSwitchTPS()
 {
 	if (m_fps == true)
 	{
-		m_skinModelRender->SetRenderOn(true);
+		//m_skinModelRender->SetRenderOn(true);
 		CVector3 direction;
 		direction = m_fpsCamera->Getdirection();
 		DeleteGO(m_fpsCamera);

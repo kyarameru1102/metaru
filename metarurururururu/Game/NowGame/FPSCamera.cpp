@@ -22,7 +22,7 @@ bool FPSCamera::Start()
 void FPSCamera::Update()
 {
 	m_position = m_player->GetPosition();
-	m_position.y += 105.0f;
+	m_position.y += 85.0f;
 
 	float x = g_pad[0].GetRStickXF() * 2;
 	float y = g_pad[0].GetRStickYF() * 2;

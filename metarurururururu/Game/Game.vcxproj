@@ -99,8 +99,9 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NowGame\AStar\Astar.cpp" />
-    <ClCompile Include="NowGame\AStar\AstarDebug.cpp" />
+    <ClCompile Include="NowGame\EnemyGeneralCommander.cpp" />
+    <ClCompile Include="NowGame\Astar.cpp" />
+    <ClCompile Include="NowGame\AstarDebug.cpp" />
     <ClCompile Include="NowGame\Bullet.cpp" />
     <ClCompile Include="NowGame\CameraCollisionSolver.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
@@ -114,8 +115,8 @@
     <ClCompile Include="NowGame\FPSCamera.cpp" />
     <ClCompile Include="NowGame\Game.cpp" />
     <ClCompile Include="NowGame\GameCamera.cpp" />
-    <ClCompile Include="NowGame\GO\GameObject.cpp" />
-    <ClCompile Include="NowGame\GO\GameObjectManager.cpp" />
+    <ClCompile Include="NowGame\GameObject.cpp" />
+    <ClCompile Include="NowGame\GameObjectManager.cpp" />
     <ClCompile Include="NowGame\GameTime.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
@@ -136,7 +137,7 @@
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
-    <ClCompile Include="NowGame\AStar\NaviMesh.cpp" />
+    <ClCompile Include="NowGame\NaviMesh.cpp" />
     <ClCompile Include="physics\MeshCollider.cpp" />
     <ClCompile Include="physics\Physics.cpp" />
     <ClCompile Include="physics\RigidBody.cpp" />
@@ -158,10 +159,12 @@
     <ClCompile Include="NowGame\StopWatch.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
+    <ClCompile Include="NowGame\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NowGame\AStar\Astar.h" />
-    <ClInclude Include="NowGame\AStar\AstarDebug.h" />
+    <ClInclude Include="NowGame\EnemyGeneralCommander.h" />
+    <ClInclude Include="NowGame\Astar.h" />
+    <ClInclude Include="NowGame\AstarDebug.h" />
     <ClInclude Include="NowGame\Bullet.h" />
     <ClInclude Include="NowGame\CameraCollisionSolver.h" />
     <ClInclude Include="character\CharacterController.h" />
@@ -176,8 +179,8 @@
     <ClInclude Include="NowGame\FPSCamera.h" />
     <ClInclude Include="NowGame\Game.h" />
     <ClInclude Include="NowGame\GameCamera.h" />
-    <ClInclude Include="NowGame\GO\GameObject.h" />
-    <ClInclude Include="NowGame\GO\GameObjectManager.h" />
+    <ClInclude Include="NowGame\GameObject.h" />
+    <ClInclude Include="NowGame\GameObjectManager.h" />
     <ClInclude Include="NowGame\GameTime.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
@@ -198,7 +201,7 @@
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
-    <ClInclude Include="NowGame\AStar\NaviMesh.h" />
+    <ClInclude Include="NowGame\NaviMesh.h" />
     <ClInclude Include="NowGame\Path.h" />
     <ClInclude Include="physics\ICollider.h" />
     <ClInclude Include="physics\MeshCollider.h" />
@@ -221,13 +224,13 @@
     <ClInclude Include="NowGame\StopWatch.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
+    <ClInclude Include="NowGame\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
     <MeshContentTask Include="Assets\modelData\bullet.fbx" />
     <MeshContentTask Include="Assets\modelData\dangan.FBX" />
     <MeshContentTask Include="Assets\modelData\ground.FBX" />
-    <MeshContentTask Include="Assets\modelData\ground_mesh.FBX" />
     <MeshContentTask Include="Assets\modelData\ground_test.FBX" />
     <MeshContentTask Include="Assets\modelData\heisi.FBX" />
     <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx" />
@@ -245,6 +248,9 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
     </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\sprite\kaasoru.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -92,19 +92,6 @@ void NaviMesh::Create(SkinModel & model)
 			indexBufferArray.push_back(std::move(indexBuffer));
 		}
 
-		//インデックスメッシュを作成。
-		/*btIndexedMesh indexedMesh;
-		IndexBuffer* ib = m_indexBufferArray.back().get();
-		VertexBuffer* vb = m_vertexBufferArray.back().get();
-		indexedMesh.m_numTriangles = (int)ib->size() / 3;
-		indexedMesh.m_triangleIndexBase = (unsigned char*)(&ib->front());
-		indexedMesh.m_triangleIndexStride = 12;
-		indexedMesh.m_numVertices = (int)vb->size();
-		indexedMesh.m_vertexBase = (unsigned char*)(&vb->front());
-		indexedMesh.m_vertexStride = sizeof(CVector3);
-		m_stridingMeshInterface->addIndexedMesh(indexedMesh);*/
-
-
 		});
 	for (int i = 0; i < indexBufferArray.size(); i++) {
 		for (int j = 0; j < indexBufferArray[i]->size();) {
@@ -207,7 +194,8 @@ void NaviMesh::Create(SkinModel & model)
 			m_skin->SetPosition((*itr)->centerPos);
 			m_skin->SetScale({ 10.0f,10.0f,10.0f });*/
 			(*itr)->passingCellCost = 99999.0f;
-			itr = m_cells.erase(itr);
+			itr++;
+			//itr = m_cells.erase(itr);
 		}
 		else
 		{
@@ -247,7 +235,7 @@ void NaviMesh::Create(SkinModel & model)
 				m_skin->SetScale({ 10.0f,10.0f,10.0f });
 
 				SkinModelRender* skin = NewGO<SkinModelRender>(0);
-				skin->Init(L"Assets/modelData/heisi.cmo");
+				skin->Init(L"Assets/modelData/takatozin.cmo");
 				skin->SetPosition(c_position);
 				skin->SetRotation(Rot);
 				skin->SetScale({ 0.5f,0.5f,0.5f });

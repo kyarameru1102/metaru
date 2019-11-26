@@ -61,14 +61,16 @@ public:
 	}
 	//アニメーションの初期化。
 	void InitAnimation(AnimationClip* animationClips, int numAnimationClips);
+	/// <summary>
+	/// モデルをレンダリングするかどうかの関数。
+	/// </summary>
+	/// <param name="on">true レンダリングする。
+	/// false レンダリングしない。</param>
 	void SetRenderOn(bool on)
 	{
 		m_RenderOn = on;
 	}
-	/*auto* GetShadowMap()
-	{
-		return &m_shadowMap;
-	}*/
+	
 private:
 	bool Start() override;
 	void Update() override;
@@ -84,5 +86,6 @@ private:
 	Animation					m_animation;							//アニメーション。
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
 	bool						m_RenderOn = true;						//描画されるかどうか。
+	bool                        m_renderOK = false;						//Updateの後にレンダーが呼ばれるようにするフラグ。
 };
 

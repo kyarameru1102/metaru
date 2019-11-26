@@ -18,25 +18,25 @@ struct Cell {
 		FromStartCost = cost;
 	}
 	//リンクしているセルの数を返してくる関数。
-	short GetLinkCellMax()
+	short GetLinkCellMax() const
 	{
 		return linkMax;
 	}
 	//リンクセルを取得。
-	Cell* GetLinkCell(short i)
+	Cell* GetLinkCell(short i) const
 	{
 		return linkCells[i];
 	}
 	//
-	float GetCost()
+	float GetCost() const
 	{
 		return Cost;
 	}
-	float GetFromStartCost()
+	float GetFromStartCost() const
 	{
 		return FromStartCost;
 	}
-	float GetPassingCellCost()
+	float GetPassingCellCost() const
 	{
 		return passingCellCost;
 	}

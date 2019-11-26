@@ -230,6 +230,16 @@ float4 PSMain( PSInput In ) : SV_Target0
 	}
 	float4 final = float4(0.0f, 0.0f, 0.0f, 1.0f);;
 	final.xyz = albedo.xyz * lig;
+	//セピア調にする。
+	/*{
+		float4 NewColor;
+		NewColor.r = (final.r * 0.593) + (final.g * 0.969) + (final.b * 0.389);
+		NewColor.g = (final.r * 0.449) + (final.g * 0.786) + (final.b * 0.268);
+		NewColor.b = (final.r * 0.272) + (final.g * 0.534) + (final.b * 0.131);
+		final.r = NewColor * 1.2;
+		final.g = NewColor * 1.1;
+		final.b = NewColor * 1.1;
+	}*/
 	return float4(final.xyz, 1.0f);
 }
 /// <summary>

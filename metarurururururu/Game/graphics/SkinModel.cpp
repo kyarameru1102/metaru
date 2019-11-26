@@ -68,7 +68,7 @@ void SkinModel::InitSkeleton(const wchar_t* filePath)
 //ƒ‰ƒCƒg‚Ì‰Šú‰»B
 void SkinModel::InitLight()
 {
-	m_Light.dirLig.direction = { 1.0f, -1.0f, 1.0f, 0.0f };
+	m_Light.dirLig.direction = { 1.0f, -2.0f, 1.0f, 0.0f };
 	m_Light.dirLig.color = { 0.5f, 0.5f, 0.5f, 1.0f };
 	m_Light.Ambient = { 0.5f,0.5f,0.5f,1.0f };
 	m_Light.specPow = 5.0f;

@@ -104,7 +104,7 @@ private:
 	std::vector<GameObjectList>			m_gameObjectListArray;		//ゲームオブジェクトの優先度付きリスト
 	std::vector<GameObjectList>			m_deleteObjectListArray;	//削除用のリスト。
 	GOPrio								m_priorityMax = 255;		//優先度の最大数。
-	CVector3							m_lightPos = { 100.0f,300.0f,70.0f, };
+	CVector3							m_lightPos = { 0.0f,0.0f,0.0f, };
 };
 static inline GameObjectManager& gameObjectManager()
 {

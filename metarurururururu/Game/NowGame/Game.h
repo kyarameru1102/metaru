@@ -1,7 +1,7 @@
 #pragma once
 #include "level/Level.h"
 #include "DirectionLight.h"
-#include "AStar/NaviMesh.h"
+#include "NaviMesh.h"
 
 class GameCamera;
 class Game : public IGameObject

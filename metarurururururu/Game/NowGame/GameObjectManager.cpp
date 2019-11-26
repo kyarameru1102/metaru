@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameObjectManager.h"
 
+
 void GameObjectManager::Init(int gameObjectPrioMax)
 {
 	if (gameObjectPrioMax <= 255)
@@ -27,6 +28,10 @@ void GameObjectManager::Update()
 			}	
 		}
 	}
+	m_lightPos = g_camera3D.GetPosition();
+	m_lightPos.x += -1000.0f;
+	m_lightPos.y += 500.0f;
+	m_lightPos.z += -1000.0f;
 	
 	CVector3 lightDer = { 1.0f, -2.0f, 1.0f, };
 	ShadowMap::GetShadowMap().UpdateFromLightDir(m_lightPos, lightDer);

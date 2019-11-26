@@ -38,18 +38,20 @@ void SkinModelRender::Update()
 	m_skinModel.SetShadowReciever(true);
 	//シャドウマップに登録
 	ShadowMap::GetShadowMap().RegistShadowCaster(&m_skinModel);
+	m_renderOK = true;
 }
 
 
 void SkinModelRender::Render()
 {
-	
-	//通常レンダリング。
-	if (m_RenderOn) {
-		m_skinModel.Draw(
-			g_camera3D.GetViewMatrix(),
-			g_camera3D.GetProjectionMatrix()
-		);
+	if (m_renderOK) {
+		//通常レンダリング。
+		if (m_RenderOn) {
+			m_skinModel.Draw(
+				g_camera3D.GetViewMatrix(),
+				g_camera3D.GetProjectionMatrix()
+			);
+		}
 	}
 }
 

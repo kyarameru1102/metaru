@@ -37,7 +37,7 @@
 #include "graphics/animation/Animation.h"
 #include "graphics/animation/AnimationClip.h"
 #include "graphics/Camera.h"
-#include "GO/GameObjectManager.h"
+#include "GameObjectManager.h"
 #include "Game.h"
 #include "level/Level.h"
 #include "SkinModelRender.h"
