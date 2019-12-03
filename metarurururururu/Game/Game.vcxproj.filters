@@ -474,12 +474,10 @@
     </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\sprite\kaasoru.png">
-      <Filter>Assets\sprite</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\kaasoru.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
   </ItemGroup>

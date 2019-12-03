@@ -250,7 +250,7 @@
     </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\sprite\kaasoru.png" />
+    <ImageContentTask Include="Assets\sprite\kaasoru.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

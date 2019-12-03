@@ -8,7 +8,6 @@ Bullet::Bullet()
 	m_enemy = FindGO<Enemy>("enemy");
 }
 
-
 Bullet::~Bullet()
 {
 	
@@ -41,16 +40,16 @@ void Bullet::Update()
 	CVector3 Vector = m_moveSpeed;
 	Vector.Normalize();
 	CQuaternion Rot = CQuaternion::Identity();
-	float kakuo = acos(Vector.Dot(CVector3::AxisY()));
-	if (kakuo > 0.0f || kakuo < -FLT_MIN)
+	float kakudo = acos(Vector.Dot(CVector3::AxisY()));
+	if (kakudo > 0.0f || kakudo < -FLT_MIN)
 	{
-		kakuo = CMath::RadToDeg(kakuo);
+		kakudo = CMath::RadToDeg(kakudo);
 		CVector3 jiku;
 		jiku.Cross(CVector3::AxisY(), Vector);
-		if (kakuo > 0.0f || kakuo < -FLT_MIN)
+		if (kakudo > 0.0f || kakudo < -FLT_MIN)
 		{
 			jiku.Normalize();
-			Rot.SetRotationDeg(jiku, kakuo);
+			Rot.SetRotationDeg(jiku, kakudo);
 		}
 
 	}
