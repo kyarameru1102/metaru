@@ -27,7 +27,7 @@ void EnemyGeneralCommander::Update()
 	}
 	if (m_combatStart) {
 		for (auto& enemy : m_enemyArray) {
-			enemy->ChangeState(&EnemyState::m_vigilance);
+			enemy->ChangeState(&EnemyState::m_battlePosture);
 		}
 	}
 }

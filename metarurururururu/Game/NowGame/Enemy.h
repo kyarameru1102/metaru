@@ -62,6 +62,14 @@ public:
 	/// </summary>
 	void VigilanceCancelMove();
 	/// <summary>
+	/// 戦闘時の移動の関数。
+	/// </summary>
+	void BattleMove();
+	/// <summary>
+	/// 銃を撃つ処理。弾丸を生成する処理。
+	/// </summary>
+	void Firing();
+	/// <summary>
 	/// 移動中のアニメーション処理。
 	/// </summary>
 	void MoveAnimation();

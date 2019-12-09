@@ -7,6 +7,7 @@
 #include <string>
 #include "Ground.h"
 #include "EnemyGeneralCommander.h"
+#include "sensya.h"
 
 
 Game::Game()
@@ -16,13 +17,23 @@ Game::Game()
 
 Game::~Game()
 {
-	//DeleteGO(m_dirLight);
 }
 
 bool Game::Start()
 {
 	std::wstring p[10];
 
+	m_level.Init(L"Assets/level/sensyaPos.tkl",
+		[&](LevelObjectData& obiData)->int {
+			if (obiData.EqualObjectName(L"sensya")) {
+				sensya* sen = NewGO<sensya>(0, "sensya");
+				sen->SetPosition(obiData.position);
+				sen->SetRotation(obiData.rotation);
+				return true;
+			}
+			return 0;
+		}
+	);
 	//敵キャラ以外のレベルデータをロード。
 	m_level.Init(L"Assets/level/stage_test.tkl",
 		[&](LevelObjectData& obiData)->int {
@@ -38,9 +49,9 @@ bool Game::Start()
 			return 0;
 		}
 	);
-	//敵キャラのレベルデータ。
+	//敵の総司令的存在。
 	EnemyGeneralCommander* EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
-
+	//敵キャラのレベルデータ。
 	m_level.Init(L"Assets/level/Enemy_level01.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.FindName(L"takatozin_")) {

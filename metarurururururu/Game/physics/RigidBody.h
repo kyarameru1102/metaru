@@ -21,13 +21,20 @@ class RigidBody
 	btRigidBody*			rigidBody = nullptr;		//剛体。
 	btDefaultMotionState*	myMotionState = nullptr;	//モーションステート。
 public:
-
 	~RigidBody();
 	void Release();
 	void Create(RigidBodyInfo& rbInfo);
 	btRigidBody* GetBody()
 	{
 		return rigidBody;
+	}
+	void SetPosition(const CVector3& pos)
+	{
+		btTransform trans;
+		btVector3 btPos;
+		pos.CopyTo(btPos);
+		trans.setOrigin(btPos);
+		rigidBody->setWorldTransform(trans);
 	}
 };
 

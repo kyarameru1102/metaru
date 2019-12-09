@@ -63,11 +63,14 @@ void Enemy::Update()
 		if (m_currentstate == &EnemyState::m_vigilanceCancel) {
 			VigilanceCancelMove();
 		}
+		if (m_currentstate == &EnemyState::m_battlePosture) {
+			BattleMove();
+		}
 	}
 
-	if (g_pad[0].IsTrigger(enButtonA)) {
+	/*if (g_pad[0].IsTrigger(enButtonA)) {
 		ChangeState(&EnemyState::m_vigilance);
-	}
+	}*/
 
 	//視野角の計算。
 	CVector3 toPlayer = m_player->GetPosition() - m_position;
@@ -101,21 +104,21 @@ void Enemy::Update()
 		//視野角に入ったときの処理。
 		if (ab < 45.0f && toPlayerLen < 500.0f) {
 			if (m_currentstate != &EnemyState::m_battlePosture) {
-				//警戒体制に移行。
+				//戦闘体制に移行。
 				ChangeState(&EnemyState::m_battlePosture);
+			}
+		}
+		else {
+			if (m_currentstate != &EnemyState::m_vigilance) {
+				//警戒体制に移行。
+				ChangeState(&EnemyState::m_vigilance);
 			}
 		}
 	}
 	if (m_currentstate == &EnemyState::m_battlePosture) {
-		CVector3 EnemyBulletDrc;
-		EnemyBulletDrc = m_player->GetPosition() - m_position;
-		EnemyBulletDrc.Normalize();
-		EnemyBulletDrc *= 100.0f;
-		Bullet* bullet = nullptr;
-		bullet = NewGO<Bullet>(0, "bullet");
-		bullet->SetPosition(m_position);
-		bullet->SetmoveSpeed(EnemyBulletDrc);
-		bullet->SetEnemy();
+		if (ab < 45.0f && toPlayerLen < 500.0f) {
+			Firing();
+		}
 	}
 	Rotation();
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
@@ -211,6 +214,66 @@ void Enemy::VigilanceCancelMove()
 			ChangeState(&EnemyState::m_hesitate);
 		}
 	}
+}
+
+void Enemy::BattleMove()
+{
+	CVector3 toPlayer = m_player->GetPosition() - m_position;
+	float toPlayerLen = toPlayer.Length();
+	toPlayer.Normalize();
+	if (m_moveSpeed.Length() > 0.01) {
+		m_oldMoveSpeed = m_moveSpeed;
+	}
+	m_oldMoveSpeed.Normalize();
+	float angle = toPlayer.Dot(m_oldMoveSpeed);
+
+	angle = acos(angle);
+	float a = fabsf(angle);
+
+	CMath::DegToRad(15.0f);
+	float ab = CMath::RadToDeg(a);
+
+	if (ab < 45.0f && toPlayerLen < 500.0f) {
+		m_discovery = true;
+	}
+	else {
+		m_discovery = false;
+	}
+	if (!m_discovery) {
+		if (AstarEXEcount == 0) {
+			m_astar.Execute(m_position, m_player->GetPosition());
+			m_beforeAstar = m_position;
+		}
+		AstarEXEcount++;
+		//A*経路探査で出た結果でパス移動。
+		m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+		m_moveSpeed.Normalize();
+		m_moveSpeed += m_moveSpeed * 100.0f;
+		MoveAnimation();
+		if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
+		{
+			m_astar.AdvanceIt();
+			if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+				//パスの最後まで行ったら。
+				m_astar.Execute(m_position, m_beforeAstar);
+				ChangeState(&EnemyState::m_vigilanceCancel);
+				AstarEXEcount = 0;
+			}
+		}
+	}
+}
+
+void Enemy::Firing()
+{
+	CVector3 EnemyBulletDrc;
+	EnemyBulletDrc = m_player->GetPosition() - m_position;
+	EnemyBulletDrc.Normalize();
+	EnemyBulletDrc *= 100.0f;
+	Bullet* bullet = nullptr;
+	bullet = NewGO<Bullet>(0, "bullet");
+	bullet->SetPosition(m_position);
+	bullet->SetmoveSpeed(EnemyBulletDrc);
+	bullet->SetEnemy();
 }
 
 void Enemy::MoveAnimation()

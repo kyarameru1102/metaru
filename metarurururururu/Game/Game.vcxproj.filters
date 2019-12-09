@@ -243,6 +243,9 @@
     <ClCompile Include="NowGame\UI.cpp">
       <Filter>NowGame\class2D</Filter>
     </ClCompile>
+    <ClCompile Include="sensya.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -434,6 +437,9 @@
     <ClInclude Include="NowGame\UI.h">
       <Filter>NowGame\class2D</Filter>
     </ClInclude>
+    <ClInclude Include="sensya.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -470,6 +476,12 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\bullet.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\sensya.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>

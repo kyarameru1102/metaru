@@ -157,6 +157,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="NowGame\StopWatch.cpp" />
+    <ClCompile Include="sensya.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
     <ClCompile Include="NowGame\UI.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="NowGame\SphereCollider.h" />
     <ClInclude Include="NowGame\stdafx.h" />
     <ClInclude Include="NowGame\StopWatch.h" />
+    <ClInclude Include="sensya.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
     <ClInclude Include="NowGame\UI.h" />
@@ -235,6 +237,8 @@
     <MeshContentTask Include="Assets\modelData\heisi.FBX" />
     <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx" />
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
+    <MeshContentTask Include="Assets\modelData\sensya.fbx" />
+    <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx" />
     <MeshContentTask Include="Assets\modelData\souko.FBX" />
     <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
