@@ -23,6 +23,7 @@ bool Game::Start()
 {
 	std::wstring p[10];
 
+	//戦車の座標レベルデータをロード。
 	m_level.Init(L"Assets/level/sensyaPos.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.EqualObjectName(L"sensya")) {
@@ -42,6 +43,8 @@ bool Game::Start()
 				pl->SetPosition(obiData.position);
 				return true;
 			}
+			//ナビメッシュ生成前に地面の当たり判定があると困るので
+			//地面だけ除去。
 			else if (obiData.EqualObjectName(L"ground_test"))
 			{
 				return true;
@@ -49,9 +52,10 @@ bool Game::Start()
 			return 0;
 		}
 	);
-	//敵の総司令的存在。
+	//敵の総司令的存在を生成。
 	EnemyGeneralCommander* EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。
+	//敵生成時に同時にナビメッシュが生成される。
 	m_level.Init(L"Assets/level/Enemy_level01.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.FindName(L"takatozin_")) {
@@ -77,15 +81,13 @@ bool Game::Start()
 	);
 	//ナビゲーションメッシュを生成した後に地面を生成。
 	NewGO<Ground>(0);
-
+	//カメラ生成。
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");
 	//カメラの方向とプレイヤーとの距離を決定。
 	CVector3 direction = { 0.0f, 100.0f, 70.0f };
 	direction.Normalize();
 	direction *= 120.0f;
 	m_gameCamera->Setdirection(direction);
-
-	
 
 	return true;
 }

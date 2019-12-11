@@ -28,13 +28,6 @@ public:
 	{
 		return rigidBody;
 	}
-	void SetPosition(const CVector3& pos)
-	{
-		btTransform trans;
-		btVector3 btPos;
-		pos.CopyTo(btPos);
-		trans.setOrigin(btPos);
-		rigidBody->setWorldTransform(trans);
-	}
+	
 };
 

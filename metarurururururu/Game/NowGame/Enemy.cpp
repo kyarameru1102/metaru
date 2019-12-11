@@ -30,8 +30,8 @@ bool Enemy::Start()
 
 	Init();
 	m_charaCon.Init(
-		20.0f,
-		70.0f,
+		1.0f,
+		10.0f,
 		m_position
 	);
 	m_player = FindGO<Player>("player");
@@ -106,14 +106,15 @@ void Enemy::Update()
 			if (m_currentstate != &EnemyState::m_battlePosture) {
 				//戦闘体制に移行。
 				ChangeState(&EnemyState::m_battlePosture);
+				AstarEXEcount = 0;
 			}
 		}
-		else {
-			if (m_currentstate != &EnemyState::m_vigilance) {
-				//警戒体制に移行。
-				ChangeState(&EnemyState::m_vigilance);
-			}
-		}
+		//else {
+		//	if (m_currentstate != &EnemyState::m_vigilance) {
+		//		//警戒体制に移行。
+		//		ChangeState(&EnemyState::m_vigilance);
+		//	}
+		//}
 	}
 	if (m_currentstate == &EnemyState::m_battlePosture) {
 		if (ab < 45.0f && toPlayerLen < 500.0f) {
@@ -182,14 +183,15 @@ void Enemy::VigilanceMove()
 	if (AstarEXEcount == 0) {
 		m_astar.Execute(m_position, m_player->GetPosition());
 		m_beforeAstar = m_position;
+		AstarEXEcount++;
 	}
-	AstarEXEcount++;
+	
 	//A*経路探査で出た結果でパス移動。
 	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
 	m_moveSpeed.Normalize();
 	m_moveSpeed += m_moveSpeed * 100.0f;
 	MoveAnimation();
-	if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
+	if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 10.0f)
 	{
 		m_astar.AdvanceIt();
 		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
@@ -235,6 +237,7 @@ void Enemy::BattleMove()
 
 	if (ab < 45.0f && toPlayerLen < 500.0f) {
 		m_discovery = true;
+		//AstarEXEcount = 0;
 	}
 	else {
 		m_discovery = false;
@@ -250,12 +253,12 @@ void Enemy::BattleMove()
 		m_moveSpeed.Normalize();
 		m_moveSpeed += m_moveSpeed * 100.0f;
 		MoveAnimation();
-		if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
+		if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 10.0f)
 		{
 			m_astar.AdvanceIt();
 			if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
 				//パスの最後まで行ったら。
-				m_astar.Execute(m_position, m_beforeAstar);
+				m_astar.Execute(m_position, m_player->GetPosition());
 				ChangeState(&EnemyState::m_vigilanceCancel);
 				AstarEXEcount = 0;
 			}

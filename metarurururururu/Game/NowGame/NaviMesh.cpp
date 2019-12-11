@@ -204,43 +204,43 @@ void NaviMesh::Create(SkinModel & model)
 	}
 
 	//デバッグ用リンク確認。
-	/*for (int i = 0; i < m_cells.size(); i++)
-	{
-		CVector3 c_position;
-		c_position = m_cells[i]->centerPos;
-		for (int j = 0; j < 3; j++) {
-			if (m_cells[i]->linkCells[j]!= nullptr)
-			{
-				auto cell = m_cells[i]->linkCells[j];
-				CVector3 Vector = CVector3::Zero();
-				Vector = cell->centerPos - c_position;
-				Vector.Normalize();
-				CQuaternion Rot = CQuaternion::Identity();
-				float kakuo = acos(Vector.Dot(CVector3::AxisY()));
-				if (kakuo > 0.0f || kakuo < -FLT_MIN)
-				{
-					kakuo = CMath::RadToDeg(kakuo);
-					CVector3 jiku;
-					jiku.Cross(CVector3::AxisY(), Vector);
-					if (kakuo > 0.0f || kakuo < -FLT_MIN)
-					{
-						jiku.Normalize();
-						Rot.SetRotationDeg(jiku, kakuo);
-					}
+	//for (int i = 0; i < m_cells.size(); i++)
+	//{
+	//	CVector3 c_position;
+	//	c_position = m_cells[i]->centerPos;
+	//	for (int j = 0; j < 3; j++) {
+	//		if (m_cells[i]->linkCells[j]!= nullptr)
+	//		{
+	//			auto cell = m_cells[i]->linkCells[j];
+	//			CVector3 Vector = CVector3::Zero();
+	//			Vector = cell->centerPos - c_position;
+	//			Vector.Normalize();
+	//			CQuaternion Rot = CQuaternion::Identity();
+	//			float kakuo = acos(Vector.Dot(CVector3::AxisY()));
+	//			if (kakuo > 0.0f || kakuo < -FLT_MIN)
+	//			{
+	//				kakuo = CMath::RadToDeg(kakuo);
+	//				CVector3 jiku;
+	//				jiku.Cross(CVector3::AxisY(), Vector);
+	//				if (kakuo > 0.0f || kakuo < -FLT_MIN)
+	//				{
+	//					jiku.Normalize();
+	//					Rot.SetRotationDeg(jiku, kakuo);
+	//				}
 
-				}
-				m_skin = NewGO<SkinModelRender>(0);
-				m_skin->Init(L"Assets/modelData/yazirusi.cmo");
-				m_skin->SetPosition(cell->centerPos);
-				m_skin->SetScale({ 10.0f,10.0f,10.0f });
+	//			}
+	//			m_skin = NewGO<SkinModelRender>(0);
+	//			m_skin->Init(L"Assets/modelData/yazirusi.cmo");
+	//			m_skin->SetPosition(cell->centerPos);
+	//			m_skin->SetScale({ 10.0f,10.0f,10.0f });
 
-				SkinModelRender* skin = NewGO<SkinModelRender>(0);
-				skin->Init(L"Assets/modelData/takatozin.cmo");
-				skin->SetPosition(c_position);
-				skin->SetRotation(Rot);
-				skin->SetScale({ 0.5f,0.5f,0.5f });
-			}
-		}
-	}*/
+	//			/*SkinModelRender* skin = NewGO<SkinModelRender>(0);
+	//			skin->Init(L"Assets/modelData/yazirusi.cmo");
+	//			skin->SetPosition(c_position);
+	//			skin->SetRotation(Rot);
+	//			skin->SetScale({ 0.5f,0.5f,0.5f });*/
+	//		}
+	//	}
+	//}
 		int i = 0;
 }

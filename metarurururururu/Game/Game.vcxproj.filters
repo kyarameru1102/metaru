@@ -243,7 +243,7 @@
     <ClCompile Include="NowGame\UI.cpp">
       <Filter>NowGame\class2D</Filter>
     </ClCompile>
-    <ClCompile Include="sensya.cpp">
+    <ClCompile Include="NowGame\sensya.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,7 +437,7 @@
     <ClInclude Include="NowGame\UI.h">
       <Filter>NowGame\class2D</Filter>
     </ClInclude>
-    <ClInclude Include="sensya.h">
+    <ClInclude Include="NowGame\sensya.h">
       <Filter>NowGame</Filter>
     </ClInclude>
   </ItemGroup>

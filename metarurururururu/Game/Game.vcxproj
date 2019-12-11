@@ -157,7 +157,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="NowGame\StopWatch.cpp" />
-    <ClCompile Include="sensya.cpp" />
+    <ClCompile Include="NowGame\sensya.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
     <ClCompile Include="NowGame\UI.cpp" />
@@ -223,7 +223,7 @@
     <ClInclude Include="NowGame\SphereCollider.h" />
     <ClInclude Include="NowGame\stdafx.h" />
     <ClInclude Include="NowGame\StopWatch.h" />
-    <ClInclude Include="sensya.h" />
+    <ClInclude Include="NowGame\sensya.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
     <ClInclude Include="NowGame\UI.h" />
