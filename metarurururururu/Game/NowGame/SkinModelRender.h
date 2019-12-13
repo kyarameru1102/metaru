@@ -70,6 +70,21 @@ public:
 	{
 		m_RenderOn = on;
 	}
+	/// <summary>
+	/// シャドウレシーバーに登録するかどうかの関数
+	/// </summary>
+	/// <param name="reciever">
+	/// true	登録する。
+	/// false	登録解除。
+	/// </param>
+	void SetShadowReciever(bool reciever)
+	{
+		m_shadowRecieverOn = reciever;
+	}
+	void SetShadowCaster(bool caster)
+	{
+		m_shadowCasterOn = caster;
+	}
 	
 private:
 	bool Start() override;
@@ -87,5 +102,7 @@ private:
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
 	bool						m_RenderOn = true;						//描画されるかどうか。
 	bool                        m_renderOK = false;						//Updateの後にレンダーが呼ばれるようにするフラグ。
+	bool						m_shadowRecieverOn = true;				//影を表示される側になるかどうか。
+	bool						m_shadowCasterOn = true;				//影を落とすかどうか。
 };
 

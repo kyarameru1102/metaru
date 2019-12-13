@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\C4.cpp" />
     <ClCompile Include="NowGame\EnemyGeneralCommander.cpp" />
     <ClCompile Include="NowGame\Astar.cpp" />
     <ClCompile Include="NowGame\AstarDebug.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="NowGame\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\C4.h" />
     <ClInclude Include="NowGame\EnemyGeneralCommander.h" />
     <ClInclude Include="NowGame\Astar.h" />
     <ClInclude Include="NowGame\AstarDebug.h" />
@@ -231,6 +233,7 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
     <MeshContentTask Include="Assets\modelData\bullet.fbx" />
+    <MeshContentTask Include="Assets\modelData\c4.FBX" />
     <MeshContentTask Include="Assets\modelData\dangan.FBX" />
     <MeshContentTask Include="Assets\modelData\ground.FBX" />
     <MeshContentTask Include="Assets\modelData\ground_test.FBX" />

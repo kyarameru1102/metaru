@@ -187,7 +187,7 @@ void NaviMesh::Create(SkinModel & model)
 		float aaa = CMath::RadToDeg(angle);
 		
 		//角度がきついセルとリンクがないセルのコストを高く設定する。
-		if ((aaa > 50.0f) || ((*itr)->linkMax == 0))
+		if ((aaa > 40.0f) || ((*itr)->linkMax == 0))
 		{
 			/*m_skin = NewGO<SkinModelRender>(0);
 			m_skin->Init(L"Assets/modelData/yazirusi.cmo");

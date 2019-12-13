@@ -56,11 +56,3 @@ void FPSCamera::Update()
 	//カメラの更新。
 	g_camera3D.Update();
 }
-
-void FPSCamera::OnDestroy()
-{
-}
-
-void FPSCamera::Render()
-{
-}

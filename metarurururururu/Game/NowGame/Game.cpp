@@ -17,6 +17,11 @@ Game::Game()
 
 Game::~Game()
 {
+	DeleteGO(m_sensya);
+	DeleteGO(m_player);
+	DeleteGO(m_EGC);
+	DeleteGO(m_enemy);
+	DeleteGO(m_ground);
 }
 
 bool Game::Start()
@@ -27,9 +32,9 @@ bool Game::Start()
 	m_level.Init(L"Assets/level/sensyaPos.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.EqualObjectName(L"sensya")) {
-				sensya* sen = NewGO<sensya>(0, "sensya");
-				sen->SetPosition(obiData.position);
-				sen->SetRotation(obiData.rotation);
+				m_sensya = NewGO<sensya>(0, "sensya");
+				m_sensya->SetPosition(obiData.position);
+				m_sensya->SetRotation(obiData.rotation);
 				return true;
 			}
 			return 0;
@@ -39,8 +44,8 @@ bool Game::Start()
 	m_level.Init(L"Assets/level/stage_test.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.EqualObjectName(L"unityChan")) {
-				Player* pl = NewGO<Player>(0, "player");
-				pl->SetPosition(obiData.position);
+				m_player = NewGO<Player>(0, "player");
+				m_player->SetPosition(obiData.position);
 				return true;
 			}
 			//ナビメッシュ生成前に地面の当たり判定があると困るので
@@ -53,7 +58,7 @@ bool Game::Start()
 		}
 	);
 	//敵の総司令的存在を生成。
-	EnemyGeneralCommander* EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
+	m_EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。
 	//敵生成時に同時にナビメッシュが生成される。
 	m_level.Init(L"Assets/level/Enemy_level01.tkl",
@@ -67,12 +72,12 @@ bool Game::Start()
 				last[1] = la;
 				last[2] = L'\0';
 
-				Enemy* en = NewGO<Enemy>(0, "enemy");
-				en->SetPosition(obiData.position);
+				m_enemy = NewGO<Enemy>(0, "enemy");
+				m_enemy->SetPosition(obiData.position);
 
-				en->SetPathNum(last);
+				m_enemy->SetPathNum(last);
 
-				EGC->PushBackEnemy(en);
+				m_EGC->PushBackEnemy(m_enemy);
 
 				return true;
 			}
@@ -80,7 +85,7 @@ bool Game::Start()
 		}
 	);
 	//ナビゲーションメッシュを生成した後に地面を生成。
-	NewGO<Ground>(0);
+	m_ground = NewGO<Ground>(0);
 	//カメラ生成。
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");
 	//カメラの方向とプレイヤーとの距離を決定。
@@ -94,6 +99,10 @@ bool Game::Start()
 
 void Game::Update()
 {
+	if (g_pad[0].IsTrigger(enButtonStart))
+	{
+		DeleteGO(this);
+	}
 }
 
 void Game::OnDestroy()

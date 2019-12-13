@@ -4,6 +4,11 @@
 #include "NaviMesh.h"
 
 class GameCamera;
+class sensya;
+class Player;
+class EnemyGeneralCommander;
+class Enemy;
+class Ground;
 class Game : public IGameObject
 {
 public:
@@ -19,5 +24,10 @@ private:
 	//NaviMesh			m_navi;
 	SkinModel			m_model;
 	ShadowMap			m_shadowMap;				//シャドウマップ。
+	sensya* m_sensya = nullptr;
+	Player* m_player = nullptr;
+	EnemyGeneralCommander* m_EGC = nullptr;
+	Enemy* m_enemy = nullptr;
+	Ground* m_ground = nullptr;
 };
 

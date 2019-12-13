@@ -8,12 +8,27 @@ class Enemy;
 class GameCamera : public IGameObject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	GameCamera();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~GameCamera();
+	/// <summary>
+	/// 開始関数。
+	/// </summary>
 	bool Start() override;
+	/// <summary>
+	/// 更新関数。
+	/// </summary>
 	void Update() override;
+	/// <summary>
+	/// デストラクタより先に呼ばれる関数。
+	/// DeleteGO関数が呼ばれたタイミングで呼ばれる関数。
+	/// </summary>
 	void OnDestroy() override;
-	void Render() override;
 	/// <summary>
 	/// ロックオンしているときの関数。
 	/// </summary>

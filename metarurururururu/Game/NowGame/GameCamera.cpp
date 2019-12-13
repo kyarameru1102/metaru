@@ -99,10 +99,6 @@ void GameCamera::OnDestroy()
 	g_camera3D.Update();
 }
 
-void GameCamera::Render()
-{
-}
-
 void GameCamera::isLookOn(CVector3 pos)
 {
 	CVector3 enemyPos = m_enemy->GetPosition();

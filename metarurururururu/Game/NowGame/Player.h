@@ -86,6 +86,10 @@ public:
 	{
 		return m_position;
 	}
+	CQuaternion GetRotation() const
+	{
+		return m_rotation;
+	}
 private:
 	SkinModel			m_model;									//スキンモデル。
 	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。

@@ -11,8 +11,14 @@ struct LevelObjectData;
 class MapChip : public IGameObject
 {
 public:
-	/*!
-	* @brief	コンストラクタ。
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
+	~MapChip()
+	{
+		DeleteGO(m_skinModelRender);
+	}
+	/*
 	*@param[in] objData			オブジェクト情報。
 	*/
 	MapChip(const LevelObjectData& objData);

@@ -8,7 +8,7 @@ typedef unsigned char GOPrio;
 class IGameObject {
 public:
 	IGameObject();
-	~IGameObject();
+	virtual ~IGameObject() {};
 	/// <summary>
 	/// Updateの直前に呼ばれる開始処理。
 	/// </summary>

@@ -6,12 +6,22 @@ class Player;
 class FPSCamera : public IGameObject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	FPSCamera();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~FPSCamera();
+	/// <summary>
+	/// 開始関数。
+	/// </summary>
 	bool Start() override;
+	/// <summary>
+	/// 更新関数。
+	/// </summary>
 	void Update() override;
-	void OnDestroy() override;
-	void Render() override;
 	/// <summary>
 	/// カメラの向きを設定する。
 	/// </summary>

@@ -30,7 +30,7 @@ bool Enemy::Start()
 
 	Init();
 	m_charaCon.Init(
-		1.0f,
+		10.0f,
 		10.0f,
 		m_position
 	);
@@ -220,6 +220,7 @@ void Enemy::VigilanceCancelMove()
 
 void Enemy::BattleMove()
 {
+	//距離や角度の計算
 	CVector3 toPlayer = m_player->GetPosition() - m_position;
 	float toPlayerLen = toPlayer.Length();
 	toPlayer.Normalize();
@@ -234,18 +235,21 @@ void Enemy::BattleMove()
 
 	CMath::DegToRad(15.0f);
 	float ab = CMath::RadToDeg(a);
-
+	//視野角に入ったら。
 	if (ab < 45.0f && toPlayerLen < 500.0f) {
-		m_discovery = true;
-		//AstarEXEcount = 0;
+		m_discovery = true;		//見つけた。
+		AstarEXEcount = 0;
 	}
 	else {
-		m_discovery = false;
+		m_discovery = false;	//視野角内にいない。
+		//AstarEXEcount = 0;
 	}
+	//視野角にいなければ。
 	if (!m_discovery) {
-		if (AstarEXEcount == 0) {
+		if (AstarEXEcount == 600 || AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
 			m_beforeAstar = m_position;
+			AstarEXEcount = 0;
 		}
 		AstarEXEcount++;
 		//A*経路探査で出た結果でパス移動。

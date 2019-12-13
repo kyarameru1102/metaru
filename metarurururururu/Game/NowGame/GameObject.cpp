@@ -6,6 +6,4 @@ IGameObject::IGameObject()
 {
 }
 
-IGameObject::~IGameObject()
-{
-}
+

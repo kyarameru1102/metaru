@@ -246,6 +246,7 @@
     <ClCompile Include="NowGame\sensya.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\C4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -440,6 +441,7 @@
     <ClInclude Include="NowGame\sensya.h">
       <Filter>NowGame</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\C4.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -482,6 +484,9 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\c4.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>
