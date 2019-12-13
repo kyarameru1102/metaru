@@ -4,12 +4,12 @@
 
 Title::Title()
 {
-	spriteBatch = std::make_unique<DirectX::SpriteBatch>(g_graphicsEngine->GetD3DDeviceContext());
+	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(g_graphicsEngine->GetD3DDeviceContext());
 	DirectX::CreateDDSTextureFromFile(
 		g_graphicsEngine->GetD3DDevice(),
 		L"Resource/sprite/Title.dds",
 		nullptr,
-		&shaderResourceView
+		&m_shaderResourceView
 	);
 }
 
@@ -33,10 +33,10 @@ void Title::Update()
 
 void Title::Render()
 {
-	spriteBatch.get()->Begin();
-	spriteBatch.get()->Draw(
-		shaderResourceView,
+	m_spriteBatch.get()->Begin();
+	m_spriteBatch.get()->Draw(
+		m_shaderResourceView,
 		DirectX::XMFLOAT2(0.0f, 0.0f)
 	);
-	spriteBatch.get()->End();
+	m_spriteBatch.get()->End();
 }

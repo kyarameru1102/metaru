@@ -57,7 +57,7 @@ public:
 private:
 	CVector3				m_target = CVector3::Zero();
 	Player*					m_player = nullptr;
-	Enemy*					m_enemy = nullptr;
+	CVector3				m_enemyPos;						//敵兵の座標。
 	CVector3				m_direction;					//向き。
 	CameraCollisionSolver	m_cameraCollider;				//カメラのコライダー。
 	float					m_rightLength;

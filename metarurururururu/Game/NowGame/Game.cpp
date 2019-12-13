@@ -20,8 +20,9 @@ Game::~Game()
 	DeleteGO(m_sensya);
 	DeleteGO(m_player);
 	DeleteGO(m_EGC);
-	DeleteGO(m_enemy);
+	DeleteGOs("enemy");
 	DeleteGO(m_ground);
+	DeleteGO(m_gameCamera);
 }
 
 bool Game::Start()

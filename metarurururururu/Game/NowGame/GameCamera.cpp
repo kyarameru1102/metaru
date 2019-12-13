@@ -15,7 +15,6 @@ GameCamera::~GameCamera()
 bool GameCamera::Start()
 {
 	m_player = FindGO<Player>("player");
-	m_enemy = FindGO<Enemy>("enemy");
 	m_cameraCollider.Init(5.0f);
 	m_targetCollider.Init(8.0f);
 	m_rightLength = 40.0f;
@@ -75,10 +74,14 @@ void GameCamera::Update()
 		m_direction.Normalize();
 		m_direction *= 80.0f;
 		CVector3 PlayerToEnemy;
-		PlayerToEnemy = m_player->GetPosition() - m_enemy->GetPosition();
-		if (PlayerToEnemy.Length() <= 500.0f) {
-			isLookOn(NewPosition);
-		}
+		QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
+			m_enemyPos = enemy->GetPosition();
+			PlayerToEnemy = m_player->GetPosition() - enemy->GetPosition();
+			if (PlayerToEnemy.Length() <= 800.0f) {
+				isLookOn(NewPosition);
+			}
+			return true;
+		});
 	}
 	else {
 		m_direction.Normalize();
@@ -101,9 +104,8 @@ void GameCamera::OnDestroy()
 
 void GameCamera::isLookOn(CVector3 pos)
 {
-	CVector3 enemyPos = m_enemy->GetPosition();
-	enemyPos.y += 80.0f;
-	m_target = m_target + enemyPos;
+	m_enemyPos.y += 80.0f;
+	m_target = m_target + m_enemyPos;
 	m_target /= 2;
 	m_direction = m_target - pos;
 	m_direction.Normalize();

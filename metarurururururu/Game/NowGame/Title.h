@@ -8,9 +8,9 @@ public:
 	void Update()override;
 	void Render()override;
 private:
-	ID3D11Device* device = nullptr;
-	ID3D11DeviceContext* deviceContext = nullptr;
-	std::unique_ptr<DirectX::SpriteBatch> spriteBatch = nullptr;
-	ID3D11ShaderResourceView* shaderResourceView = nullptr;
+	ID3D11Device*							m_device = nullptr;
+	ID3D11DeviceContext*					m_deviceContext = nullptr;
+	std::unique_ptr<DirectX::SpriteBatch>	m_spriteBatch = nullptr;
+	ID3D11ShaderResourceView*				m_shaderResourceView = nullptr;
 };
 
