@@ -158,11 +158,13 @@ static inline T* FindGO(const char* objectName)
 /// </summary>
 /// <param name="objectName">NewGOのときにオブジェクトにつけた名前。</param>
 /// <param name="func">見つかった時に行うコールバック関数。</param>
+
 template<class T>
 static inline void QueryGOs(const char* objectName, std::function<bool(T* go)> func)
 {
 	return gameObjectManager().FindGameObjects<T>(objectName, func);
 }
+
 /// <summary>
 /// 引数に渡した名前がついているゲームオブジェっくとすべてを削除する関数。
 /// </summary>

@@ -25,11 +25,6 @@ public:
 	/// </summary>
 	void Update() override;
 	/// <summary>
-	/// デストラクタより先に呼ばれる関数。
-	/// DeleteGO関数が呼ばれたタイミングで呼ばれる関数。
-	/// </summary>
-	void OnDestroy() override;
-	/// <summary>
 	/// ロックオンしているときの関数。
 	/// </summary>
 	/// <param name="pos">カメラのポジション。</param>
@@ -62,6 +57,6 @@ private:
 	CameraCollisionSolver	m_cameraCollider;				//カメラのコライダー。
 	float					m_rightLength;
 	CameraCollisionSolver	m_targetCollider;				//注視点のコライダー
-	bool					m_lockOn = false;					//ロックオンのフラグ。
+	bool					m_LookInTo = false;				//ロックオンのフラグ。
 };
 

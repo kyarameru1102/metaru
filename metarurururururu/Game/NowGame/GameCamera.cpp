@@ -10,6 +10,9 @@ GameCamera::GameCamera()
 
 GameCamera::~GameCamera()
 {
+	m_target = CVector3::Zero();
+	g_camera3D.SetTarget(m_target);
+	g_camera3D.Update();
 }
 
 bool GameCamera::Start()
@@ -32,10 +35,15 @@ void GameCamera::Update()
 	CVector3 plpos = m_target;
 	CVector3 nowTarget = m_target;
 	m_target += targetAdd;
-	
-	float x = g_pad[0].GetRStickXF() * 2;
-	float y = g_pad[0].GetRStickYF() * 2;
-
+	float x, y;
+	if (m_LookInTo) {
+		x = g_pad[0].GetRStickXF() * 1;
+		y = g_pad[0].GetRStickYF() * 1;
+	}
+	else {
+		x = g_pad[0].GetRStickXF() * 3;
+		y = g_pad[0].GetRStickYF() * 3;
+	}
 	CQuaternion qRot;
 	qRot.SetRotationDeg(CVector3::AxisY(), 2.0f * x);
 	qRot.Multiply(m_direction);
@@ -77,28 +85,23 @@ void GameCamera::Update()
 		QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
 			m_enemyPos = enemy->GetPosition();
 			PlayerToEnemy = m_player->GetPosition() - enemy->GetPosition();
-			if (PlayerToEnemy.Length() <= 800.0f) {
-				isLookOn(NewPosition);
-			}
-			return true;
+				if (PlayerToEnemy.Length() <= 800.0f) {
+					isLookOn(NewPosition);
+				}
+				return true;
 		});
+		m_LookInTo = true;
 	}
 	else {
 		m_direction.Normalize();
 		m_direction *= 120.0f;
+		m_LookInTo = false;
 	}
 	
 	g_camera3D.SetPosition(NewPosition);
 	g_camera3D.SetTarget(targetNewPos);
 	//g_camera3D.SetTarget(m_target);
 	//カメラの更新。
-	g_camera3D.Update();
-}
-
-void GameCamera::OnDestroy()
-{
-	m_target = CVector3::Zero();
-	g_camera3D.SetTarget(m_target);
 	g_camera3D.Update();
 }
 

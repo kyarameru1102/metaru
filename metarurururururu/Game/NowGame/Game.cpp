@@ -8,6 +8,7 @@
 #include "Ground.h"
 #include "EnemyGeneralCommander.h"
 #include "sensya.h"
+#include "Title.h"
 
 
 Game::Game()
@@ -17,7 +18,7 @@ Game::Game()
 
 Game::~Game()
 {
-	DeleteGO(m_sensya);
+	DeleteGOs("sensya");
 	DeleteGO(m_player);
 	DeleteGO(m_EGC);
 	DeleteGOs("enemy");
@@ -90,7 +91,7 @@ bool Game::Start()
 	//カメラ生成。
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");
 	//カメラの方向とプレイヤーとの距離を決定。
-	CVector3 direction = { 0.0f, 100.0f, 70.0f };
+	CVector3 direction = { -100.0f, 50.0f, -70.0f };
 	direction.Normalize();
 	direction *= 120.0f;
 	m_gameCamera->Setdirection(direction);
@@ -103,6 +104,7 @@ void Game::Update()
 	if (g_pad[0].IsTrigger(enButtonStart))
 	{
 		DeleteGO(this);
+		NewGO<Title>(0);
 	}
 }
 

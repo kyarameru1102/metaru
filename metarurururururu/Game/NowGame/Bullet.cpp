@@ -10,7 +10,7 @@ Bullet::Bullet()
 
 Bullet::~Bullet()
 {
-	
+	DeleteGO(m_skinModelRender);
 }
 
 bool Bullet::Start()
@@ -34,7 +34,6 @@ void Bullet::Update()
 		}
 	m_toPlayerLen = m_toPos.Length();
 	if (m_toPlayerLen > 15000.0f) {
-		DeleteGO(m_skinModelRender);
 		DeleteGO(this);
 	}
 	CVector3 Vector = m_moveSpeed;
