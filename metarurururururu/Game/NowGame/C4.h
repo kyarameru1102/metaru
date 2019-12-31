@@ -1,4 +1,7 @@
 #pragma once
+
+class EnemyGeneralCommander;
+class sensya;
 class C4 : public IGameObject
 {
 public:
@@ -35,8 +38,10 @@ public:
 		m_rotation = rot;
 	}
 private:
-	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。
-	CVector3			m_position = CVector3::Zero();				//座標。
-	CQuaternion			m_rotation = CQuaternion::Identity();		//回転。
+	SkinModelRender*		m_skinModelRender = nullptr;				//スキンモデルレンダー。
+	CVector3				m_position = CVector3::Zero();				//座標。
+	CQuaternion				m_rotation = CQuaternion::Identity();		//回転。
+	sensya*					m_sensya = nullptr;							//戦車。
+	EnemyGeneralCommander*	m_EGC = nullptr;							//敵兵の総司令。
 };
 

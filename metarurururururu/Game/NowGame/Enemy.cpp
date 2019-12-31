@@ -9,8 +9,22 @@ EnemyStateHesitate			EnemyState::m_hesitate;
 EnemyStateVigilance			EnemyState::m_vigilance;
 EnemyStateVigilanceCancel	EnemyState::m_vigilanceCancel;
 
+struct AStarSmoothingCallBack : public btCollisionWorld::ClosestConvexResultCallback
+{
+	bool hit = false;
+	AStarSmoothingCallBack() :
+		btCollisionWorld::ClosestConvexResultCallback(btVector3(0.0f, 0.0f, 0.0f), btVector3(0.0f, 0.0f, 0.0f))
+	{}
+	virtual	btScalar addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
+	{
+		hit = true;
+		return 0.0;
+	}
+};
+
 Enemy::Enemy()
 {
+	m_collider.Create(1.0f, 30.0f);
 }
 
 
@@ -68,10 +82,6 @@ void Enemy::Update()
 		}
 	}
 
-	/*if (g_pad[0].IsTrigger(enButtonA)) {
-		ChangeState(&EnemyState::m_vigilance);
-	}*/
-
 	//視野角の計算。
 	CVector3 toPlayer = m_player->GetPosition() - m_position;
 	float toPlayerLen = toPlayer.Length();
@@ -97,6 +107,7 @@ void Enemy::Update()
 				//警戒体制に移行。
 				ChangeState(&EnemyState::m_vigilance);
 			}
+
 		}
 	}
 	//警戒態勢中なら。
@@ -182,40 +193,91 @@ void Enemy::VigilanceMove()
 {
 	if (AstarEXEcount == 0) {
 		m_astar.Execute(m_position, m_player->GetPosition());
-		m_beforeAstar = m_position;
+		m_astar2.Execute(m_position, m_player->GetPosition());
+		//m_beforeAstar = m_position;
 		AstarEXEcount++;
 	}
+	//スムージング処理。
+	btTransform start, end;
+	start.setIdentity();
+	end.setIdentity();
+	CVector3 nextPos = m_astar.GetAStarAnswerPos();
+	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+	end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+	AStarSmoothingCallBack callBack;
+	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+	if (callBack.hit == false) {
+		m_astar2.AdvanceIt();
+		OutputDebugString("astar2\n");
+		if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+
+		}
+		else {
+			m_astar.AdvanceIt();
+			OutputDebugString("astar\n");
+		}
+		if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
+				m_astar.AdvanceIt();
+				OutputDebugString("astar12\n");
+			}
+		}
+	}
 	
+	/*if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 10.0f) {
+		m_astar.AdvanceIt();
+	}*/
 	//A*経路探査で出た結果でパス移動。
 	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
 	m_moveSpeed.Normalize();
 	m_moveSpeed += m_moveSpeed * 100.0f;
 	MoveAnimation();
-	if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 10.0f)
-	{
-		m_astar.AdvanceIt();
-		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
-			//パスの最後まで行ったら。
-			m_astar.Execute(m_position, m_beforeAstar);
-			ChangeState(&EnemyState::m_vigilanceCancel);
-			AstarEXEcount = 0;
-		}
+	
+	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+		//パスの最後まで行ったら。
+		
+		ChangeState(&EnemyState::m_vigilanceCancel);
+		AstarEXEcount = 0;
 	}
 }
 
 void Enemy::VigilanceCancelMove()
 {
+	m_astar.Execute(m_position, PathList[PathList[m_currentPath].next].position);
+	m_astar2.Execute(m_position, PathList[PathList[m_currentPath].next].position);
+	//スムージング処理。
+	btTransform start, end;
+	start.setIdentity();
+	end.setIdentity();
+	CVector3 nextPos = m_astar.GetAStarAnswerPos();
+	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+	end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+	AStarSmoothingCallBack callBack;
+	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+	if (callBack.hit == false) {
+		m_astar2.AdvanceIt();
+		if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+
+		}
+		else {
+			m_astar.AdvanceIt();
+		}
+		if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
+				m_astar.AdvanceIt();
+			}
+		}
+	}
+
 	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
 	m_moveSpeed.Normalize();
 	m_moveSpeed += m_moveSpeed * 100.0f;
 	MoveAnimation();
-	if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 50.0f)
-	{
-		m_astar.AdvanceIt();
-		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
-			ChangeState(&EnemyState::m_hesitate);
-		}
+	
+	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+		ChangeState(&EnemyState::m_hesitate);
 	}
+	
 }
 
 void Enemy::BattleMove()
@@ -248,24 +310,49 @@ void Enemy::BattleMove()
 	if (!m_discovery) {
 		if (AstarEXEcount == 600 || AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
+			m_astar2.Execute(m_position, m_player->GetPosition());
 			m_beforeAstar = m_position;
 			AstarEXEcount = 0;
 		}
 		AstarEXEcount++;
+
+		//スムージング処理。
+		btTransform start, end;
+		start.setIdentity();
+		end.setIdentity();
+		CVector3 nextPos = m_astar.GetAStarAnswerPos();
+		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+		end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+		AStarSmoothingCallBack callBack;
+		g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+		if (callBack.hit == false) {
+			m_astar2.AdvanceIt();
+			if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+
+			}
+			else {
+				if ((nextPos.y - m_position.y) <= 5.0f && (nextPos.y - m_position.y) >= -5.0f) {
+					m_astar.AdvanceIt();
+				}
+			}
+			if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+				if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
+					m_astar.AdvanceIt();
+				}
+			}
+		}
+
 		//A*経路探査で出た結果でパス移動。
 		m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
 		m_moveSpeed.Normalize();
 		m_moveSpeed += m_moveSpeed * 100.0f;
 		MoveAnimation();
-		if ((m_astar.GetAStarAnswerPos() - m_position).Length() < 10.0f)
-		{
-			m_astar.AdvanceIt();
-			if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
-				//パスの最後まで行ったら。
-				m_astar.Execute(m_position, m_player->GetPosition());
-				ChangeState(&EnemyState::m_vigilanceCancel);
-				AstarEXEcount = 0;
-			}
+		
+		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+			//パスの最後まで行ったら。
+			m_astar.Execute(m_position, m_player->GetPosition());
+			//ChangeState(&EnemyState::m_vigilanceCancel);
+			AstarEXEcount = 0;
 		}
 	}
 }

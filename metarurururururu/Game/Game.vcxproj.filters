@@ -55,9 +55,6 @@
     <Filter Include="NowGame\Camera">
       <UniqueIdentifier>{fd6e1a80-2f71-4419-a3b8-4a66c5a19e56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NowGame\Astar">
-      <UniqueIdentifier>{78b90ab9-3fb7-4abf-bebe-b0a140f421a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\sprite">
       <UniqueIdentifier>{78353d47-13e5-4685-afa1-5c2e113b3d38}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,12 @@
     </Filter>
     <Filter Include="NowGame\class2D">
       <UniqueIdentifier>{4cca7bbb-e930-48b3-8363-defcc0ac6d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Astar">
+      <UniqueIdentifier>{78b90ab9-3fb7-4abf-bebe-b0a140f421a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Item">
+      <UniqueIdentifier>{fffbf138-837f-4575-b2b9-8ae71760de37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,12 +143,6 @@
     </ClCompile>
     <ClCompile Include="level\MapChip.cpp">
       <Filter>level</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\Bullet.cpp">
-      <Filter>NowGame</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\DirectionLight.cpp">
-      <Filter>NowGame</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\Font.cpp">
       <Filter>NowGame</Filter>
@@ -246,7 +243,27 @@
     <ClCompile Include="NowGame\sensya.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
-    <ClCompile Include="NowGame\C4.cpp" />
+    <ClCompile Include="NowGame\DirectionLight.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Sprite.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Bullet.cpp">
+      <Filter>NowGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\C4.cpp">
+      <Filter>NowGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Clear.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\TargetDestruction.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\ClearPoint.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -329,12 +346,6 @@
     </ClInclude>
     <ClInclude Include="level\MapChip.h">
       <Filter>level</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\Bullet.h">
-      <Filter>NowGame</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\DirectionLight.h">
-      <Filter>NowGame</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\Font.h">
       <Filter>NowGame</Filter>
@@ -441,7 +452,27 @@
     <ClInclude Include="NowGame\sensya.h">
       <Filter>NowGame</Filter>
     </ClInclude>
-    <ClInclude Include="NowGame\C4.h" />
+    <ClInclude Include="NowGame\DirectionLight.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Sprite.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Bullet.h">
+      <Filter>NowGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\C4.h">
+      <Filter>NowGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Clear.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\TargetDestruction.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\ClearPoint.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -489,12 +520,21 @@
     <MeshContentTask Include="Assets\modelData\c4.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wall.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\kaasoru.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Clear.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
   </ItemGroup>

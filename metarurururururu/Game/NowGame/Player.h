@@ -82,13 +82,29 @@ public:
 	/// <summary>
 	/// プレイヤーのポジションを返してくる関数。
 	/// </summary>
+	/// <returns>座標。</returns>
 	CVector3 GetPosition() const
 	{
 		return m_position;
 	}
+	/// <summary>
+	/// プレイヤーの回転を返してくる関数。
+	/// </summary>
+	/// <returns>回転。</returns>
 	CQuaternion GetRotation() const
 	{
 		return m_rotation;
+	}
+	/// <summary>
+	/// クリアしたかどうかのフラグを設定する関数。
+	/// </summary>
+	/// <param name="flag">
+	/// true	クリアしている
+	/// false	クリアしていない。
+	/// </param>
+	void SetClearFlag(bool flag)
+	{
+		m_clear = flag;
 	}
 private:
 	SkinModel			m_model;									//スキンモデル。
@@ -112,6 +128,7 @@ private:
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
-	UI*					m_ui = nullptr;
+	UI*					m_ui = nullptr;								//UI。
+	bool				m_clear = false;							//クリアしたかどうかのフラグ。
 };
 

@@ -9,19 +9,29 @@ class Player;
 class EnemyGeneralCommander;
 class Enemy;
 class Ground;
+class ClearPoint;
 class Game : public IGameObject
 {
 public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
 	Game();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
 	~Game();
+	/// <summary>
+	/// 開始関数。
+	/// </summary>
 	bool Start();
+	/// <summary>
+	/// 更新関数。
+	/// </summary>
 	void Update();
-	void OnDestroy();
-	void Render();
 private:
 	GameCamera*			m_gameCamera = nullptr;
 	Level				m_level;
-	//NaviMesh			m_navi;
 	SkinModel			m_model;
 	ShadowMap			m_shadowMap;				//シャドウマップ。
 	sensya* m_sensya = nullptr;
@@ -29,5 +39,6 @@ private:
 	EnemyGeneralCommander* m_EGC = nullptr;
 	Enemy* m_enemy = nullptr;
 	Ground* m_ground = nullptr;
+	ClearPoint* m_clearPoint = nullptr;
 };
 

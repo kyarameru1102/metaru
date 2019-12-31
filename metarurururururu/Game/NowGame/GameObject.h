@@ -29,6 +29,10 @@ public:
 	/// </summary>
 	virtual void Render() {}
 	/// <summary>
+	/// 2D用の描画関数。
+	/// </summary>
+	virtual void Render2D() {}
+	/// /// <summary>
 	/// 優先度を取得。
 	/// </summary>
 	GOPrio GetPriority() const

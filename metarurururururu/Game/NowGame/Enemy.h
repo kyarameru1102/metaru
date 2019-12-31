@@ -10,6 +10,7 @@
 #include <string>
 #include "Astar.h"
 #include "AstarDebug.h"
+#include "physics/CapsuleCollider.h"
 
 struct EnemyState
 {
@@ -73,16 +74,33 @@ public:
 	/// 移動中のアニメーション処理。
 	/// </summary>
 	void MoveAnimation();
-	//回転処理。
+	/// <summary>
+	/// 回転処理。
+	/// </summary>
 	void Rotation();
-	//ステートを切り替える関数。
+	/// <summary>
+	/// ステートを切り替える関数。
+	/// </summary>
+	/// <param name="nextState">
+	/// 変更先のステート
+	/// </param>
 	void ChangeState(IEnemyState* nextState);
-	//ポジションを設定する関数。
+	/// <summary>
+	/// ポジションを設定する関数。
+	/// </summary>
+	/// <param name="pos">
+	/// 座標。
+	/// </param>
 	void SetPosition(CVector3 pos)
 	{
 		m_position = pos;
 	}
-	//ポジションを返してくる関数。
+	/// <summary>
+	/// ポジションを返してくる関数。
+	/// </summary>
+	/// <returns>
+	/// 座標。
+	/// </returns>
 	CVector3 GetPosition() const
 	{
 		return m_position;
@@ -95,6 +113,12 @@ public:
 	{
 		wcscpy(m_initPath,path);
 	}
+	/// <summary>
+	/// 現在のステートを返してくる関数。
+	/// </summary>
+	/// <returns>
+	/// 現在のステート。
+	/// </returns>
 	IEnemyState* GetCurrentstate() const
 	{
 		return m_currentstate;
@@ -117,15 +141,17 @@ private:
 	Level						m_level;
 	wchar_t						m_initPath[3];
 	Astar						m_astar;									//A*(ナビメッシュも生成している。
+	Astar						m_astar2;
 	AstarDebug*					m_astarDebug = nullptr;
 	int							AstarEXEcount = 0;
 	CVector3					m_beforeAstar = CVector3::Zero();
 	enum EnAnimationClip {
-		enAnimationClip_idle,										//待機。
-		enAnimationClip_run,										//走る。
-		enAnimationClip_shot,										//銃を撃つ。
+		enAnimationClip_idle,												//待機。
+		enAnimationClip_run,												//走る。
+		enAnimationClip_shot,												//銃を撃つ。
 		enAnimationClip_Num,
 	};
-	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
+	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
+	CapsuleCollider		m_collider;											//カプセルコライダー。
 };
 

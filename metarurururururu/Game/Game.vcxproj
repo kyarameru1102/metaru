@@ -99,6 +99,8 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\ClearPoint.cpp" />
+    <ClCompile Include="NowGame\Clear.cpp" />
     <ClCompile Include="NowGame\C4.cpp" />
     <ClCompile Include="NowGame\EnemyGeneralCommander.cpp" />
     <ClCompile Include="NowGame\Astar.cpp" />
@@ -159,11 +161,15 @@
     </ClCompile>
     <ClCompile Include="NowGame\StopWatch.cpp" />
     <ClCompile Include="NowGame\sensya.cpp" />
+    <ClCompile Include="NowGame\Sprite.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
     <ClCompile Include="NowGame\UI.cpp" />
+    <ClCompile Include="NowGame\TargetDestruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\ClearPoint.h" />
+    <ClInclude Include="NowGame\Clear.h" />
     <ClInclude Include="NowGame\C4.h" />
     <ClInclude Include="NowGame\EnemyGeneralCommander.h" />
     <ClInclude Include="NowGame\Astar.h" />
@@ -226,9 +232,11 @@
     <ClInclude Include="NowGame\stdafx.h" />
     <ClInclude Include="NowGame\StopWatch.h" />
     <ClInclude Include="NowGame\sensya.h" />
+    <ClInclude Include="NowGame\Sprite.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
     <ClInclude Include="NowGame\UI.h" />
+    <ClInclude Include="NowGame\TargetDestruction.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
@@ -248,6 +256,7 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wall.FBX" />
     <MeshContentTask Include="Assets\modelData\yazirusi.FBX" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +267,12 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\kaasoru.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

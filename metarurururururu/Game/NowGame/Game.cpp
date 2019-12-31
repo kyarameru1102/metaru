@@ -9,6 +9,8 @@
 #include "EnemyGeneralCommander.h"
 #include "sensya.h"
 #include "Title.h"
+#include "C4.h"
+#include "Bullet.h"
 
 
 Game::Game()
@@ -24,6 +26,8 @@ Game::~Game()
 	DeleteGOs("enemy");
 	DeleteGO(m_ground);
 	DeleteGO(m_gameCamera);
+	DeleteGOs("bullet");
+	DeleteGOs("c4");
 }
 
 bool Game::Start()
@@ -106,12 +110,4 @@ void Game::Update()
 		DeleteGO(this);
 		NewGO<Title>(0);
 	}
-}
-
-void Game::OnDestroy()
-{
-}
-
-void Game::Render()
-{
 }

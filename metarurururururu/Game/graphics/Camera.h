@@ -2,6 +2,10 @@
 class Camera
 {
 public:
+	enum EnUpdateProjMatrixFunc {
+		enUpdateProjMatrixFunc_Perspective,		//!<透視射影行列。遠近法が効いた絵を作りたいならこっち。
+		enUpdateProjMatrixFunc_Ortho,			//!<平行投影。２Ｄ的な表現がしたいならこっち。
+	};
 	/*!
 	 * @brief	カメラ行列、プロジェクション行列の更新。
 	 *@details
@@ -108,6 +112,36 @@ public:
 	{
 		m_viewAngle = angle;
 	}
+	/// <summary>
+	/// 平行投影の幅を設定。
+	/// </summary>
+	/// <remarks>
+	/// m_updateProjMatrixFuncがenUpdateProjMatrixFunc_Orthoの時に使用される。
+	/// </remarks>
+	/// <param name="w">幅</param>
+	void SetWidth(float w)
+	{
+		m_width = w;
+	}
+	/// <summary>
+	/// 平行投影の高さを設定。
+	/// <remarks>
+	/// </remarks>
+	/// m_updateProjMatrixFuncがenUpdateProjMatrixFunc_Orthoの時に使用される。
+	/// </summary>
+	/// <param name="h">高さ</param>
+	void SetHeight(float h)
+	{
+		m_height = h;
+	}
+	/// <summary>
+	/// 射影行列の計算の仕方を設定。
+	/// </summary>
+	/// <param name="func">EnUpdateProjMatrixFuncを参照。</param>
+	void SetUpdateProjMatrixFunc(EnUpdateProjMatrixFunc func)
+	{
+		m_updateProjMatrixFunc = func;
+	}
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。
@@ -122,6 +156,10 @@ private:
 	float m_viewAngle = CMath::DegToRad(60.0f);		//画角。
 	float m_far = 10000.0f;							//遠い平面までの距離。
 	float m_near = 1.0f;							//近平面までの距離。
+	float m_width = 1280.0f;						//平行投影の幅。
+	float m_height = 720.0f;						//平行投影の高さ。
+	EnUpdateProjMatrixFunc m_updateProjMatrixFunc = enUpdateProjMatrixFunc_Perspective;
 };
 
-extern Camera g_camera3D;		//!<3Dカメラ。
+extern Camera g_camera3D;		//3Dカメラ。
+extern Camera g_camera2D;		//2Dカメラ。

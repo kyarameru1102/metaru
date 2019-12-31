@@ -56,5 +56,6 @@ private:
 	CQuaternion			m_rotation = CQuaternion::Identity();		//回転。
 	CVector3			m_scl = CVector3::One();					//拡大率。
 	Player*				m_player = nullptr;							//プレイヤー。
+	bool				m_c4On = false;								//c4があるかどうかのフラグ。
 };
 

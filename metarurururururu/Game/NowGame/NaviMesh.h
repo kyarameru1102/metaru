@@ -6,8 +6,8 @@
 struct Cell {
 	CVector3			vertexPos[3];
 	Cell*				linkCells[3] = {nullptr};		//隣接しているセル。
-	Cell*				parent;				//ひらかれた時の親のセルを記録する。
-	CVector3			centerPos;
+	Cell*				parent = nullptr;				//ひらかれた時の親のセルを記録する。
+	CVector3			centerPos = CVector3::Zero();
 	//コストを設定する関数。
 	void SetCost(float cost)
 	{

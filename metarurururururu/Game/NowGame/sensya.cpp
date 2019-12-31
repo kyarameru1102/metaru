@@ -2,6 +2,9 @@
 #include "sensya.h"
 #include "Player.h"
 #include "C4.h"
+#include "Clear.h"
+#include "TargetDestruction.h"
+#include "ClearPoint.h"
 
 sensya::sensya()
 {
@@ -51,13 +54,20 @@ bool sensya::Start()
 void sensya::Update()
 {
 	CVector3 toPlayer = m_player->GetPosition() - m_position;
-	if (toPlayer.Length() < 450.0f)	{
+	if (toPlayer.Length() < 500.0f)	{
 		if (g_pad[0].IsTrigger(enButtonB)) {
 			C4* c4;
-			c4 = NewGO<C4>(0);
+			c4 = NewGO<C4>(0,"c4");
 			c4->SetPosition(m_player->GetPosition());
 			c4->SetRotation(m_player->GetRotation());
-			//DeleteGO(this);
+			m_c4On = true;
+		}
+	}
+	if (m_c4On) {
+		if (g_pad[0].IsTrigger(enButtonX)) {
+			NewGO<TargetDestruction>(0, "TargetDestruction");
+			NewGO<ClearPoint>(0, "clearPoint");
+			DeleteGO(this);
 		}
 	}
 	m_skinModelRender->SetPosition(m_position);

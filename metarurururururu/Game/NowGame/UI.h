@@ -1,4 +1,6 @@
 #pragma once
+#include "Sprite.h"
+
 class UI : public IGameObject
 {
 public:
@@ -6,11 +8,8 @@ public:
 	~UI();
 	bool Start() override;
 	void Update() override;
-	void Render()override;
+	void Render2D()override;
 private:
-	ID3D11Device* device = nullptr;
-	ID3D11DeviceContext* deviceContext = nullptr;
-	std::unique_ptr<DirectX::SpriteBatch> spriteBatch = nullptr;
-	ID3D11ShaderResourceView* shaderResourceView = nullptr;
+	Sprite		m_sprite;		//スプライト。
 };
 

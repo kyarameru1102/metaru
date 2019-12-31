@@ -4,22 +4,17 @@
 
 Title::Title()
 {
-	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(g_graphicsEngine->GetD3DDeviceContext());
-	DirectX::CreateDDSTextureFromFile(
-		g_graphicsEngine->GetD3DDevice(),
-		L"Resource/sprite/Title.dds",
-		nullptr,
-		&m_shaderResourceView
-	);
 }
 
 
 Title::~Title()
 {
+
 }
 
 bool Title::Start()
 {
+	m_sprite.Init(L"Resource/sprite/Title.dds", 1400, 800);
 	return true;
 }
 
@@ -29,14 +24,11 @@ void Title::Update()
 		NewGO<Game>(0, "Game");
 		DeleteGO(this);
 	}
+	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	g_camera2D.Update();
 }
 
-void Title::Render()
+void Title::Render2D()
 {
-	m_spriteBatch.get()->Begin();
-	m_spriteBatch.get()->Draw(
-		m_shaderResourceView,
-		DirectX::XMFLOAT2(0.0f, 0.0f)
-	);
-	m_spriteBatch.get()->End();
+	m_sprite.Draw();
 }

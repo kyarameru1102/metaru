@@ -24,8 +24,8 @@ void FPSCamera::Update()
 	m_position = m_player->GetPosition();
 	m_position.y += 85.0f;
 
-	float x = g_pad[0].GetRStickXF() * 2;
-	float y = g_pad[0].GetRStickYF() * 2;
+	float x = g_pad[0].GetRStickXF() * 0.5;
+	float y = g_pad[0].GetRStickYF() * 0.5;
 
 	CQuaternion qRot;
 	qRot.SetRotationDeg(CVector3::AxisY(), 2.0f * x);

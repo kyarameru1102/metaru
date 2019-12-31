@@ -12,6 +12,7 @@ Player::Player()
 Player::~Player()
 {
 	DeleteGO(m_skinModelRender);
+	DeleteGO(m_ui);
 }
 
 bool Player::Start()
@@ -51,52 +52,53 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
-	m_currentstate->Update();
-	
-	if (m_currentstate == &m_holdGunState)
-	{
-		HoldMove();
-		HoldRotation();
-	}
-	else if (m_currentstate->IsPossibleMove()) 
-	{
-		if (m_currentstate != &m_holdGunState) {
-			Move();
-			MoveAnimation();
-		}
-	}
-	if (m_currentstate->IsPossibleGunShoot()) {
-		if (g_pad[0].IsPress(enButtonRB2))
-		{
-			ChangeState(&m_holdGunState);
-			Firing();
-		}
-		if (g_pad[0].IsPress(enButtonLB1))
-		{
-			ChangeState(&m_holdGunState);
-			m_skinModelRender->PlayAnimation(enAnimationClip_shot);
-		}
-	}
-	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+	if (!m_clear) {
+		m_currentstate->Update();
 
-	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-	
-	if (g_pad[0].IsPress(enButtonLB2)) {
-		m_skinModelRender->SetRenderOn(false);
-		CameraSwitchFPS();
+		if (m_currentstate == &m_holdGunState)
+		{
+			HoldMove();
+			HoldRotation();
+		}
+		else if (m_currentstate->IsPossibleMove())
+		{
+			if (m_currentstate != &m_holdGunState) {
+				Move();
+				MoveAnimation();
+			}
+		}
+		if (m_currentstate->IsPossibleGunShoot()) {
+			if (g_pad[0].IsPress(enButtonRB2))
+			{
+				ChangeState(&m_holdGunState);
+				Firing();
+			}
+			if (g_pad[0].IsPress(enButtonLB1))
+			{
+				ChangeState(&m_holdGunState);
+				m_skinModelRender->PlayAnimation(enAnimationClip_shot);
+			}
+		}
+		m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+
+		m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
+
+		if (g_pad[0].IsPress(enButtonLB2)) {
+			m_skinModelRender->SetRenderOn(false);
+			CameraSwitchFPS();
+		}
+		else {
+			m_skinModelRender->SetRenderOn(true);
+			CameraSwitchTPS();
+		}
+		if (!g_pad[0].IsPressAnyKey())
+		{
+			ChangeState(&m_idleState);
+		}
+		if (m_currentstate->IsRotateByMove()) {
+			Rotation();
+		}
 	}
-	else {
-		m_skinModelRender->SetRenderOn(true);
-		CameraSwitchTPS();
-	}
-	if (!g_pad[0].IsPressAnyKey())
-	{
-		ChangeState(&m_idleState);
-	}
-	if (m_currentstate->IsRotateByMove()) {
-		Rotation();
-	}
-	
 	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }

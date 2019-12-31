@@ -1,13 +1,17 @@
 #include "stdafx.h"
 #include "C4.h"
-
+#include "sensya.h"
+#include "EnemyGeneralCommander.h"
 
 C4::C4()
 {
+	m_sensya = FindGO<sensya>("sensya");
+	m_EGC = FindGO<EnemyGeneralCommander>("EnemyGeneralCommander");
 }
 
 C4::~C4()
 {
+	DeleteGO(m_skinModelRender);
 }
 
 bool C4::Start()
@@ -22,4 +26,8 @@ bool C4::Start()
 
 void C4::Update()
 {
+	if (g_pad[0].IsTrigger(enButtonX)) {
+		m_EGC->SetSubjectDestroyed(true);
+		DeleteGO(this);
+	}
 }

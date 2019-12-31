@@ -20,7 +20,7 @@ bool EnemyGeneralCommander::Start()
 void EnemyGeneralCommander::Update()
 {
 	for (auto& enemy : m_enemyArray) {
-		if (enemy->GetCurrentstate() == &EnemyState::m_battlePosture)
+		if (enemy->GetCurrentstate() == &EnemyState::m_battlePosture || m_subjectDestroyed)
 		{
 			m_combatStart = true;
 		}
