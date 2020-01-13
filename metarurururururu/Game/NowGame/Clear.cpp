@@ -20,7 +20,7 @@ bool Clear::Start()
 
 void Clear::Update()
 {
-	m_sprite.DeltaAlpha(0.02f);
+	m_sprite.DeltaAlpha(0.04f);
 	
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();

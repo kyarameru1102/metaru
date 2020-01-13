@@ -153,5 +153,6 @@ private:
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
 	CapsuleCollider		m_collider;											//カプセルコライダー。
+	bool				m_onFiring = false;									//銃を撃っているか。
 };
 

@@ -21,7 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	StopWatch stopWatch;
 
 	//タイトルを生成する。
-	NewGO<Title>(0);
+	NewGO<Title>(0,"Title");
 
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)

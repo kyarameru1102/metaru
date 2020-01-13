@@ -59,6 +59,10 @@ public:
 			m_alpha = 0.0f;
 		}
 	}
+	float GetAlpha() const
+	{
+		return m_alpha;
+	}
 private:
 
 	/// <summary>

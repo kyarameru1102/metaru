@@ -127,9 +127,17 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 	Cell* pCell = endCell;
 	while (startCell != pCell)
 	{
-		/*if (pCell->parent == nullptr) {
+		if (pCell->parent == nullptr) {
 			int hoge = 0;
 			return true;
+		}
+		/*std::list<Cell*>::iterator kari = std::find(
+			AStarAnswer.begin(),
+			AStarAnswer.end(),
+			pCell
+		);
+		if (kari == AStarAnswerIt) {
+
 		}*/
 		AStarAnswer.push_back(pCell);
 		//e‚ÌƒZƒ‹‚ÉˆÚ“®‚·‚é

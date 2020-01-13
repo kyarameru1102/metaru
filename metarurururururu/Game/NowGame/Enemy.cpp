@@ -22,6 +22,19 @@ struct AStarSmoothingCallBack : public btCollisionWorld::ClosestConvexResultCall
 	}
 };
 
+struct ShotCallBack : public btCollisionWorld::ClosestConvexResultCallback
+{
+	bool hit = false;
+	ShotCallBack() :
+		btCollisionWorld::ClosestConvexResultCallback(btVector3(0.0f, 0.0f, 0.0f), btVector3(0.0f, 0.0f, 0.0f))
+	{}
+	virtual	btScalar addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
+	{
+		hit = true;
+		return 0.0;
+	}
+};
+
 Enemy::Enemy()
 {
 	m_collider.Create(1.0f, 30.0f);
@@ -127,11 +140,27 @@ void Enemy::Update()
 		//	}
 		//}
 	}
+
+	btTransform start, end;
+	start.setIdentity();
+	end.setIdentity();
+	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+	end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+	ShotCallBack callBack;
+	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+	
 	if (m_currentstate == &EnemyState::m_battlePosture) {
-		if (ab < 45.0f && toPlayerLen < 500.0f) {
-			Firing();
+		if (callBack.hit == false) {
+			if (ab < 45.0f && toPlayerLen < 500.0f) {
+				Firing();
+				m_onFiring = true;
+			}
+			else {
+				m_onFiring = false;
+			}
 		}
 	}
+
 	Rotation();
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
@@ -307,8 +336,8 @@ void Enemy::BattleMove()
 		//AstarEXEcount = 0;
 	}
 	//Ž‹–ìŠp‚É‚¢‚È‚¯‚ê‚ÎB
-	if (!m_discovery) {
-		if (AstarEXEcount == 600 || AstarEXEcount == 0) {
+	if (!m_onFiring || !m_discovery) {
+		if (AstarEXEcount == 300 || AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
 			m_astar2.Execute(m_position, m_player->GetPosition());
 			m_beforeAstar = m_position;
@@ -368,6 +397,8 @@ void Enemy::Firing()
 	bullet->SetPosition(m_position);
 	bullet->SetmoveSpeed(EnemyBulletDrc);
 	bullet->SetEnemy();
+	EnemyBulletDrc.Normalize();
+	m_moveSpeed = EnemyBulletDrc;
 }
 
 void Enemy::MoveAnimation()

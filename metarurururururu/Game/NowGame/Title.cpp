@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Title.h"
+#include "Fade.h"
+#include "AfterTitle.h"
 
 
 Title::Title()
@@ -9,7 +11,6 @@ Title::Title()
 
 Title::~Title()
 {
-
 }
 
 bool Title::Start()
@@ -20,15 +21,22 @@ bool Title::Start()
 
 void Title::Update()
 {
-	if (g_pad->IsTrigger(enButtonA)) {
-		NewGO<Game>(0, "Game");
+	if (g_pad->IsTrigger(enButtonA) && !m_on) {
+		m_on = true;
+		NewGO<AfterTitle>(0, "afterTitle");
+	}
+	if (m_on) {
+		m_count++;
+		m_sprite.DeltaAlpha(-0.02f);
+	}
+	if (m_count >= 50) {
 		DeleteGO(this);
 	}
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();
 }
 
-void Title::Render2D()
+void Title::Render()
 {
 	m_sprite.Draw();
 }

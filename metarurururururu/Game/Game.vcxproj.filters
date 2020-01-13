@@ -264,6 +264,12 @@
     <ClCompile Include="NowGame\ClearPoint.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\Fade.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AfterTitle.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -473,6 +479,12 @@
     <ClInclude Include="NowGame\ClearPoint.h">
       <Filter>NowGame</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\Fade.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AfterTitle.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -537,5 +549,10 @@
     <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\sprite\fade.png">
+      <Filter>Assets\sprite</Filter>
+    </Image>
   </ItemGroup>
 </Project>
