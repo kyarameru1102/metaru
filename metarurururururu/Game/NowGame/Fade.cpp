@@ -26,9 +26,13 @@ void Fade::Update()
 	else {
 		m_fadeOutOK = true;
 	}
-	if (m_fadeOutOK) {
+	if (m_fadeOutOK && m_sprite.GetAlpha() <= 0.1f) {
+		DeleteGO(this);
+	}
+	else if (m_fadeOutOK) {
 		m_sprite.DeltaAlpha(-0.02f);
 	}
+	
 
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();

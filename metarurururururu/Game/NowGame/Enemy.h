@@ -154,5 +154,7 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
 	CapsuleCollider		m_collider;											//カプセルコライダー。
 	bool				m_onFiring = false;									//銃を撃っているか。
+	int					m_hp = 3;											//敵兵のHP。
+	bool				m_death = false;									//死んでいるかどうか。
 };
 

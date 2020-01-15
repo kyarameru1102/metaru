@@ -30,15 +30,17 @@ public:
 	/// </summary>
 	void Update();
 private:
-	GameCamera*			m_gameCamera = nullptr;
-	Level				m_level;
-	SkinModel			m_model;
-	ShadowMap			m_shadowMap;				//シャドウマップ。
-	sensya* m_sensya = nullptr;
-	Player* m_player = nullptr;
-	EnemyGeneralCommander* m_EGC = nullptr;
-	Enemy* m_enemy = nullptr;
-	Ground* m_ground = nullptr;
-	ClearPoint* m_clearPoint = nullptr;
+	GameCamera*				m_gameCamera = nullptr;
+	Level					m_level;
+	SkinModel				m_model;
+	ShadowMap				m_shadowMap;				//シャドウマップ。
+	sensya*					m_sensya = nullptr;
+	Player*					m_player = nullptr;
+	EnemyGeneralCommander*	m_EGC = nullptr;
+	Enemy*					m_enemy = nullptr;
+	Ground*					m_ground = nullptr;
+	ClearPoint*				m_clearPoint = nullptr;
+	int						m_timer = 0;
+	bool					m_fadeflg = false;
 };
 

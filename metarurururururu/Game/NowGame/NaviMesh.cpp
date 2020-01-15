@@ -193,8 +193,8 @@ void NaviMesh::Create(SkinModel & model)
 			m_skin->SetPosition((*itr)->centerPos);
 			m_skin->SetScale({ 10.0f,10.0f,10.0f });*/
 			(*itr)->passingCellCost = 99999.0f;
-			itr++;
-			//itr = m_cells.erase(itr);
+			
+			itr = m_cells.erase(itr);
 		}
 		else
 		{
@@ -239,6 +239,13 @@ void NaviMesh::Create(SkinModel & model)
 				skin->SetRotation(Rot);
 				skin->SetScale({ 0.5f,0.5f,0.5f });
 			}
+		}
+	}*/
+	/*for (auto all : m_cells)
+	{
+		if (all->linkMax == 0)
+		{
+			
 		}
 	}*/
 		int i = 0;

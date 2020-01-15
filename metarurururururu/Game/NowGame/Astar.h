@@ -24,6 +24,9 @@ public:
 		if (AStarAnswerIt == AStarAnswer.end()) {
 			return CVector3::Zero();
 		}
+		if (AStarAnswerIt._Ptr->_Myval == nullptr) {
+			return CVector3::Zero();
+		}
 		return (*AStarAnswerIt)->centerPos;
 	}
 	bool AdvanceIt() {
@@ -44,6 +47,7 @@ public:
 		return AStarAnswerIt;
 	}
 private:
+	bool isExecute = false;
 	NaviMesh* m_naviMesh = nullptr;
 	std::list<Cell*> AStarAnswer;
 	std::list<Cell*>::iterator AStarAnswerIt;

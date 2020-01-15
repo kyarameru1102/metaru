@@ -270,6 +270,9 @@
     <ClCompile Include="NowGame\AfterTitle.cpp">
       <Filter>NowGame\class2D</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\GameOver.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -485,6 +488,9 @@
     <ClInclude Include="NowGame\AfterTitle.h">
       <Filter>NowGame\class2D</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\GameOver.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -549,9 +555,10 @@
     <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\fade.png" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\sprite\fade.png">
+    <Image Include="Assets\sprite\GameOver.png">
       <Filter>Assets\sprite</Filter>
     </Image>
   </ItemGroup>

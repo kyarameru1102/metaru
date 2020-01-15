@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\GameOver.cpp" />
     <ClCompile Include="NowGame\AfterTitle.cpp" />
     <ClCompile Include="NowGame\Fade.cpp" />
     <ClCompile Include="NowGame\ClearPoint.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="NowGame\TargetDestruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\GameOver.h" />
     <ClInclude Include="NowGame\AfterTitle.h" />
     <ClInclude Include="NowGame\Fade.h" />
     <ClInclude Include="NowGame\ClearPoint.h" />
@@ -280,6 +282,9 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\fade.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\GameOver.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

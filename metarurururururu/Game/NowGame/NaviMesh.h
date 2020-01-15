@@ -72,6 +72,10 @@ public:
 		}
 		return cell;
 	}
+	std::vector<Cell*> GetCells() const
+	{
+		return m_cells;
+	}
 private:
 	std::vector<Cell*>	m_cells;
 	SkinModelRender*	m_skin = nullptr;

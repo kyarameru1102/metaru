@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "GameTime.h"
 #include "Astar.h"
+#include "Bullet.h"
 
 EnemyStateBattlePosture		EnemyState::m_battlePosture;
 EnemyStateHesitate			EnemyState::m_hesitate;
@@ -75,92 +76,110 @@ bool Enemy::Start()
 
 void Enemy::Update()
 {
+	CVector3 EnemyCenter = m_position;
+	EnemyCenter.y += 80;
+	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
+		if ((bullet->GetPosition() - EnemyCenter).Length() <= 50.0f)
+		{
+			//プレイヤーの弾丸なら。
+			if (bullet->GetWhosebullet())
+			{
+				m_hp--;
+			}
+		}
+		return true;
+	});
+	if (m_hp <= 0) {
+		m_death = true;
+	}
 	m_moveSpeed = CVector3::Zero();
-	//移動系処理。
-	{
-		//徘徊中。
-		if (m_currentstate == &EnemyState::m_hesitate) {
-			PathMove();
+	if (!m_death) {
+		//移動系処理。
+		{
+			//徘徊中。
+			if (m_currentstate == &EnemyState::m_hesitate) {
+				PathMove();
+			}
+			//警戒態勢に入ったら。
+			if (m_currentstate == &EnemyState::m_vigilance) {
+				VigilanceMove();
+			}
+			//警戒態勢が解除されたら。
+			if (m_currentstate == &EnemyState::m_vigilanceCancel) {
+				VigilanceCancelMove();
+			}
+			if (m_currentstate == &EnemyState::m_battlePosture) {
+				BattleMove();
+			}
 		}
-		//警戒態勢に入ったら。
+
+		//視野角の計算。
+		CVector3 toPlayer = m_player->GetPosition() - m_position;
+		float toPlayerLen = toPlayer.Length();
+		toPlayer.Normalize();
+		if (m_moveSpeed.Length() > 0.01) {
+			m_oldMoveSpeed = m_moveSpeed;
+		}
+		m_oldMoveSpeed.Normalize();
+		float angle = toPlayer.Dot(m_oldMoveSpeed);
+
+		angle = acos(angle);
+		float a = fabsf(angle);
+
+		CMath::DegToRad(15.0f);
+		float ab = CMath::RadToDeg(a);
+
+		//徘徊中もしくは警戒態勢が解除中なら。
+		if (m_currentstate == &EnemyState::m_hesitate || m_currentstate == &EnemyState::m_vigilanceCancel) {
+
+			//視野角に入ったときの処理。
+			if (ab < 15.0f && toPlayerLen < 1500.0f) {
+				if (m_currentstate != &EnemyState::m_vigilance) {
+					//警戒体制に移行。
+					ChangeState(&EnemyState::m_vigilance);
+				}
+
+			}
+		}
+		//警戒態勢中なら。
 		if (m_currentstate == &EnemyState::m_vigilance) {
-			VigilanceMove();
-		}
-		//警戒態勢が解除されたら。
-		if (m_currentstate == &EnemyState::m_vigilanceCancel) {
-			VigilanceCancelMove();
-		}
-		if (m_currentstate == &EnemyState::m_battlePosture) {
-			BattleMove();
-		}
-	}
-
-	//視野角の計算。
-	CVector3 toPlayer = m_player->GetPosition() - m_position;
-	float toPlayerLen = toPlayer.Length();
-	toPlayer.Normalize();
-	if (m_moveSpeed.Length() > 0.01) {
-		m_oldMoveSpeed = m_moveSpeed;
-	}
-	m_oldMoveSpeed.Normalize();
-	float angle = toPlayer.Dot(m_oldMoveSpeed);
-
-	angle = acos(angle);
-	float a = fabsf(angle);
-
-	CMath::DegToRad(15.0f);
-	float ab = CMath::RadToDeg(a);
-
-	//徘徊中もしくは警戒態勢が解除中なら。
-	if (m_currentstate == &EnemyState::m_hesitate || m_currentstate == &EnemyState::m_vigilanceCancel) {
-		
-		//視野角に入ったときの処理。
-		if (ab < 15.0f && toPlayerLen < 1500.0f) {
-			if (m_currentstate != &EnemyState::m_vigilance) {
-				//警戒体制に移行。
-				ChangeState(&EnemyState::m_vigilance);
-			}
-
-		}
-	}
-	//警戒態勢中なら。
-	if (m_currentstate == &EnemyState::m_vigilance) {
-		//視野角に入ったときの処理。
-		if (ab < 45.0f && toPlayerLen < 500.0f) {
-			if (m_currentstate != &EnemyState::m_battlePosture) {
-				//戦闘体制に移行。
-				ChangeState(&EnemyState::m_battlePosture);
-				AstarEXEcount = 0;
-			}
-		}
-		//else {
-		//	if (m_currentstate != &EnemyState::m_vigilance) {
-		//		//警戒体制に移行。
-		//		ChangeState(&EnemyState::m_vigilance);
-		//	}
-		//}
-	}
-
-	btTransform start, end;
-	start.setIdentity();
-	end.setIdentity();
-	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-	end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
-	ShotCallBack callBack;
-	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
-	
-	if (m_currentstate == &EnemyState::m_battlePosture) {
-		if (callBack.hit == false) {
+			//視野角に入ったときの処理。
 			if (ab < 45.0f && toPlayerLen < 500.0f) {
-				Firing();
-				m_onFiring = true;
+				if (m_currentstate != &EnemyState::m_battlePosture) {
+					//戦闘体制に移行。
+					ChangeState(&EnemyState::m_battlePosture);
+					AstarEXEcount = 0;
+				}
 			}
-			else {
-				m_onFiring = false;
+			//else {
+			//	if (m_currentstate != &EnemyState::m_vigilance) {
+			//		//警戒体制に移行。
+			//		ChangeState(&EnemyState::m_vigilance);
+			//	}
+			//}
+		}
+
+		btTransform start, end;
+		start.setIdentity();
+		end.setIdentity();
+		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+		ShotCallBack callBack;
+		g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+
+		if (m_currentstate == &EnemyState::m_battlePosture) {
+			if (callBack.hit == false) {
+				if (ab < 45.0f && toPlayerLen < 500.0f) {
+					Firing();
+					m_onFiring = true;
+				}
+				else {
+					m_onFiring = false;
+				}
 			}
 		}
-	}
 
+	}
 	Rotation();
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
@@ -245,12 +264,12 @@ void Enemy::VigilanceMove()
 			m_astar.AdvanceIt();
 			OutputDebugString("astar\n");
 		}
-		if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+		/*if (*m_astar2.GetAStarAnswerIt() != *m_astar.GetAStarAnswerIt()) {*/
 			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
 				m_astar.AdvanceIt();
 				OutputDebugString("astar12\n");
 			}
-		}
+		//}*/
 	}
 	
 	/*if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 10.0f) {
@@ -266,14 +285,15 @@ void Enemy::VigilanceMove()
 		//パスの最後まで行ったら。
 		
 		ChangeState(&EnemyState::m_vigilanceCancel);
+		m_astar.Execute(m_position, PathList[PathList[m_currentPath].next].position);
+		m_astar2.Execute(m_position, PathList[PathList[m_currentPath].next].position);
 		AstarEXEcount = 0;
 	}
 }
 
 void Enemy::VigilanceCancelMove()
 {
-	m_astar.Execute(m_position, PathList[PathList[m_currentPath].next].position);
-	m_astar2.Execute(m_position, PathList[PathList[m_currentPath].next].position);
+	
 	//スムージング処理。
 	btTransform start, end;
 	start.setIdentity();
@@ -291,11 +311,11 @@ void Enemy::VigilanceCancelMove()
 		else {
 			m_astar.AdvanceIt();
 		}
-		if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+		/*if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {*/
 			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
 				m_astar.AdvanceIt();
 			}
-		}
+		//}
 	}
 
 	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
@@ -337,7 +357,7 @@ void Enemy::BattleMove()
 	}
 	//視野角にいなければ。
 	if (!m_onFiring || !m_discovery) {
-		if (AstarEXEcount == 300 || AstarEXEcount == 0) {
+		if (AstarEXEcount == 50 || AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
 			m_astar2.Execute(m_position, m_player->GetPosition());
 			m_beforeAstar = m_position;
@@ -364,20 +384,21 @@ void Enemy::BattleMove()
 					m_astar.AdvanceIt();
 				}
 			}
-			if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {
+			/*if (*m_astar2.GetAStarAnswerIt() != *m_astar.GetAStarAnswerIt()) {*/
 				if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
 					m_astar.AdvanceIt();
 				}
-			}
+			/*}*/
 		}
 
-		//A*経路探査で出た結果でパス移動。
-		m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
-		m_moveSpeed.Normalize();
-		m_moveSpeed += m_moveSpeed * 100.0f;
-		MoveAnimation();
-		
-		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+		if (!m_onFiring) {
+			//A*経路探査で出た結果でパス移動。
+			m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+			m_moveSpeed.Normalize();
+			m_moveSpeed += m_moveSpeed * 100.0f;
+			MoveAnimation();
+		}
+		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && AstarEXEcount == 50) {
 			//パスの最後まで行ったら。
 			m_astar.Execute(m_position, m_player->GetPosition());
 			//ChangeState(&EnemyState::m_vigilanceCancel);

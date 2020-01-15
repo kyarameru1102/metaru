@@ -106,6 +106,10 @@ public:
 	{
 		m_clear = flag;
 	}
+	bool GetDeath() const
+	{
+		return m_death;
+	}
 private:
 	SkinModel			m_model;									//スキンモデル。
 	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。
@@ -130,5 +134,7 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
 	UI*					m_ui = nullptr;								//UI。
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
+	int					m_hp = 100;									//プレイヤーのHP。
+	bool				m_death = false;							//死んでいるかどうか。
 };
 

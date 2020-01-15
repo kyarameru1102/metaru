@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GameCamera.h"
 #include "FPSCamera.h"
+#include "GameOver.h"
 
 Player::Player()
 {
@@ -52,7 +53,26 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
-	if (!m_clear) {
+	CVector3 PlayerCenter = m_position;
+	PlayerCenter.y += 80;
+	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
+		if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
+		{
+			int aaaa = 0;
+			//“G•º‚Ì’e‚È‚çB
+			if (!bullet->GetWhosebullet())
+			{
+				m_hp--;
+			}
+		}
+		return true;
+	});
+	if (m_hp <= 0 && !m_death) {
+		NewGO<GameOver>(0, "gameOver");
+		m_death = true;
+	}
+
+	if(!m_death) {
 		m_currentstate->Update();
 
 		if (m_currentstate == &m_holdGunState)

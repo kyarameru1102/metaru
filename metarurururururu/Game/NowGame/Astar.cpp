@@ -39,6 +39,10 @@ Astar::~Astar()
 
 bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 {
+	for (auto *cell : m_naviMesh->GetCells())
+	{
+		cell->parent = nullptr;
+	}
 	Cell* startCell;
 	Cell* endCell;
 	startCell = m_naviMesh->Findcell(startPos);
@@ -128,16 +132,15 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 	while (startCell != pCell)
 	{
 		if (pCell->parent == nullptr) {
-			int hoge = 0;
-			return true;
+			break;
 		}
-		/*std::list<Cell*>::iterator kari = std::find(
+		std::list<Cell*>::iterator kari = std::find(
 			AStarAnswer.begin(),
 			AStarAnswer.end(),
 			pCell
 		);
-		if (kari == AStarAnswerIt) {
-
+		/*if (*kari == pCell) {
+			pCell = startCell;
 		}*/
 		AStarAnswer.push_back(pCell);
 		//êeÇÃÉZÉãÇ…à⁄ìÆÇ∑ÇÈ
@@ -147,6 +150,10 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 		AStarAnswer.push_back(startCell);
 		std::reverse(AStarAnswer.begin(), AStarAnswer.end());
 		AStarAnswerIt = AStarAnswer.begin();
+		isExecute = true;
+		if (AStarAnswer.size() == 0) {
+			printf("hoge");
+		}
 		return true;
 	
 }

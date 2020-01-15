@@ -18,6 +18,12 @@ bool Bullet::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/bullet.cmo");
 	m_position.y += 70.0f;
+	if (m_havePlayer) {
+		m_Players = true;
+	}
+	else {
+		m_Players = false;
+	}
 	return true;
 }
 
@@ -53,6 +59,6 @@ void Bullet::Update()
 
 	}
 	m_skinModelRender->SetRotation(Rot);
-	m_skinModelRender->SetScale({ 10.0f,10.0f,10.0f });
+	m_skinModelRender->SetScale({ 1.0f,1.0f,1.0f });
 	m_skinModelRender->SetPosition(m_position);
 }

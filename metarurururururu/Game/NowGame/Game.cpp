@@ -11,6 +11,7 @@
 #include "Title.h"
 #include "C4.h"
 #include "Bullet.h"
+#include "Fade.h"
 
 
 Game::Game()
@@ -25,7 +26,8 @@ Game::~Game()
 	DeleteGO(m_EGC);
 	DeleteGOs("enemy");
 	DeleteGO(m_ground);
-	DeleteGO(m_gameCamera);
+	DeleteGOs("gameCamera");
+	DeleteGOs("fpsCamera");
 	DeleteGOs("bullet");
 	DeleteGOs("c4");
 }
@@ -109,5 +111,18 @@ void Game::Update()
 	{
 		DeleteGO(this);
 		NewGO<Title>(0);
+	}
+	if (m_player->GetDeath()) {
+		m_timer++;
+	}
+	if (m_timer == 50 && !m_fadeflg) {
+		NewGO<Fade>(0, "fade");
+		m_fadeflg = true;
+		m_timer = 0;
+	}
+	if (m_fadeflg && m_timer == 50) {
+		DeleteGO(this);
+		NewGO<Title>(0);
+		m_timer = 1000;
 	}
 }
