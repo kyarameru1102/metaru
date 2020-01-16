@@ -25,7 +25,7 @@ void GameOver::Update()
 
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();
-	if (m_timer >= 100) {
+	if (m_timer == 100) {
 		m_sprite.DeltaAlpha(-1.00f);
 		DeleteGO(this);
 	}

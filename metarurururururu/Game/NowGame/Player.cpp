@@ -54,69 +54,71 @@ void Player::ChangeState(IPlayerState* nextState)
 void Player::Update()
 {
 	CVector3 PlayerCenter = m_position;
-	PlayerCenter.y += 80;
-	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
-		if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
-		{
-			int aaaa = 0;
-			//“G•º‚Ì’e‚È‚çB
-			if (!bullet->GetWhosebullet())
+	if (!m_clear) {
+		PlayerCenter.y += 80;
+		QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
+			if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
 			{
-				m_hp--;
+				int aaaa = 0;
+				//“G•º‚Ì’e‚È‚çB
+				if (!bullet->GetWhosebullet())
+				{
+					m_hp--;
+				}
 			}
+			return true;
+			});
+		if (m_hp <= 0 && !m_death) {
+			NewGO<GameOver>(0, "gameOver");
+			m_death = true;
 		}
-		return true;
-	});
-	if (m_hp <= 0 && !m_death) {
-		NewGO<GameOver>(0, "gameOver");
-		m_death = true;
-	}
 
-	if(!m_death) {
-		m_currentstate->Update();
+		if (!m_death) {
+			m_currentstate->Update();
 
-		if (m_currentstate == &m_holdGunState)
-		{
-			HoldMove();
-			HoldRotation();
-		}
-		else if (m_currentstate->IsPossibleMove())
-		{
-			if (m_currentstate != &m_holdGunState) {
-				Move();
-				MoveAnimation();
-			}
-		}
-		if (m_currentstate->IsPossibleGunShoot()) {
-			if (g_pad[0].IsPress(enButtonRB2))
+			if (m_currentstate == &m_holdGunState)
 			{
-				ChangeState(&m_holdGunState);
-				Firing();
+				HoldMove();
+				HoldRotation();
 			}
-			if (g_pad[0].IsPress(enButtonLB1))
+			else if (m_currentstate->IsPossibleMove())
 			{
-				ChangeState(&m_holdGunState);
-				m_skinModelRender->PlayAnimation(enAnimationClip_shot);
+				if (m_currentstate != &m_holdGunState) {
+					Move();
+					MoveAnimation();
+				}
 			}
-		}
-		m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+			if (m_currentstate->IsPossibleGunShoot()) {
+				if (g_pad[0].IsPress(enButtonRB2))
+				{
+					ChangeState(&m_holdGunState);
+					Firing();
+				}
+				if (g_pad[0].IsPress(enButtonLB1))
+				{
+					ChangeState(&m_holdGunState);
+					m_skinModelRender->PlayAnimation(enAnimationClip_shot);
+				}
+			}
+			m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 
-		m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
+			m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 
-		if (g_pad[0].IsPress(enButtonLB2)) {
-			m_skinModelRender->SetRenderOn(false);
-			CameraSwitchFPS();
-		}
-		else {
-			m_skinModelRender->SetRenderOn(true);
-			CameraSwitchTPS();
-		}
-		if (!g_pad[0].IsPressAnyKey())
-		{
-			ChangeState(&m_idleState);
-		}
-		if (m_currentstate->IsRotateByMove()) {
-			Rotation();
+			if (g_pad[0].IsPress(enButtonLB2)) {
+				m_skinModelRender->SetRenderOn(false);
+				CameraSwitchFPS();
+			}
+			else {
+				m_skinModelRender->SetRenderOn(true);
+				CameraSwitchTPS();
+			}
+			if (!g_pad[0].IsPressAnyKey())
+			{
+				ChangeState(&m_idleState);
+			}
+			if (m_currentstate->IsRotateByMove()) {
+				Rotation();
+			}
 		}
 	}
 	m_skinModelRender->SetRotation(m_rotation);

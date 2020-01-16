@@ -82,7 +82,7 @@ public:
 	/// <summary>
 	/// プレイヤーのポジションを返してくる関数。
 	/// </summary>
-	/// <returns>座標。</returns>
+	/// <returns>position	座標。</returns>
 	CVector3 GetPosition() const
 	{
 		return m_position;
@@ -90,7 +90,7 @@ public:
 	/// <summary>
 	/// プレイヤーの回転を返してくる関数。
 	/// </summary>
-	/// <returns>回転。</returns>
+	/// <returns>rotation	回転。</returns>
 	CQuaternion GetRotation() const
 	{
 		return m_rotation;
@@ -106,9 +106,27 @@ public:
 	{
 		m_clear = flag;
 	}
+	/// <summary>
+	/// 死んでいるかどうか返す関数。
+	/// </summary>
+	/// <returns>
+	/// true	死んでいる。
+	/// false	死んでいない。
+	/// </returns>
 	bool GetDeath() const
 	{
 		return m_death;
+	}
+	/// <summary>
+	/// クリアしたかどうかのフラグを返す関数。
+	/// </summary>
+	/// <returns>
+	/// true	クリアした。
+	/// false	クリアしていない。
+	/// </returns>
+	bool GetClear() const
+	{
+		return m_clear;
 	}
 private:
 	SkinModel			m_model;									//スキンモデル。
@@ -133,7 +151,7 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
 	UI*					m_ui = nullptr;								//UI。
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
-	int					m_hp = 9999910;									//プレイヤーのHP。
+	int					m_hp = 9999910;								//プレイヤーのHP。
 	bool				m_death = false;							//死んでいるかどうか。
 };
 

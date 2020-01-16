@@ -36,6 +36,7 @@ void ClearPoint::Update()
 	float ppp = toPlayer.Length();
 	if (toPlayer.Length() <= 3000.0f) {
 		NewGO<Clear>(0, "clear");
+		m_player->SetClearFlag(true);
 		DeleteGO(this);
 	}
 }

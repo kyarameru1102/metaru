@@ -115,6 +115,9 @@ void Game::Update()
 	if (m_player->GetDeath()) {
 		m_timer++;
 	}
+	if (m_player->GetClear()) {
+		m_timer++;
+	}
 	if (m_timer == 50 && !m_fadeflg) {
 		NewGO<Fade>(0, "fade");
 		m_fadeflg = true;

@@ -20,10 +20,15 @@ bool Clear::Start()
 
 void Clear::Update()
 {
+	m_timer++;
 	m_sprite.DeltaAlpha(0.04f);
 	
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();
+	if (m_timer == 100) {
+		m_sprite.DeltaAlpha(-1.00f);
+		DeleteGO(this);
+	}
 }
 
 void Clear::Render2D()
