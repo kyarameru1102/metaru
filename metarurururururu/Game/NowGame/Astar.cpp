@@ -134,11 +134,11 @@ bool Astar::Execute(const CVector3& startPos, const CVector3& targetPos)
 		if (pCell->parent == nullptr) {
 			break;
 		}
-		std::list<Cell*>::iterator kari = std::find(
+		/*auto kari = std::find(
 			AStarAnswer.begin(),
 			AStarAnswer.end(),
 			pCell
-		);
+		);*/
 		/*if (*kari == pCell) {
 			pCell = startCell;
 		}*/

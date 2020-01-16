@@ -24,7 +24,7 @@ public:
 		if (AStarAnswerIt == AStarAnswer.end()) {
 			return CVector3::Zero();
 		}
-		if (AStarAnswerIt._Ptr->_Myval == nullptr) {
+		if (AStarAnswerIt._Ptr == nullptr) {
 			return CVector3::Zero();
 		}
 		return (*AStarAnswerIt)->centerPos;

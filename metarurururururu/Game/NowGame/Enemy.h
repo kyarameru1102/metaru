@@ -141,7 +141,6 @@ private:
 	Level						m_level;
 	wchar_t						m_initPath[3];
 	Astar						m_astar;									//A*(ナビメッシュも生成している。
-	Astar						m_astar2;
 	AstarDebug*					m_astarDebug = nullptr;
 	int							AstarEXEcount = 0;
 	CVector3					m_beforeAstar = CVector3::Zero();
@@ -156,5 +155,7 @@ private:
 	bool				m_onFiring = false;									//銃を撃っているか。
 	int					m_hp = 3;											//敵兵のHP。
 	bool				m_death = false;									//死んでいるかどうか。
+	int					time = 0;
+	CVector3			m_smoothPos = CVector3::Zero();
 };
 

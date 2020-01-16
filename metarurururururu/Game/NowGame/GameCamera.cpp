@@ -79,17 +79,29 @@ void GameCamera::Update()
 	
 	if (g_pad[0].IsPress(enButtonLB1))
 	{
+		CVector3	m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
+		CVector3	enemyPos = { FLT_MAX, FLT_MAX, FLT_MAX };
 		m_direction.Normalize();
 		m_direction *= 80.0f;
 		CVector3 PlayerToEnemy;
 		QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
-			m_enemyPos = enemy->GetPosition();
 			PlayerToEnemy = m_player->GetPosition() - enemy->GetPosition();
-				if (PlayerToEnemy.Length() <= 800.0f) {
-					isLookOn(NewPosition);
+			if (PlayerToEnemy.Length() <= 800.0f) {
+				if (m_enemyPos.Length() >= enemy->GetPosition().Length()) {
+					m_enemyPos = enemy->GetPosition();
+					m_okEnemyPos = m_player->GetPosition() - enemy->GetPosition();
+					
 				}
+			}		
 				return true;
 		});
+		if (m_okEnemyPos.Length() <= 800.0f) {
+			isLookOn(NewPosition);
+		}
+		else {
+			m_enemyPos = {FLT_MAX, FLT_MAX, FLT_MAX};
+		}
+		
 		m_LookInTo = true;
 	}
 	else {

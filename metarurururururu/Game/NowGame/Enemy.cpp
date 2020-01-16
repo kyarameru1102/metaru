@@ -241,52 +241,51 @@ void Enemy::VigilanceMove()
 {
 	if (AstarEXEcount == 0) {
 		m_astar.Execute(m_position, m_player->GetPosition());
-		m_astar2.Execute(m_position, m_player->GetPosition());
+		//m_astar2.Execute(m_position, m_player->GetPosition());
 		//m_beforeAstar = m_position;
 		AstarEXEcount++;
 	}
-	//スムージング処理。
-	btTransform start, end;
-	start.setIdentity();
-	end.setIdentity();
-	CVector3 nextPos = m_astar.GetAStarAnswerPos();
-	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-	end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
-	AStarSmoothingCallBack callBack;
-	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
-	if (callBack.hit == false) {
-		m_astar2.AdvanceIt();
-		OutputDebugString("astar2\n");
-		if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+	while (1)
+	{
+		time++;
+		//スムージング処理。
+		btTransform start, end;
+		start.setIdentity();
+		end.setIdentity();
+		CVector3 nextPos = m_astar.GetAStarAnswerPos();
+		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+		end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+		AStarSmoothingCallBack callBack;
+		if (callBack.hit == true || time >= 10) {
+			break;
+		}
+		g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+		if (callBack.hit == false) {
+			if (m_astar.GetAStarAnswerIt() != m_astar.GetAStarAnswerEnd()) {
+				m_smoothPos = m_astar.GetAStarAnswerPos();
 
-		}
-		else {
-			m_astar.AdvanceIt();
-			OutputDebugString("astar\n");
-		}
-		/*if (*m_astar2.GetAStarAnswerIt() != *m_astar.GetAStarAnswerIt()) {*/
-			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
-				m_astar.AdvanceIt();
-				OutputDebugString("astar12\n");
+				if ((nextPos.y - m_position.y) <= 5.0f && (nextPos.y - m_position.y) >= -5.0f) {
+					m_astar.AdvanceIt();
+				}
 			}
-		//}*/
+			else {
+			}
+		}
 	}
+	time = 0;
 	
-	/*if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 10.0f) {
-		m_astar.AdvanceIt();
-	}*/
 	//A*経路探査で出た結果でパス移動。
-	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
 	m_moveSpeed += m_moveSpeed * 100.0f;
 	MoveAnimation();
 	
-	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 40.0f) {
 		//パスの最後まで行ったら。
 		
 		ChangeState(&EnemyState::m_vigilanceCancel);
 		m_astar.Execute(m_position, PathList[PathList[m_currentPath].next].position);
-		m_astar2.Execute(m_position, PathList[PathList[m_currentPath].next].position);
+		
 		AstarEXEcount = 0;
 	}
 }
@@ -294,36 +293,42 @@ void Enemy::VigilanceMove()
 void Enemy::VigilanceCancelMove()
 {
 	
-	//スムージング処理。
-	btTransform start, end;
-	start.setIdentity();
-	end.setIdentity();
-	CVector3 nextPos = m_astar.GetAStarAnswerPos();
-	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-	end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
-	AStarSmoothingCallBack callBack;
-	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
-	if (callBack.hit == false) {
-		m_astar2.AdvanceIt();
-		if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+	while (1)
+	{
+		time++;
+		//スムージング処理。
+		btTransform start, end;
+		start.setIdentity();
+		end.setIdentity();
+		CVector3 nextPos = m_astar.GetAStarAnswerPos();
+		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+		end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+		AStarSmoothingCallBack callBack;
+		if (callBack.hit == true || time >= 10) {
+			break;
+		}
+		g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+		if (callBack.hit == false) {
+			
+			if (m_astar.GetAStarAnswerIt() != m_astar.GetAStarAnswerEnd()) {
+				m_smoothPos = m_astar.GetAStarAnswerPos();
 
-		}
-		else {
-			m_astar.AdvanceIt();
-		}
-		/*if (m_astar2.GetAStarAnswerIt() != m_astar.GetAStarAnswerIt()) {*/
-			if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
-				m_astar.AdvanceIt();
+				if ((nextPos.y - m_position.y) <= 5.0f && (nextPos.y - m_position.y) >= -5.0f) {
+					m_astar.AdvanceIt();
+				}
 			}
-		//}
+			else {
+			}
+		}
 	}
+	time = 0;
 
-	m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
 	m_moveSpeed += m_moveSpeed * 100.0f;
 	MoveAnimation();
 	
-	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd()) {
+	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 		ChangeState(&EnemyState::m_hesitate);
 	}
 	
@@ -359,46 +364,51 @@ void Enemy::BattleMove()
 	if (!m_onFiring || !m_discovery) {
 		if (AstarEXEcount == 50 || AstarEXEcount == 0) {
 			m_astar.Execute(m_position, m_player->GetPosition());
-			m_astar2.Execute(m_position, m_player->GetPosition());
-			m_beforeAstar = m_position;
 			AstarEXEcount = 0;
 		}
 		AstarEXEcount++;
 
-		//スムージング処理。
-		btTransform start, end;
-		start.setIdentity();
-		end.setIdentity();
-		CVector3 nextPos = m_astar.GetAStarAnswerPos();
-		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-		end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
-		AStarSmoothingCallBack callBack;
-		g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
-		if (callBack.hit == false) {
-			m_astar2.AdvanceIt();
-			if (m_astar2.GetAStarAnswerIt() == m_astar2.GetAStarAnswerEnd()) {
+		
+		while (1)
+		{
+			time++;
+			//スムージング処理。
+			btTransform start, end;
+			start.setIdentity();
+			end.setIdentity();
+			CVector3 nextPos = m_astar.GetAStarAnswerPos();
+			start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+			end.setOrigin(btVector3(nextPos.x, nextPos.y + 80.0f, nextPos.z));
+			AStarSmoothingCallBack callBack;
+			if (callBack.hit == true || time >= 10) {
+				break;
+			}
+			g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
+			if (callBack.hit == false) {
+				
+				if (m_astar.GetAStarAnswerIt() != m_astar.GetAStarAnswerEnd()) {
+					m_smoothPos = m_astar.GetAStarAnswerPos();
 
-			}
-			else {
-				if ((nextPos.y - m_position.y) <= 5.0f && (nextPos.y - m_position.y) >= -5.0f) {
-					m_astar.AdvanceIt();
+					if ((nextPos.y - m_position.y) <= 5.0f && (nextPos.y - m_position.y) >= -5.0f) {
+						m_astar.AdvanceIt();
+					}
+				}
+				else {
 				}
 			}
-			/*if (*m_astar2.GetAStarAnswerIt() != *m_astar.GetAStarAnswerIt()) {*/
-				if ((m_astar.GetAStarAnswerPos() - m_position).Length() <= 40.0f) {
-					m_astar.AdvanceIt();
-				}
-			/*}*/
 		}
-
+		if ((m_astar.GetAStarAnswerPos() - m_position).Length() >= 40.0f) {
+			
+		}
+		time = 0;
 		if (!m_onFiring) {
 			//A*経路探査で出た結果でパス移動。
-			m_moveSpeed = m_astar.GetAStarAnswerPos() - m_position;
+			m_moveSpeed = m_smoothPos - m_position;
 			m_moveSpeed.Normalize();
 			m_moveSpeed += m_moveSpeed * 100.0f;
 			MoveAnimation();
 		}
-		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && AstarEXEcount == 50) {
+		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 			//パスの最後まで行ったら。
 			m_astar.Execute(m_position, m_player->GetPosition());
 			//ChangeState(&EnemyState::m_vigilanceCancel);
@@ -419,7 +429,8 @@ void Enemy::Firing()
 	bullet->SetmoveSpeed(EnemyBulletDrc);
 	bullet->SetEnemy();
 	EnemyBulletDrc.Normalize();
-	m_moveSpeed = EnemyBulletDrc;
+	m_moveSpeed = EnemyBulletDrc * 0.1;
+	m_skinModelRender->PlayAnimation(enAnimationClip_shot, 0.3);
 }
 
 void Enemy::MoveAnimation()
@@ -441,12 +452,6 @@ void Enemy::Rotation()
 	CVector3 moveSpeedXZ = m_moveSpeed;
 	moveSpeedXZ.y = 0.0f;
 	moveSpeedXZ.Normalize();
-
-	m_Enxz = moveSpeedXZ;
-	CQuaternion qRot;
-	qRot.SetRotationDeg(CVector3::AxisY(), 180.0f);
-	qRot.Multiply(m_Enxz);
-
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
 

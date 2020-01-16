@@ -59,6 +59,6 @@ void Bullet::Update()
 
 	}
 	m_skinModelRender->SetRotation(Rot);
-	m_skinModelRender->SetScale({ 1.0f,1.0f,1.0f });
+	m_skinModelRender->SetScale({ 2.0f,2.0f,2.0f });
 	m_skinModelRender->SetPosition(m_position);
 }

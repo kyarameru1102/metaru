@@ -556,10 +556,6 @@
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\fade.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\sprite\GameOver.png">
-      <Filter>Assets\sprite</Filter>
-    </Image>
+    <ImageContentTask Include="Assets\sprite\GameOver.png" />
   </ItemGroup>
 </Project>

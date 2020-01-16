@@ -115,7 +115,6 @@ private:
 	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。
 	CVector3			m_moveSpeed = CVector3::Zero();
 	CVector3			m_position = CVector3::Zero();				//座標。
-	CVector3			m_Plxz;										//回転用。
 	CQuaternion			m_rotation = CQuaternion::Identity();
 	bool				m_fps = false;								//FPSカメラ状態か？
 	GameCamera*			m_gameCamera = nullptr;
@@ -134,7 +133,7 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
 	UI*					m_ui = nullptr;								//UI。
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
-	int					m_hp = 100;									//プレイヤーのHP。
+	int					m_hp = 9999910;									//プレイヤーのHP。
 	bool				m_death = false;							//死んでいるかどうか。
 };
 

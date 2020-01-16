@@ -191,10 +191,10 @@ void Player::Rotation()
 	if (moveSpeedXZ.LengthSq() < 0.5f) {
 		return;
 	}
-	m_Plxz = moveSpeedXZ;
+	/*m_Plxz = moveSpeedXZ;
 	CQuaternion qRot;
 	qRot.SetRotationDeg(CVector3::AxisY(), 180.0f);
-	qRot.Multiply(m_Plxz);
+	qRot.Multiply(m_Plxz);*/
 
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
@@ -217,11 +217,6 @@ void Player::HoldRotation()
 	if (moveSpeedXZ.LengthSq() < 0.5f) {
 		return;
 	}
-	m_Plxz = moveSpeedXZ;
-	CQuaternion qRot;
-	qRot.SetRotationDeg(CVector3::AxisY(), 180.0f);
-	qRot.Multiply(m_Plxz);
-
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
 void Player::Firing()

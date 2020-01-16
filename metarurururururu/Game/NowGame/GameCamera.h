@@ -52,11 +52,12 @@ public:
 private:
 	CVector3				m_target = CVector3::Zero();
 	Player*					m_player = nullptr;
-	CVector3				m_enemyPos;						//敵兵の座標。
+	CVector3				m_enemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };						//敵兵の座標。
 	CVector3				m_direction;					//向き。
 	CameraCollisionSolver	m_cameraCollider;				//カメラのコライダー。
 	float					m_rightLength;
 	CameraCollisionSolver	m_targetCollider;				//注視点のコライダー
 	bool					m_LookInTo = false;				//ロックオンのフラグ。
+	CVector3 m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 };
 

@@ -83,8 +83,8 @@ public:
 	}
 	friend class GameObjectManager;
 protected:
-	GOPrio			m_priority;				//優先度。
+	GOPrio			m_priority;					//優先度。
 	bool			m_isStart = false;			//Start関数が呼ばれたか？
-	unsigned int	m_nameKey = 0;		//名前キー。
+	unsigned int	m_nameKey = 0;				//名前キー。
 	bool			m_isDead = false;			//死亡フラグ。
 };

@@ -4,7 +4,7 @@
 #include "graphics/SkinModel.h"
 //ナビゲーションメッシュ。
 struct Cell {
-	CVector3			vertexPos[3];
+	CVector3			vertexPos[3];					//頂点座標。
 	Cell*				linkCells[3] = {nullptr};		//隣接しているセル。
 	Cell*				parent = nullptr;				//ひらかれた時の親のセルを記録する。
 	CVector3			centerPos = CVector3::Zero();
