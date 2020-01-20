@@ -22,6 +22,7 @@ void SkinModelRender::InitAnimation(AnimationClip * animationClips, int numAnima
 	m_numAnimationClips = numAnimationClips;
 	if (m_animationClips != nullptr) {
 		m_animation.Init(m_skinModel, m_animationClips, m_numAnimationClips);
+		m_animation2.Init(m_skinModel, m_animationClips, m_numAnimationClips);
 	}
 }
 
@@ -34,6 +35,7 @@ void SkinModelRender::Update()
 {
 	m_skinModel.UpdateWorldMatrix(m_position, m_rotation, m_scale);	
 	m_animation.Update(GameTime().GetFrameDeltaTime());
+	m_animation2.Update(GameTime().GetFrameDeltaTime());
 	//シャドウレシーバーを登録。
 	m_skinModel.SetShadowReciever(m_shadowRecieverOn);
 	if (m_shadowCasterOn) {

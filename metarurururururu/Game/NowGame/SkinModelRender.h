@@ -29,10 +29,18 @@ public:
 		EnFbxUpAxis fbxUpAxis = enFbxUpAxisZ
 	);
 	//アニメーションの再生。
-	void PlayAnimation(int animNo, float interpolateTime = 0.0f)
+	void PlayAnimation(int animNo, bool UpperBody, float interpolateTime = 0.0f)
 	{
-		m_animation.Play(animNo, interpolateTime);
+		if (UpperBody) {
+			m_animation.Play(animNo, interpolateTime);
+			m_animation.SetUpperBody(UpperBody);
+		}
+		else {
+			m_animation2.Play(animNo, interpolateTime);
+			m_animation2.SetUpperBody(UpperBody);
+		}
 	}
+
 	//アニメーションの更新フラグを設定する関数。
 	//falseなら再生をやめる。
 	void SetUpdateAnimationFlag(bool flag)
@@ -99,10 +107,12 @@ private:
 	EnFbxUpAxis					m_enFbxUpAxis = enFbxUpAxisZ;			//FBXの上方向。
 	SkinModel					m_skinModel;							//スキンモデル。
 	Animation					m_animation;							//アニメーション。
+	Animation					m_animation2;							//アニメーション。
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
 	bool						m_RenderOn = true;						//描画されるかどうか。
 	bool                        m_renderOK = false;						//Updateの後にレンダーが呼ばれるようにするフラグ。
 	bool						m_shadowRecieverOn = true;				//影を表示される側になるかどうか。
 	bool						m_shadowCasterOn = true;				//影を落とすかどうか。
+	bool						m_UpperBody = true;						//上半身のアニメーションを流すならtrue。
 };
 

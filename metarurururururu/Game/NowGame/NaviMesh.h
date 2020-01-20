@@ -7,7 +7,7 @@ struct Cell {
 	CVector3			vertexPos[3];					//頂点座標。
 	Cell*				linkCells[3] = {nullptr};		//隣接しているセル。
 	Cell*				parent = nullptr;				//ひらかれた時の親のセルを記録する。
-	CVector3			centerPos = CVector3::Zero();
+	CVector3			centerPos = CVector3::Zero();	//セルの中心座標
 	//コストを設定する関数。
 	void SetCost(float cost)
 	{
@@ -42,7 +42,7 @@ struct Cell {
 	}
 	float				Cost = FLT_MAX;
 	float				FromStartCost = FLT_MAX;
-	short				linkMax = 0;			//リンクしているセルの数。
+	short				linkMax = 0;					//リンクしているセルの数。
 	float				passingCellCost = 0;			//このセルを通るためのコスト
 };
 class NaviMesh

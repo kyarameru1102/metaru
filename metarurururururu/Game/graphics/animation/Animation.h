@@ -55,9 +55,39 @@ public:
 	*@param[in]	deltaTime		アニメーションを進める時間(単位：秒)。
 	*/
 	void Update(float deltaTime);
-	
+
+	/// <summary>
+	/// 上半身にアニメーションを流すか下半身にアニメーションを流すか決める関数。
+	/// </summary>
+	/// <param name="UpperBody">
+	/// true	上半身。
+	/// false	下半身。
+	/// </param>
+	void SetUpperBody(bool UpperBody) {
+		m_UpperBody = UpperBody;
+	}
 private:
 	void PlayCommon(AnimationClip* nextClip, float interpolateTime)
+	{
+		int index = GetLastAnimationControllerIndex();
+		if (m_animationPlayController[index].GetAnimClip() == nextClip) {
+			return;
+		}
+		if (interpolateTime == 0.0f) {
+			//補完なし。
+			m_numAnimationPlayController = 1;
+		}
+		else {
+			//補完あり。
+			m_numAnimationPlayController++;
+		}
+		index = GetLastAnimationControllerIndex();
+		m_animationPlayController[index].ChangeAnimationClip(nextClip);
+		m_animationPlayController[index].SetInterpolateTime(interpolateTime);
+		m_interpolateTime = 0.0f;
+		m_interpolateTimeEnd = interpolateTime;
+	}
+	void PlayCommon2(AnimationClip* nextClip, float interpolateTime)
 	{
 		int index = GetLastAnimationControllerIndex();
 		if (m_animationPlayController[index].GetAnimClip() == nextClip) {
@@ -86,6 +116,7 @@ private:
 		*/
 	void UpdateGlobalPose();
 		
+	
 private:
 		
 	/*!
@@ -104,15 +135,16 @@ private:
 	{
 		return (startIndex + localIndex) % ANIMATION_PLAY_CONTROLLER_NUM;
 	}
+
 private:
-	static const int ANIMATION_PLAY_CONTROLLER_NUM = 32;			//!<アニメーションコントローラの数。
-	std::vector<AnimationClip*>	m_animationClips;					//!<アニメーションクリップの配列。
-	Skeleton* m_skeleton = nullptr;	//!<アニメーションを適用するスケルトン。
+	static const int ANIMATION_PLAY_CONTROLLER_NUM = 32;								//!<アニメーションコントローラの数。
+	std::vector<AnimationClip*>	m_animationClips;										//!<アニメーションクリップの配列。
+	Skeleton* m_skeleton = nullptr;														//!<アニメーションを適用するスケルトン。
 	AnimationPlayController	m_animationPlayController[ANIMATION_PLAY_CONTROLLER_NUM];	//!<アニメーションコントローラ。リングバッファ。
-	int m_numAnimationPlayController = 0;		//!<現在使用中のアニメーション再生コントローラの数。
-	int m_startAnimationPlayController = 0;		//!<アニメーションコントローラの開始インデックス。
+	int m_numAnimationPlayController = 0;												//!<現在使用中のアニメーション再生コントローラの数。
+	int m_startAnimationPlayController = 0;												//!<アニメーションコントローラの開始インデックス。
 	float m_interpolateTime = 0.0f;
 	float m_interpolateTimeEnd = 0.0f;
-	bool m_isInterpolate = false;				//!<補間中？
-
+	bool m_isInterpolate = false;														//!<補間中？
+	bool m_UpperBody = true;		//上半身ならtrue。
 };

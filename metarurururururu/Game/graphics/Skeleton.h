@@ -212,6 +212,7 @@ public:
 	*@param[in]	parentMatrix	親のボーンのワールド行列。
 	*/
 	static 	void UpdateBoneWorldMatrix(Bone& bone, const CMatrix& parentMatrix);
+
 private:
 	
 	std::vector<Bone*>			m_bones;					//!<ボーンの配列。

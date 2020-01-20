@@ -58,6 +58,7 @@ private:
 	float					m_rightLength;
 	CameraCollisionSolver	m_targetCollider;				//注視点のコライダー
 	bool					m_LookInTo = false;				//ロックオンのフラグ。
-	CVector3 m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
+	CVector3				m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
+	bool					m_migi = false;
 };
 

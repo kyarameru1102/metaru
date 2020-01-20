@@ -137,11 +137,24 @@ void Animation::UpdateGlobalPose()
 		CMatrix boneMatrix;
 		boneMatrix.Mul(scaleMatrix, rotMatrix);
 		boneMatrix.Mul(boneMatrix, transMat);
+		const wchar_t* boneName = m_skeleton->GetBone(boneNo)->GetName();
 		
-		m_skeleton->SetBoneLocalMatrix(
-			boneNo,
-			boneMatrix
-		);			
+		if (m_UpperBody) {
+			if (boneName[0] == L'U') {
+				m_skeleton->SetBoneLocalMatrix(
+					boneNo,
+					boneMatrix
+				);
+			}
+		}
+		else {
+			if (boneName[0] == L'L') {
+				m_skeleton->SetBoneLocalMatrix(
+					boneNo,
+					boneMatrix
+				);
+			}
+		}
 	}
 		
 	//最終アニメーション以外は補間完了していたら除去していく。

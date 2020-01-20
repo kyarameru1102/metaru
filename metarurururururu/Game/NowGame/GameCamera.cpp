@@ -20,12 +20,16 @@ bool GameCamera::Start()
 	m_player = FindGO<Player>("player");
 	m_cameraCollider.Init(5.0f);
 	m_targetCollider.Init(8.0f);
-	m_rightLength = 40.0f;
+	m_rightLength = -40.0f;
 	return true;
 }
 
 void GameCamera::Update()
 {
+	if (g_pad[0].IsTrigger(enButtonLB3)) {
+		m_rightLength *= -1;
+		m_migi = true;
+	}
 	CVector3 targetAdd = g_camera3D.GetRight() * m_rightLength;
 	CVector3 camePos = CVector3::One();
 	if (m_player != nullptr) {
@@ -79,6 +83,7 @@ void GameCamera::Update()
 	
 	if (g_pad[0].IsPress(enButtonLB1))
 	{
+		
 		CVector3	m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 		CVector3	enemyPos = { FLT_MAX, FLT_MAX, FLT_MAX };
 		m_direction.Normalize();

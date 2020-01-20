@@ -148,6 +148,7 @@ private:
 		enAnimationClip_idle,												//待機。
 		enAnimationClip_run,												//走る。
 		enAnimationClip_shot,												//銃を撃つ。
+		enAnimationClip_walk,												//歩く。
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。

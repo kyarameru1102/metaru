@@ -49,12 +49,15 @@ Enemy::~Enemy()
 
 bool Enemy::Start()
 {
-	m_animClips[enAnimationClip_idle].Load(L"Assets/animData/heisi_idle.tka");
+	m_animClips[enAnimationClip_idle].Load(L"Assets/animData/heisi_idle_L.tka");
 	m_animClips[enAnimationClip_run].Load(L"Assets/animData/heisi_run.tka");
 	m_animClips[enAnimationClip_shot].Load(L"Assets/animData/heisi_shot.tka");
+	m_animClips[enAnimationClip_walk].Load(L"Assets/animData/heisi_walk.tka");
 
 	m_animClips[enAnimationClip_idle].SetLoopFlag(true);
 	m_animClips[enAnimationClip_run].SetLoopFlag(true);
+	m_animClips[enAnimationClip_shot].SetLoopFlag(true);
+	m_animClips[enAnimationClip_walk].SetLoopFlag(true);
 
 	Init();
 	m_charaCon.Init(
@@ -67,7 +70,7 @@ bool Enemy::Start()
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
-	m_skinModelRender->PlayAnimation(enAnimationClip_idle);
+	m_skinModelRender->PlayAnimation(enAnimationClip_idle,true);
 	m_currentPath = 0;
 	m_position = PathList[0].position;
 
@@ -151,12 +154,6 @@ void Enemy::Update()
 					AstarEXEcount = 0;
 				}
 			}
-			//else {
-			//	if (m_currentstate != &EnemyState::m_vigilance) {
-			//		//警戒体制に移行。
-			//		ChangeState(&EnemyState::m_vigilance);
-			//	}
-			//}
 		}
 
 		btTransform start, end;
@@ -171,15 +168,18 @@ void Enemy::Update()
 			if (callBack.hit == false) {
 				if (ab < 45.0f && toPlayerLen < 500.0f) {
 					Firing();
+					m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.3);
 					m_onFiring = true;
 				}
 				else {
+					m_skinModelRender->PlayAnimation(enAnimationClip_run, true , 0.3);
 					m_onFiring = false;
 				}
 			}
 		}
 
 	}
+	MoveAnimation();
 	Rotation();
 	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
@@ -210,9 +210,7 @@ void Enemy::Init()
 			wcstombs(las, last, sizeof(last));
 			path.myPath = atoi(las);
 			path.next = path.myPath + 1;
-			//AddPath(path);
 			kari.push_back(path);
-			//OutputDebugString("aaa");
 			return 1;
 		}
 	);
@@ -230,19 +228,17 @@ void Enemy::PathMove()
 	m_moveSpeed = PathList[PathList[m_currentPath].next].position - m_position;
 	float len = m_moveSpeed.Length();
 	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 100.0f;
+	m_moveSpeed += m_moveSpeed * 200.0f;
 	if (len < 10.0f) {
 		m_currentPath = PathList[m_currentPath].next;
 	}
-	MoveAnimation();
+	
 }
 
 void Enemy::VigilanceMove()
 {
 	if (AstarEXEcount == 0) {
 		m_astar.Execute(m_position, m_player->GetPosition());
-		//m_astar2.Execute(m_position, m_player->GetPosition());
-		//m_beforeAstar = m_position;
 		AstarEXEcount++;
 	}
 	while (1)
@@ -277,8 +273,8 @@ void Enemy::VigilanceMove()
 	//A*経路探査で出た結果でパス移動。
 	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 100.0f;
-	MoveAnimation();
+	m_moveSpeed += m_moveSpeed * 200.0f;
+	
 	
 	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 40.0f) {
 		//パスの最後まで行ったら。
@@ -325,8 +321,7 @@ void Enemy::VigilanceCancelMove()
 
 	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 100.0f;
-	MoveAnimation();
+	m_moveSpeed += m_moveSpeed * 200.0f;
 	
 	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 		ChangeState(&EnemyState::m_hesitate);
@@ -358,7 +353,6 @@ void Enemy::BattleMove()
 	}
 	else {
 		m_discovery = false;	//視野角内にいない。
-		//AstarEXEcount = 0;
 	}
 	//視野角にいなければ。
 	if (!m_onFiring || !m_discovery) {
@@ -405,13 +399,11 @@ void Enemy::BattleMove()
 			//A*経路探査で出た結果でパス移動。
 			m_moveSpeed = m_smoothPos - m_position;
 			m_moveSpeed.Normalize();
-			m_moveSpeed += m_moveSpeed * 100.0f;
-			MoveAnimation();
+			m_moveSpeed += m_moveSpeed * 200.0f;
 		}
 		if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 			//パスの最後まで行ったら。
 			m_astar.Execute(m_position, m_player->GetPosition());
-			//ChangeState(&EnemyState::m_vigilanceCancel);
 			AstarEXEcount = 0;
 		}
 	}
@@ -430,20 +422,19 @@ void Enemy::Firing()
 	bullet->SetEnemy();
 	EnemyBulletDrc.Normalize();
 	m_moveSpeed = EnemyBulletDrc * 0.1;
-	m_skinModelRender->PlayAnimation(enAnimationClip_shot, 0.3);
+	
 }
 
 void Enemy::MoveAnimation()
 {
-	CVector3 toNextLength;
-	CVector3 nextPos = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-	toNextLength = nextPos - m_position;
-	if (toNextLength.Length() >= 1.0f)
-	{
-		m_skinModelRender->PlayAnimation(enAnimationClip_run, 0.5);
+	
+	if (!m_onFiring)
+	{	
+		m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
+		m_skinModelRender->PlayAnimation(enAnimationClip_run, false, 0.5);	
 	}
 	else {
-		m_skinModelRender->PlayAnimation(enAnimationClip_idle, 0.3);
+		m_skinModelRender->PlayAnimation(enAnimationClip_shot, false, 0.3);
 	}
 }
 

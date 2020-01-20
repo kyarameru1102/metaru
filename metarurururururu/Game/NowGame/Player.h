@@ -146,6 +146,9 @@ private:
 		enAnimationClip_idle,										//待機。
 		enAnimationClip_run,										//走る。
 		enAnimationClip_shot,										//銃を撃つ。
+		enAnimationClip_walk,										//歩く。
+		enAnimationClip_hold,										//構える。
+		enAnimationClip_shotend,									//撃ち終わり。
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
@@ -153,5 +156,7 @@ private:
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
 	int					m_hp = 9999910;								//プレイヤーのHP。
 	bool				m_death = false;							//死んでいるかどうか。
+	bool				m_Firing = false;							//銃を撃っているかどうか。
+	bool				m_dash = false;								//走っているかどうか。
 };
 
