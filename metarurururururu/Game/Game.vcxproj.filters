@@ -541,6 +541,9 @@
     <MeshContentTask Include="Assets\modelData\wall.FBX">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\bou.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">

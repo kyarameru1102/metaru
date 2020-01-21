@@ -116,12 +116,6 @@ void NaviMesh::Create(SkinModel & model)
 
 			g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 			if (callback.hit == false) {
-				//オブジェクトが上にあったら消えているかどうかの確認用。
-				/*m_skin = NewGO<SkinModelRender>(0);
-				m_skin->Init(L"Assets/modelData/yazirusi.cmo");
-				m_skin->SetPosition(cell->centerPos);
-				m_skin->SetScale({ 10.0f,10.0f,10.0f });*/
-
 				m_cells.push_back(cell);
 			}
 			else
@@ -229,24 +223,18 @@ void NaviMesh::Create(SkinModel & model)
 
 				}
 				m_skin = NewGO<SkinModelRender>(0);
-				m_skin->Init(L"Assets/modelData/yazirusi.cmo");
+				m_skin->Init(L"Assets/modelData/bou.cmo");
 				m_skin->SetPosition(cell->centerPos);
-				m_skin->SetScale({ 10.0f,10.0f,10.0f });
+				m_skin->SetScale({ 1.0f,1.0f,1.0f });
 
 				SkinModelRender* skin = NewGO<SkinModelRender>(0);
-				skin->Init(L"Assets/modelData/takatozin.cmo");
+				skin->Init(L"Assets/modelData/bou.cmo");
 				skin->SetPosition(c_position);
 				skin->SetRotation(Rot);
-				skin->SetScale({ 0.5f,0.5f,0.5f });
+				skin->SetScale({ 2.f,2.f,2.f });
 			}
 		}
 	}*/
-	/*for (auto all : m_cells)
-	{
-		if (all->linkMax == 0)
-		{
-			
-		}
-	}*/
+	
 		int i = 0;
 }

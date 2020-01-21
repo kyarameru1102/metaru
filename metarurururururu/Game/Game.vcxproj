@@ -246,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
+    <MeshContentTask Include="Assets\modelData\bou.fbx" />
     <MeshContentTask Include="Assets\modelData\bullet.fbx" />
     <MeshContentTask Include="Assets\modelData\c4.FBX" />
     <MeshContentTask Include="Assets\modelData\dangan.FBX" />
