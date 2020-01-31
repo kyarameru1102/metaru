@@ -13,7 +13,7 @@ Fade::~Fade()
 
 bool Fade::Start()
 {
-	m_sprite.Init(L"Resource/sprite/fade.dds", 1280, 720);
+	m_sprite.Init(L"Assets/sprite/fade.dds", 1280, 720);
 	m_sprite.DeltaAlpha(-1.0f);
 	return true;
 }

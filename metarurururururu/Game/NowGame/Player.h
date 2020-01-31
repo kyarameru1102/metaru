@@ -4,16 +4,18 @@
 #include "PlayerStateHoldGun.h"
 #include "PlayerStateIdle.h"
 #include "PlayerStateMove.h"
+#include "PlayerReloadState.h"
 #include "SkinModelRender.h"
 #include "Bullet.h"
 #include "UI.h"
+#include "Human.h"
 
 extern Pad g_pad[Pad::CONNECT_PAD_MAX];
 
 class Bullet;
 class GameCamera;
 class FPSCamera;
-class Player : public IGameObject
+class Player : public Human
 {
 public:
 	/// <summary>
@@ -70,24 +72,6 @@ public:
 	/// <param name="nextState">切り替えたいステート。</param>
 	void ChangeState(IPlayerState* nextState);
 	/// <summary>
-	/// プレイヤーのポジションを設定する関数。
-	/// </summary>
-	/// <param name="pos">
-	/// ポジション。
-	/// </param>
-	void SetPosition(CVector3 pos)
-	{
-		m_position = pos;
-	}
-	/// <summary>
-	/// プレイヤーのポジションを返してくる関数。
-	/// </summary>
-	/// <returns>position	座標。</returns>
-	CVector3 GetPosition() const
-	{
-		return m_position;
-	}
-	/// <summary>
 	/// プレイヤーの回転を返してくる関数。
 	/// </summary>
 	/// <returns>rotation	回転。</returns>
@@ -128,12 +112,11 @@ public:
 	{
 		return m_clear;
 	}
+	/// <summary>
+	/// ダメージを受ける処理。
+	/// </summary>
+	void Damage();
 private:
-	SkinModel			m_model;									//スキンモデル。
-	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。
-	CVector3			m_moveSpeed = CVector3::Zero();
-	CVector3			m_position = CVector3::Zero();				//座標。
-	CQuaternion			m_rotation = CQuaternion::Identity();
 	bool				m_fps = false;								//FPSカメラ状態か？
 	GameCamera*			m_gameCamera = nullptr;
 	FPSCamera*			m_fpsCamera = nullptr;
@@ -141,6 +124,7 @@ private:
 	PlayerStateHoldGun	m_holdGunState;								//銃を構えているステート。
 	PlayerStateIdle		m_idleState;								//待機ステート。
 	PlayerStateMove		m_moveState;								//移動ステート。
+	PlayerReloadState	m_reloadState;								//リロード中のステート。
 	CharacterController m_charaCon;									//キャラクターコントローラー。
 	enum EnAnimationClip {											
 		enAnimationClip_idle,										//待機。
@@ -149,14 +133,14 @@ private:
 		enAnimationClip_walk,										//歩く。
 		enAnimationClip_hold,										//構える。
 		enAnimationClip_shotend,									//撃ち終わり。
+		enAnimationClip_reload,										//リロード。
+		enAnimationClip_death,										//死亡。
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
 	UI*					m_ui = nullptr;								//UI。
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
-	int					m_hp = 9999910;								//プレイヤーのHP。
-	bool				m_death = false;							//死んでいるかどうか。
+	int					m_hp = 999910;								//プレイヤーのHP。
 	bool				m_Firing = false;							//銃を撃っているかどうか。
 	bool				m_dash = false;								//走っているかどうか。
 };
-

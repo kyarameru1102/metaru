@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\Human.cpp" />
     <ClCompile Include="NowGame\GameOver.cpp" />
     <ClCompile Include="NowGame\AfterTitle.cpp" />
     <ClCompile Include="NowGame\Fade.cpp" />
@@ -107,7 +108,6 @@
     <ClCompile Include="NowGame\C4.cpp" />
     <ClCompile Include="NowGame\EnemyGeneralCommander.cpp" />
     <ClCompile Include="NowGame\Astar.cpp" />
-    <ClCompile Include="NowGame\AstarDebug.cpp" />
     <ClCompile Include="NowGame\Bullet.cpp" />
     <ClCompile Include="NowGame\CameraCollisionSolver.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
@@ -165,12 +165,14 @@
     <ClCompile Include="NowGame\StopWatch.cpp" />
     <ClCompile Include="NowGame\sensya.cpp" />
     <ClCompile Include="NowGame\Sprite.cpp" />
+    <ClCompile Include="NowGame\PlayerReloadState.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
     <ClCompile Include="NowGame\UI.cpp" />
     <ClCompile Include="NowGame\TargetDestruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\Human.h" />
     <ClInclude Include="NowGame\GameOver.h" />
     <ClInclude Include="NowGame\AfterTitle.h" />
     <ClInclude Include="NowGame\Fade.h" />
@@ -179,7 +181,6 @@
     <ClInclude Include="NowGame\C4.h" />
     <ClInclude Include="NowGame\EnemyGeneralCommander.h" />
     <ClInclude Include="NowGame\Astar.h" />
-    <ClInclude Include="NowGame\AstarDebug.h" />
     <ClInclude Include="NowGame\Bullet.h" />
     <ClInclude Include="NowGame\CameraCollisionSolver.h" />
     <ClInclude Include="character\CharacterController.h" />
@@ -239,6 +240,7 @@
     <ClInclude Include="NowGame\StopWatch.h" />
     <ClInclude Include="NowGame\sensya.h" />
     <ClInclude Include="NowGame\Sprite.h" />
+    <ClInclude Include="NowGame\PlayerReloadState.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
     <ClInclude Include="NowGame\UI.h" />
@@ -268,24 +270,44 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
     </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\kaasoru.png" />
+    <ImageContentTask Include="Assets\sprite\kaasoru.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Clear.png" />
+    <ImageContentTask Include="Assets\sprite\Clear.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png" />
+    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\fade.png" />
+    <ImageContentTask Include="Assets\sprite\fade.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\GameOver.png" />
+    <ImageContentTask Include="Assets\sprite\GameOver.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Break_Down_Tank.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

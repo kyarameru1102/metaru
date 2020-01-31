@@ -1,16 +1,17 @@
 #pragma once
 #include "PlayerState.h"
 /// <summary>
-/// 銃を構えている状態。
+/// リロード中のステート。
 /// </summary>
-class PlayerStateHoldGun : public IPlayerState
+class PlayerReloadState : public IPlayerState
 {
 public:
-	PlayerStateHoldGun();
-	~PlayerStateHoldGun();
+	PlayerReloadState();
+	~PlayerReloadState();
 	virtual void Enter();
 	virtual void Leave();
 	virtual void Update();
+	
 	//無敵かどうか。
 	virtual bool IsInvincible()
 	{
@@ -24,17 +25,16 @@ public:
 	//銃が撃てるかどうか。
 	virtual bool IsPossibleGunShoot()
 	{
-		return true;
+		return false;
 	}
 	//銃を構えれるかどうか。
 	virtual bool IsPossibleHoldGun()
 	{
-		return true;
+		return false;
 	}
 	//移動により回転するかどうか。
 	virtual bool IsRotateByMove()
 	{
-		return false;
+		return true;
 	}
 };
-

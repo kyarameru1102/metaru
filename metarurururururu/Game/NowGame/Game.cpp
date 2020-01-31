@@ -13,9 +13,11 @@
 #include "Bullet.h"
 #include "Fade.h"
 
+Game* Game::m_game = nullptr;
 
 Game::Game()
 {
+	int aaa = 0;
 }
 
 
@@ -30,6 +32,7 @@ Game::~Game()
 	DeleteGOs("fpsCamera");
 	DeleteGOs("bullet");
 	DeleteGOs("c4");
+	m_game = nullptr;
 }
 
 bool Game::Start()
@@ -101,6 +104,10 @@ bool Game::Start()
 	direction.Normalize();
 	direction *= 120.0f;
 	m_gameCamera->Setdirection(direction);
+
+	if (m_game == nullptr) {
+		m_game = this;
+	}
 
 	return true;
 }

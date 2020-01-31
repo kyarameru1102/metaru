@@ -14,7 +14,7 @@ TargetDestruction::~TargetDestruction()
 
 bool TargetDestruction::Start()
 {
-	m_sprite.Init(L"Resource/sprite/SuccessfulDestructionOfTarget.dds", 1280.0f, 720.0f);
+	m_sprite.Init(L"Assets/sprite/SuccessfulDestructionOfTarget.dds", 1280.0f, 720.0f);
 	m_sprite.DeltaAlpha(-1.0f);
 	return true;
 }

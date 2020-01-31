@@ -29,8 +29,8 @@ bool Bullet::Start()
 
 void Bullet::Update()
 {
-	float randam = rand() / 10000.0f;
-	m_moveSpeed *= 0.5 + randam;
+	float randam = rand() / 30000.0f;
+	m_moveSpeed *= 0.8 + randam;
 	m_position += m_moveSpeed;
 	if (m_havePlayer) {
 		m_toPos = m_position - m_player->GetPosition();
@@ -59,6 +59,6 @@ void Bullet::Update()
 
 	}
 	m_skinModelRender->SetRotation(Rot);
-	m_skinModelRender->SetScale({ 2.0f,2.0f,2.0f });
+	m_skinModelRender->SetScale({ 5.0f,5.0f,5.0f });
 	m_skinModelRender->SetPosition(m_position);
 }

@@ -29,7 +29,24 @@ public:
 	/// XVŠÖ”B
 	/// </summary>
 	void Update();
+	static Game* GetGame() {
+		return m_game;
+	}
+	Player* GetPlayer() const {
+		return m_player;
+	}
+	sensya* GetSensya() const {
+		return m_sensya;
+	}
+	EnemyGeneralCommander* GetEGC() const {
+		return m_EGC;
+	}
+	Enemy* GetEnemy() const {
+		return m_enemy;
+	}
+
 private:
+	static Game*			m_game;
 	GameCamera*				m_gameCamera = nullptr;
 	Level					m_level;
 	SkinModel				m_model;
@@ -44,3 +61,6 @@ private:
 	bool					m_fadeflg = false;
 };
 
+static inline Game* GetGame() {
+	return Game::GetGame();
+}

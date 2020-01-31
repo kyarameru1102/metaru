@@ -633,4 +633,3 @@ static inline TVector operator-(const TVector& v0, const TVector& v1)
 	result.Subtract(v0, v1);
 	return result;
 }
-

@@ -27,7 +27,6 @@ public:
 		*@param[in]	numAnimClip		アニメーションクリップの数。
 		*/
 	void Init(SkinModel& skinModel, AnimationClip animClipList[], int numAnimClip);
-
 		
 	/*!
 	*@brief	アニメーションの再生。
@@ -115,10 +114,7 @@ private:
 		* @brief	グローバルポーズの更新。
 		*/
 	void UpdateGlobalPose();
-		
-	
 private:
-		
 	/*!
 		*@brief	最終ポーズになるアニメーションのリングバッファ上でのインデックスを取得。
 		*/
@@ -135,7 +131,6 @@ private:
 	{
 		return (startIndex + localIndex) % ANIMATION_PLAY_CONTROLLER_NUM;
 	}
-
 private:
 	static const int ANIMATION_PLAY_CONTROLLER_NUM = 32;								//!<アニメーションコントローラの数。
 	std::vector<AnimationClip*>	m_animationClips;										//!<アニメーションクリップの配列。
@@ -146,5 +141,5 @@ private:
 	float m_interpolateTime = 0.0f;
 	float m_interpolateTimeEnd = 0.0f;
 	bool m_isInterpolate = false;														//!<補間中？
-	bool m_UpperBody = true;		//上半身ならtrue。
+	bool m_UpperBody = true;															//上半身ならtrue。
 };

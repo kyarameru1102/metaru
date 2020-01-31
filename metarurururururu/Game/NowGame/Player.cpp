@@ -24,6 +24,9 @@ bool Player::Start()
 	m_animClips[enAnimationClip_walk].Load(L"Assets/animData/heisi_walk.tka");
 	m_animClips[enAnimationClip_hold].Load(L"Assets/animData/heisi_hold.tka");
 	m_animClips[enAnimationClip_shotend].Load(L"Assets/animData/heisi_shotend.tka");
+	m_animClips[enAnimationClip_reload].Load(L"Assets/animData/heisi_reload.tka");
+	m_animClips[enAnimationClip_death].Load(L"Assets/animData/heisi_death.tka");
+	
 
 	m_animClips[enAnimationClip_idle].SetLoopFlag(true);
 	m_animClips[enAnimationClip_run].SetLoopFlag(true);
@@ -42,7 +45,7 @@ bool Player::Start()
 	//cmoファイルの読み込み。
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
-	//m_skinModelRender->PlayAnimation(enAnimationClip_idle,true);
+	m_skinModelRender->SetShadowReciever(true);
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 	return true;
@@ -60,73 +63,94 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
-	CVector3 PlayerCenter = m_position;
+	
 	if (!m_clear) {
-		PlayerCenter.y += 80;
-		QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
-			if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
-			{
-				int aaaa = 0;
-				//敵兵の弾なら。
-				if (!bullet->GetWhosebullet())
-				{
-					m_hp--;
-				}
-			}
-			return true;
-			});
-		if (m_hp <= 0 && !m_death) {
-			NewGO<GameOver>(0, "gameOver");
-			m_death = true;
-		}
 
+		Damage();
+		
 		if (!m_death) {
 			m_currentstate->Update();
 
-			if (m_currentstate == &m_holdGunState)
+			//銃を構えているなら。
+			if (m_currentstate == &m_holdGunState || m_currentstate == &m_reloadState)
 			{
 				HoldMove();
-				HoldRotation();
-				
+				if (m_currentstate == &m_holdGunState) {
+					HoldRotation();
+				}
 			}
+			//銃を構えていなくて動けるなら。
 			else if (m_currentstate->IsPossibleMove())
 			{
 				if (m_currentstate != &m_holdGunState) {
-					Move();
-				
+					Move();				
 				}
 			}
+			//リロード処理。
+			if (m_currentstate == &m_reloadState) {
+				m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
+				m_reloadTimer--;
+				if (m_reloadTimer <= 0) {
+					m_ammo = 30;
+					ChangeState(&m_idleState);
+					m_reloadTimer = 130;
+				}
+			}
+			else if(!g_pad[0].IsPressAnyKey())
+			{
+				ChangeState(&m_idleState);
+			}
+			//銃が撃てるステートなら。
 			if (m_currentstate->IsPossibleGunShoot()) {
-				
+				//パッドのL1が押されていたら。
 				if (g_pad[0].IsPress(enButtonLB1))
 				{
+					//ステートを切り替える。
 					ChangeState(&m_holdGunState);
 					if (!m_Firing) {
 						m_skinModelRender->PlayAnimation(enAnimationClip_hold,true,0.3);
 					}
 				}
 				else {
+					//構えていなくて銃を撃っていなくて走っていなければ。
 					if (!m_dash && !m_Firing) {
 						if (!m_fps) {
 							m_skinModelRender->PlayAnimation(enAnimationClip_idle, true, 0.3);
 						}
 					}
 				}
+				//パッドのR2が押されていたら。
 				if (g_pad[0].IsPress(enButtonRB2))
 				{
-					ChangeState(&m_holdGunState);
-					Firing();
-					m_Firing = true;
-					m_skinModelRender->PlayAnimation(enAnimationClip_shot,true,0.1);
+					//残弾があれば。
+					if (m_ammo >= 0) {
+						//ステートを切り替える。
+						ChangeState(&m_holdGunState);
+						//撃つ。
+						if (m_shotTimer == 0) {
+							Firing();
+							m_shotTimer = 5;
+							m_ammo--;
+						}
+						m_Firing = true;
+						m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1);
+						m_shotTimerOn = true;
+					}
 				}
 				else {
+					//撃っていない。
 					m_Firing = false;
+					m_shotTimer = 0;
+					m_shotTimerOn = false;
+				}
+				if (m_shotTimerOn) {
+					m_shotTimer--;
+				}
+				if (g_pad[0].IsPress(enButtonX)) {
+					ChangeState(&m_reloadState);
 				}
 			}
-			m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
-
-			m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-
+		
 			if (g_pad[0].IsPress(enButtonLB2)) {
 				if (!m_Firing) {
 					m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
@@ -138,26 +162,28 @@ void Player::Update()
 				m_skinModelRender->SetRenderOn(true);
 				CameraSwitchTPS();
 			}
-			if (!g_pad[0].IsPressAnyKey())
-			{
-				ChangeState(&m_idleState);
-			}
+			
 			if (m_currentstate->IsRotateByMove()) {
 				Rotation();
 			}
+			MoveAnimation();
 		}
-		MoveAnimation();
+		
 	}
-
+	//重力。
+	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }
 
 void Player::Move()
 {
-	if (m_currentstate != &m_moveState)
-	{
-		ChangeState(&m_moveState);
+	if (m_currentstate != &m_reloadState) {
+		if (m_currentstate != &m_moveState)
+		{
+			ChangeState(&m_moveState);
+		}
 	}
 	CVector3 Lstick;
 	Lstick.x = g_pad[0].GetLStickXF();
@@ -185,9 +211,9 @@ void Player::MoveAnimation()
 	toNextLength = nextPos - m_position;
 	if(toNextLength.Length() >= 6.0f)
 	{
-		
-		m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
-		
+		if (m_currentstate != &m_reloadState) {
+			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
+		}
 		m_dash = true;
 		m_skinModelRender->PlayAnimation(enAnimationClip_run,false,0.5);
 	}
@@ -307,10 +333,34 @@ void Player::CameraSwitchTPS()
 		m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 		m_gameCamera->Setdirection(direction * -1);
 		m_fps = false;
-		if (m_currentstate != &m_idleState) {
-			ChangeState(&m_idleState);
+		if (m_currentstate != &m_reloadState) {
+			if (m_currentstate != &m_idleState) {
+				ChangeState(&m_idleState);
+			}
 		}
 	}
 }
 
-
+void Player::Damage()
+{
+	CVector3 PlayerCenter = m_position;
+	PlayerCenter.y += 80;
+	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
+		if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
+		{
+			int aaaa = 0;
+			//敵兵の弾なら。
+			if (!bullet->GetWhosebullet())
+			{
+				m_hp--;
+			}
+		}
+		return true;
+		});
+	if (m_hp <= 0 && !m_death) {
+		NewGO<GameOver>(0, "gameOver");
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
+		m_death = true;
+	}
+}

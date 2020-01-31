@@ -13,7 +13,7 @@ UI::~UI()
 
 bool UI::Start()
 {
-	m_sprite.Init(L"Resource/sprite/kaasoru.dds", 100, 100);
+	m_sprite.Init(L"Assets/sprite/kaasoru.dds", 100, 100);
 	return true;
 }
 

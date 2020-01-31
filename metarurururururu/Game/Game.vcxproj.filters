@@ -37,18 +37,6 @@
     <Filter Include="NowGame">
       <UniqueIdentifier>{3fac80a1-29ec-43a2-92b7-91f400a8c9ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NowGame\Player">
-      <UniqueIdentifier>{0cbc20ce-97bd-4c84-ada7-6639874b39a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NowGame\Player\PlayerState">
-      <UniqueIdentifier>{2e45026d-a11b-42ea-a60b-2a7d4e435bd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NowGame\Enemy">
-      <UniqueIdentifier>{0a6e92bf-085f-4368-bd96-9446c8082a9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NowGame\Enemy\EnemyState">
-      <UniqueIdentifier>{035a1421-1705-492e-95a8-394d82c3b495}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameTime">
       <UniqueIdentifier>{12c5ba1b-d889-414c-a505-09194d783178}</UniqueIdentifier>
     </Filter>
@@ -69,6 +57,21 @@
     </Filter>
     <Filter Include="NowGame\Item">
       <UniqueIdentifier>{fffbf138-837f-4575-b2b9-8ae71760de37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human">
+      <UniqueIdentifier>{44e88440-5df1-46fa-b782-c699ea171816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Player">
+      <UniqueIdentifier>{0cbc20ce-97bd-4c84-ada7-6639874b39a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Player\PlayerState">
+      <UniqueIdentifier>{2e45026d-a11b-42ea-a60b-2a7d4e435bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Enemy">
+      <UniqueIdentifier>{0a6e92bf-085f-4368-bd96-9446c8082a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Enemy\EnemyState">
+      <UniqueIdentifier>{035a1421-1705-492e-95a8-394d82c3b495}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -181,31 +184,31 @@
       <Filter>GameTime</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\EnemyStateBattlePosture.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\EnemyStateHesitate.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\EnemyStateVigilance.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\EnemyStateVigilanceCancel.cpp">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\Enemy.cpp">
-      <Filter>NowGame\Enemy</Filter>
+      <Filter>NowGame\Human\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\PlayerStateHoldGun.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\PlayerStateIdle.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\PlayerStateMove.cpp">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\Player.cpp">
-      <Filter>NowGame\Player</Filter>
+      <Filter>NowGame\Human\Player</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\CameraCollisionSolver.cpp">
       <Filter>NowGame\Camera</Filter>
@@ -225,14 +228,11 @@
     <ClCompile Include="NowGame\Astar.cpp">
       <Filter>NowGame\Astar</Filter>
     </ClCompile>
-    <ClCompile Include="NowGame\AstarDebug.cpp">
-      <Filter>NowGame\Astar</Filter>
-    </ClCompile>
     <ClCompile Include="NowGame\NaviMesh.cpp">
       <Filter>NowGame\Astar</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\EnemyGeneralCommander.cpp">
-      <Filter>NowGame\Enemy</Filter>
+      <Filter>NowGame\Human\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\Title.cpp">
       <Filter>NowGame\class2D</Filter>
@@ -272,6 +272,12 @@
     </ClCompile>
     <ClCompile Include="NowGame\GameOver.cpp">
       <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Human.cpp">
+      <Filter>NowGame\Human</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerReloadState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -393,37 +399,37 @@
       <Filter>NowGame</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyState.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyStateBattlePosture.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyStateHesitate.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyStateVigilance.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyStateVigilanceCancel.h">
-      <Filter>NowGame\Enemy\EnemyState</Filter>
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\Enemy.h">
-      <Filter>NowGame\Enemy</Filter>
+      <Filter>NowGame\Human\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\PlayerState.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\PlayerStateHoldGun.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\PlayerStateIdle.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\PlayerStateMove.h">
-      <Filter>NowGame\Player\PlayerState</Filter>
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\Player.h">
-      <Filter>NowGame\Player</Filter>
+      <Filter>NowGame\Human\Player</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\CameraCollisionSolver.h">
       <Filter>NowGame\Camera</Filter>
@@ -443,14 +449,11 @@
     <ClInclude Include="NowGame\Astar.h">
       <Filter>NowGame\Astar</Filter>
     </ClInclude>
-    <ClInclude Include="NowGame\AstarDebug.h">
-      <Filter>NowGame\Astar</Filter>
-    </ClInclude>
     <ClInclude Include="NowGame\NaviMesh.h">
       <Filter>NowGame\Astar</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\EnemyGeneralCommander.h">
-      <Filter>NowGame\Enemy</Filter>
+      <Filter>NowGame\Human\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\Title.h">
       <Filter>NowGame\class2D</Filter>
@@ -490,6 +493,12 @@
     </ClInclude>
     <ClInclude Include="NowGame\GameOver.h">
       <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Human.h">
+      <Filter>NowGame\Human</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerReloadState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -562,6 +571,9 @@
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\GameOver.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Break_Down_Tank.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
   </ItemGroup>

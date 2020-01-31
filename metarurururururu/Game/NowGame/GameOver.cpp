@@ -13,7 +13,7 @@ GameOver::~GameOver()
 
 bool GameOver::Start()
 {
-	m_sprite.Init(L"Resource/sprite/GameOver.dds", 1280.0f, 720.0f);
+	m_sprite.Init(L"Assets/sprite/GameOver.dds", 1280.0f, 720.0f);
 	m_sprite.DeltaAlpha(-1.0f);
 	return true;
 }

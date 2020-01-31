@@ -52,4 +52,3 @@ private:
 	std::list<Cell*> AStarAnswer;
 	std::list<Cell*>::iterator AStarAnswerIt;
 };
-

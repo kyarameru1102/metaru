@@ -11,11 +11,6 @@ public:
 	virtual void Enter();
 	virtual void Leave();
 	virtual void Update();
-	//ジャンプできるかどうか。
-	virtual bool IsPossibleJump()
-	{
-		return true;
-	}
 	//無敵かどうか。
 	virtual bool IsInvincible()
 	{

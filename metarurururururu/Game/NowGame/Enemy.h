@@ -9,8 +9,8 @@
 #include <vector>
 #include <string>
 #include "Astar.h"
-#include "AstarDebug.h"
 #include "physics/CapsuleCollider.h"
+#include "Human.h"
 
 struct EnemyState
 {
@@ -27,7 +27,7 @@ public:
 //このクラスのインスタンスが生成されるとナビゲーションメッシュが生成される。
 
 class Player;
-class Enemy : public IGameObject
+class Enemy : public Human
 {
 public:
 	/// <summary>
@@ -86,25 +86,22 @@ public:
 	/// </param>
 	void ChangeState(IEnemyState* nextState);
 	/// <summary>
-	/// ポジションを設定する関数。
+	/// ダメージを受ける処理。
 	/// </summary>
-	/// <param name="pos">
-	/// 座標。
-	/// </param>
-	void SetPosition(CVector3 pos)
-	{
-		m_position = pos;
-	}
+	void Damage();
 	/// <summary>
-	/// ポジションを返してくる関数。
+	/// 視野角の計算をしている関数。
 	/// </summary>
-	/// <returns>
-	/// 座標。
-	/// </returns>
-	CVector3 GetPosition() const
-	{
-		return m_position;
-	}
+	void ViewingAngle();
+	/// <summary>
+	/// プレイヤーと敵兵の間に障害物があるかどうか判定する関数。
+	/// </summary>
+	void ShotPossible();
+	/// <summary>
+	/// A*のスムージング処理。
+	/// </summary>
+	void AstarSmooth();
+	
 	void AddPath(Path path)
 	{
 		PathList.push_back(path);
@@ -124,16 +121,10 @@ public:
 		return m_currentstate;
 	}
 private:
-	SkinModel					m_model;									//スキンモデル。
-	SkinModelRender*			m_skinModelRender = nullptr;				//スキンモデルレンダー。
-	CVector3					m_position = CVector3::Zero();				//座標。
-	CVector3					m_moveSpeed = CVector3::Zero();
-	CQuaternion					m_rotation = CQuaternion::Identity();
 	IEnemyState*				m_currentstate = nullptr;					//エネミーの現在の状態。
 	std::vector<Path>			PathList;
 	int							m_currentPath;								//現在のパス。
-	CVector3					m_Enxz;
-	Player*                     m_player;
+	Player*                     m_player;									//プレイヤー。
 	float						m_timer = 0.0f;
 	CVector3					m_oldMoveSpeed;
 	bool						m_discovery = false;						//発見したかどうか。
@@ -141,7 +132,6 @@ private:
 	Level						m_level;
 	wchar_t						m_initPath[3];
 	Astar						m_astar;									//A*(ナビメッシュも生成している。
-	AstarDebug*					m_astarDebug = nullptr;
 	int							AstarEXEcount = 0;
 	CVector3					m_beforeAstar = CVector3::Zero();
 	enum EnAnimationClip {
@@ -149,14 +139,19 @@ private:
 		enAnimationClip_run,												//走る。
 		enAnimationClip_shot,												//銃を撃つ。
 		enAnimationClip_walk,												//歩く。
+		enAnimationClip_reload,												//リロード。
+		enAnimationClip_death,												//死亡。
 		enAnimationClip_Num,
 	};
 	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
 	CapsuleCollider		m_collider;											//カプセルコライダー。
 	bool				m_onFiring = false;									//銃を撃っているか。
 	int					m_hp = 3;											//敵兵のHP。
-	bool				m_death = false;									//死んでいるかどうか。
-	int					time = 0;
+	int					m_time = 0;
 	CVector3			m_smoothPos = CVector3::Zero();
+	float				m_angle = 0.0f;										//視野角用の角度を記録。
+	float				m_toPlayerLen = 0.0f;								//プレイヤーまでの距離。
+	bool				m_hit = false;										//プレイヤーとの間に障害物があるかどうかのフラグ。trueならある。				
+	bool				m_relodeOn = true;									//リロード処理に入るかどうか。
 };
 

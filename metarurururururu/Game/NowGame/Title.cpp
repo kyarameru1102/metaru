@@ -15,7 +15,7 @@ Title::~Title()
 
 bool Title::Start()
 {
-	m_sprite.Init(L"Resource/sprite/Title.dds", 1400, 800);
+	m_sprite.Init(L"Assets/sprite/Break_Down_Tank.dds", 1400, 800);
 	return true;
 }
 

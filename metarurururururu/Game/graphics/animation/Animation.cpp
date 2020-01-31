@@ -169,9 +169,7 @@ void Animation::UpdateGlobalPose()
 	}
 	m_numAnimationPlayController = numAnimationPlayController;
 }
-	
-
-	
+		
 void Animation::Update(float deltaTime)
 {
 	if (m_numAnimationPlayController == 0) {

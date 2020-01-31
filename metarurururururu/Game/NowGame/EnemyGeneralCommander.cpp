@@ -19,15 +19,17 @@ bool EnemyGeneralCommander::Start()
 
 void EnemyGeneralCommander::Update()
 {
-	for (auto& enemy : m_enemyArray) {
+	QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
 		if (enemy->GetCurrentstate() == &EnemyState::m_battlePosture || m_subjectDestroyed)
 		{
 			m_combatStart = true;
 		}
-	}
-	if (m_combatStart) {
-		for (auto& enemy : m_enemyArray) {
+		if (m_combatStart) {
 			enemy->ChangeState(&EnemyState::m_battlePosture);
 		}
-	}
+		return true;
+	});
+		
+	
+	
 }
