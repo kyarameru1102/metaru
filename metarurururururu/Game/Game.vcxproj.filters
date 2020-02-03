@@ -279,6 +279,9 @@
     <ClCompile Include="NowGame\PlayerReloadState.cpp">
       <Filter>NowGame\Human\Player\PlayerState</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\FontRender.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -499,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="NowGame\PlayerReloadState.h">
       <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\FontRender.h">
+      <Filter>NowGame\class2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

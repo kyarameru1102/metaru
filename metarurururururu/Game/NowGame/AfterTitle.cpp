@@ -13,6 +13,7 @@ AfterTitle::AfterTitle()
 
 AfterTitle::~AfterTitle()
 {
+	int a = 0;
 }
 
 bool AfterTitle::Start()
@@ -23,8 +24,11 @@ bool AfterTitle::Start()
 
 void AfterTitle::Update()
 {
-	if (m_fade->GetSpriteAlpha() >= 0.9f) {
+	if (m_fade->GetSpriteAlpha() >= 0.9f && !m_DeleteOK) {
 		NewGO<Game>(0, "Game");
+		m_DeleteOK = true;
 	}
-	int a = 0;
+	if (m_fade->GetSpriteAlpha() <= 0.1f && m_DeleteOK) {
+		DeleteGO(this);
+	}
 }

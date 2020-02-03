@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\FontRender.cpp" />
     <ClCompile Include="NowGame\Human.cpp" />
     <ClCompile Include="NowGame\GameOver.cpp" />
     <ClCompile Include="NowGame\AfterTitle.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="NowGame\TargetDestruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\FontRender.h" />
     <ClInclude Include="NowGame\Human.h" />
     <ClInclude Include="NowGame\GameOver.h" />
     <ClInclude Include="NowGame\AfterTitle.h" />

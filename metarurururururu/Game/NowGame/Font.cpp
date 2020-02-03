@@ -4,6 +4,16 @@
 
 Font::Font()
 {
+	m_spriteBatch = g_graphicsEngine->GetSpriteBatch();
+	m_spriteFont = g_graphicsEngine->GetSpriteFont();
+	auto& ge = g_graphicsEngine;
+	m_scaleMat.MakeScaling(
+		{
+			ge->GetFrameBufferWidth() / static_cast<float>(ge->Get2DSpaceScreenWidth()),
+			ge->GetFrameBufferHeight() / static_cast<float>(ge->Get2DSpaceScreenHeight()),
+			1.0f
+		}
+	);
 }
 
 

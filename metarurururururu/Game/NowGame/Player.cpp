@@ -66,8 +66,12 @@ void Player::Update()
 	
 	if (!m_clear) {
 
+		if (m_position.y <= -10.0f) {
+			m_hp = 0;
+		}
+
 		Damage();
-		
+
 		if (!m_death) {
 			m_currentstate->Update();
 
@@ -83,7 +87,7 @@ void Player::Update()
 			else if (m_currentstate->IsPossibleMove())
 			{
 				if (m_currentstate != &m_holdGunState) {
-					Move();				
+					Move();
 				}
 			}
 			//リロード処理。
@@ -96,7 +100,7 @@ void Player::Update()
 					m_reloadTimer = 130;
 				}
 			}
-			else if(!g_pad[0].IsPressAnyKey())
+			else if (!g_pad[0].IsPressAnyKey())
 			{
 				ChangeState(&m_idleState);
 			}
@@ -108,7 +112,7 @@ void Player::Update()
 					//ステートを切り替える。
 					ChangeState(&m_holdGunState);
 					if (!m_Firing) {
-						m_skinModelRender->PlayAnimation(enAnimationClip_hold,true,0.3);
+						m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
 					}
 				}
 				else {
@@ -122,8 +126,9 @@ void Player::Update()
 				//パッドのR2が押されていたら。
 				if (g_pad[0].IsPress(enButtonRB2))
 				{
+					m_dangan = false;
 					//残弾があれば。
-					if (m_ammo >= 0) {
+					if (m_ammo >= 1) {
 						//ステートを切り替える。
 						ChangeState(&m_holdGunState);
 						//撃つ。
@@ -131,6 +136,7 @@ void Player::Update()
 							Firing();
 							m_shotTimer = 5;
 							m_ammo--;
+							m_dangan = true;
 						}
 						m_Firing = true;
 						m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1);
@@ -150,29 +156,37 @@ void Player::Update()
 					ChangeState(&m_reloadState);
 				}
 			}
-		
+
 			if (g_pad[0].IsPress(enButtonLB2)) {
-				if (!m_Firing) {
-					m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+				if (m_currentstate != &m_reloadState) {
+					if (!m_Firing) {
+						m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+					}
+					m_skinModelRender->SetRenderOn(false);
+					CameraSwitchFPS();
 				}
-				m_skinModelRender->SetRenderOn(false);
-				CameraSwitchFPS();
+				else {
+					m_skinModelRender->SetRenderOn(true);
+					CameraSwitchTPS();
+				}
 			}
 			else {
 				m_skinModelRender->SetRenderOn(true);
 				CameraSwitchTPS();
 			}
-			
+
 			if (m_currentstate->IsRotateByMove()) {
 				Rotation();
 			}
 			MoveAnimation();
+
+
+
+			//重力。
+			m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+			m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 		}
-		
 	}
-	//重力。
-	m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
-	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }

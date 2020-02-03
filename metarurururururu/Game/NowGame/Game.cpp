@@ -72,7 +72,7 @@ bool Game::Start()
 	m_EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。
 	//敵生成時に同時にナビメッシュが生成される。
-	m_level.Init(L"Assets/level/Enemy_level01.tkl",
+	m_level.Init(L"Assets/level/Enemy_level00.tkl",
 		[&](LevelObjectData& obiData)->int {
 			if (obiData.FindName(L"takatozin_")) {
 				wchar_t last[3];
@@ -85,6 +85,7 @@ bool Game::Start()
 
 				m_enemy = NewGO<Enemy>(0, "enemy");
 				m_enemy->SetPosition(obiData.position);
+				m_enemy->SetRotation(obiData.rotation);
 
 				m_enemy->SetPathNum(last);
 

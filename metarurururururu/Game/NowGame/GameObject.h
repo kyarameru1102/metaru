@@ -32,6 +32,10 @@ public:
 	/// 2D用の描画関数。
 	/// </summary>
 	virtual void Render2D() {}
+	/// <summary>
+	/// フォント用の描画関数。
+	/// </summary>
+	virtual void RenderFont() {}
 	/// /// <summary>
 	/// 優先度を取得。
 	/// </summary>

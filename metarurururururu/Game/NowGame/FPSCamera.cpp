@@ -49,6 +49,10 @@ void FPSCamera::Update()
 		m_direction = directionOld;
 	}
 
+	if (g_pad[0].IsPress(enButtonRB2) && m_player->GetDangan()) {
+		m_direction.y += 1.0f;
+	}
+
 	CVector3 target = m_position + m_direction;
 
 	g_camera3D.SetPosition(m_position);

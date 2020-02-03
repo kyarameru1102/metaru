@@ -120,6 +120,21 @@ public:
 	{
 		return m_currentstate;
 	}
+	bool GetNotLookOn() const
+	{
+		return m_notLookOn;
+	}
+	/// <summary>
+	/// プレイヤーとの間に障害物があるかどうか返す関数。
+	/// </summary>
+	/// <returns>
+	/// true ある。
+	/// false ない。
+	/// </returns>
+	bool GetHit() const
+	{
+		return m_hit;
+	}
 private:
 	IEnemyState*				m_currentstate = nullptr;					//エネミーの現在の状態。
 	std::vector<Path>			PathList;
@@ -152,6 +167,7 @@ private:
 	float				m_angle = 0.0f;										//視野角用の角度を記録。
 	float				m_toPlayerLen = 0.0f;								//プレイヤーまでの距離。
 	bool				m_hit = false;										//プレイヤーとの間に障害物があるかどうかのフラグ。trueならある。				
-	bool				m_relodeOn = true;									//リロード処理に入るかどうか。
+	bool				m_relodeOn = false;									//リロード処理に入るかどうか。
+	bool				m_notLookOn = false;
 };
 

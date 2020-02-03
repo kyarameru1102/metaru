@@ -27,6 +27,11 @@ public:
 		struct { float x, y; };
 		float v[2];
 	};
+	CVector2& operator=(const CVector2& _v)
+	{
+		vec = _v.vec;
+		return *this;
+	}
 	/*!
 	* @brief	üŒ`•âŠÔB
 	*@details

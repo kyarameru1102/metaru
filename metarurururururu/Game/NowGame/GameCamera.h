@@ -57,8 +57,9 @@ private:
 	CameraCollisionSolver	m_cameraCollider;				//カメラのコライダー。
 	float					m_rightLength;
 	CameraCollisionSolver	m_targetCollider;				//注視点のコライダー
-	bool					m_LookInTo = false;				//ロックオンのフラグ。
+	bool					m_LookInTo = false;				//肩越しのフラグ。
 	CVector3				m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 	bool					m_migi = false;
+	bool					m_isLookOn = false;				//ロックオンしているかどうか。
 };
 

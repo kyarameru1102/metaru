@@ -11,5 +11,6 @@ public:
 private:
 	Fade* m_fade = nullptr;			//フェード。
 	Title* m_title = nullptr;		//タイトル。
+	bool m_DeleteOK = false;		//trueならデリートしても大丈夫。
 };
 

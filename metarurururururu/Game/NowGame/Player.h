@@ -116,6 +116,10 @@ public:
 	/// ダメージを受ける処理。
 	/// </summary>
 	void Damage();
+	bool GetDangan() const
+	{
+		return m_dangan;
+	}
 private:
 	bool				m_fps = false;								//FPSカメラ状態か？
 	GameCamera*			m_gameCamera = nullptr;
@@ -140,7 +144,8 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
 	UI*					m_ui = nullptr;								//UI。
 	bool				m_clear = false;							//クリアしたかどうかのフラグ。
-	int					m_hp = 999910;								//プレイヤーのHP。
+	int					m_hp = 10;									//プレイヤーのHP。
 	bool				m_Firing = false;							//銃を撃っているかどうか。
 	bool				m_dash = false;								//走っているかどうか。
+	bool				m_dangan = false;							//弾丸が出ているかどうか。
 };

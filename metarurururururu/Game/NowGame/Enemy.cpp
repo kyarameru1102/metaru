@@ -71,7 +71,6 @@ bool Enemy::Start()
 
 	Game* game = GetGame();
 	m_player = game->GetPlayer();
-	//m_player = FindGO<Player>("player");
 	ChangeState(&EnemyState::m_hesitate);
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
@@ -80,14 +79,20 @@ bool Enemy::Start()
 	m_currentPath = 0;
 	m_position = PathList[0].position;
 
+	m_moveSpeed = CVector3::Zero();
+	m_moveSpeed.x = -1.0f;
+	m_moveSpeed.Normalize();
 	return true;
 }
 
 void Enemy::Update()
 {
+	if (m_position.y <= -10.0f) {
+		m_hp = 0;
+	}
 	Damage();
 	
-	m_moveSpeed = CVector3::Zero();
+	m_moveSpeed;
 	if (!m_death) {
 		//移動系処理。
 		{
@@ -127,7 +132,7 @@ void Enemy::Update()
 		//徘徊中もしくは警戒態勢が解除中なら。
 		if (m_currentstate == &EnemyState::m_hesitate || m_currentstate == &EnemyState::m_vigilanceCancel) {
 			//視野角に入ったときの処理。
-			if (m_angle < 15.0f && m_toPlayerLen < 2500.0f && !m_hit) {
+			if (m_angle < 65.0f && m_toPlayerLen < 2500.0f && !m_hit) {
 				if (m_currentstate != &EnemyState::m_vigilance) {
 					//警戒体制に移行。
 					ChangeState(&EnemyState::m_vigilance);
@@ -138,7 +143,7 @@ void Enemy::Update()
 		//警戒態勢中なら。
 		if (m_currentstate == &EnemyState::m_vigilance) {
 			//視野角に入ったときの処理。
-			if (m_angle < 45.0f && m_toPlayerLen < 1000.0f && !m_hit) {
+			if (m_angle < 90.0f && m_toPlayerLen < 1000.0f && !m_hit) {
 				if (m_currentstate != &EnemyState::m_battlePosture) {
 					//戦闘体制に移行。
 					ChangeState(&EnemyState::m_battlePosture);
@@ -151,7 +156,7 @@ void Enemy::Update()
 		if (!m_hit) {
 			//戦闘状態かどうか。
 			if (m_currentstate == &EnemyState::m_battlePosture) {
-				if (m_angle < 45.0f && m_toPlayerLen < 1000.0f) {
+				if (m_angle < 65.0f && m_toPlayerLen < 1000.0f) {
 					//障害物がなくて視野角の中にいるなら撃つ。
 					//残弾があれば撃つ。
 					if (m_ammo >= 0) {
@@ -171,7 +176,9 @@ void Enemy::Update()
 					}
 					//リロード処理。
 					else {
-						m_relodeOn = true;
+						if (m_ammo != 30) {
+							m_relodeOn = true;
+						}
 						m_shotTimer = 0;
 						m_shotTimerOn = false;
 					}
@@ -234,12 +241,14 @@ void Enemy::Init()
 //プレイヤーを見つけるまでのパス移動。
 void Enemy::PathMove()
 {
-	m_moveSpeed = PathList[PathList[m_currentPath].next].position - m_position;
-	float len = m_moveSpeed.Length();
-	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 200.0f;
-	if (len < 10.0f) {
-		m_currentPath = PathList[m_currentPath].next;
+	if (PathList.size() != 1) {
+		m_moveSpeed = PathList[PathList[m_currentPath].next].position - m_position;
+		float len = m_moveSpeed.Length();
+		m_moveSpeed.Normalize();
+		m_moveSpeed += m_moveSpeed * 90.0f;
+		if (len < 10.0f) {
+			m_currentPath = PathList[m_currentPath].next;
+		}
 	}
 }
 //警戒中の移動。
@@ -278,6 +287,9 @@ void Enemy::VigilanceCancelMove()
 	
 	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 		ChangeState(&EnemyState::m_hesitate);
+		m_moveSpeed = CVector3::Zero();
+		m_moveSpeed.x = -1.0f;
+		m_moveSpeed.Normalize();
 	}
 	
 }
@@ -345,9 +357,14 @@ void Enemy::MoveAnimation()
 	
 	if (!m_onFiring)
 	{
-		if (m_moveSpeed.Length() >= 1.0f) {
+
+		if (m_moveSpeed.Length() >= 100.f) {
 			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
 			m_skinModelRender->PlayAnimation(enAnimationClip_run, false, 0.5);
+		}
+		else if (m_moveSpeed.Length() >= 1.1f) {
+			m_skinModelRender->PlayAnimation(enAnimationClip_walk, true, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_walk, false, 0.5);
 		}
 		else {
 			if (!m_relodeOn) {
@@ -366,6 +383,9 @@ void Enemy::Rotation()
 	CVector3 moveSpeedXZ = m_moveSpeed;
 	moveSpeedXZ.y = 0.0f;
 	moveSpeedXZ.Normalize();
+	if (moveSpeedXZ.LengthSq() < 0.5f) {
+		return;
+	}
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
 //ステートを切り替える。
@@ -398,6 +418,8 @@ void Enemy::Damage()
 		m_death = true;
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
+		m_charaCon.RemoveRigidBoby();
+		m_notLookOn = true;
 		//DeleteGO(this);
 	}
 }

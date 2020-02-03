@@ -12,6 +12,9 @@ public:
 	{
 		m_position = pos;
 	}
+	void SetRotation(CQuaternion rot) {
+		m_rotation = rot;
+	}
 	/// <summary>
 	/// ポジションを返してくる関数。
 	/// </summary>
@@ -21,6 +24,16 @@ public:
 	CVector3 GetPosition() const
 	{
 		return m_position;
+	}
+	/// <summary>
+	/// 残弾を表示する。
+	/// </summary>
+	/// <returns>
+	/// ammo  残弾。
+	/// </returns>
+	int GetAmmo() const
+	{
+		return m_ammo;
 	}
 protected:
 	SkinModel			m_model;									//スキンモデル。

@@ -38,6 +38,7 @@ void GameCamera::Update()
 	m_target.y += 70.0f;
 	CVector3 plpos = m_target;
 	CVector3 nowTarget = m_target;
+	
 	m_target += targetAdd;
 	float x, y;
 	if (m_LookInTo) {
@@ -77,34 +78,38 @@ void GameCamera::Update()
 	CVector3 NewPosition;
 	
 	m_cameraCollider.Execute(NewPosition, camePos, targetNewPos);
-	//CVector3 yy = { 0.0f,100.0f,0.0f };
 	CVector3 CameraToTarget = NewPosition - m_target;
 
 	
 	if (g_pad[0].IsPress(enButtonLB1))
 	{
-		
-		CVector3	m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
+		m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 		CVector3	enemyPos = { FLT_MAX, FLT_MAX, FLT_MAX };
 		m_direction.Normalize();
 		m_direction *= 80.0f;
 		CVector3 PlayerToEnemy;
+		bool hit = false;
 		QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
 			PlayerToEnemy = m_player->GetPosition() - enemy->GetPosition();
-			if (PlayerToEnemy.Length() <= 800.0f) {
+			if (PlayerToEnemy.Length() <= 800.0f && !enemy->GetNotLookOn()) {
 				if (m_enemyPos.Length() >= enemy->GetPosition().Length()) {
 					m_enemyPos = enemy->GetPosition();
 					m_okEnemyPos = m_player->GetPosition() - enemy->GetPosition();
-					
+					if (enemy->GetHit())
+					{
+						hit = true;
+					}
 				}
 			}		
 				return true;
 		});
-		if (m_okEnemyPos.Length() <= 800.0f) {
+		if (m_okEnemyPos.Length() <= 800.0f && !hit) {
 			isLookOn(NewPosition);
+			m_isLookOn = true;
 		}
 		else {
 			m_enemyPos = {FLT_MAX, FLT_MAX, FLT_MAX};
+			m_isLookOn = false;
 		}
 		
 		m_LookInTo = true;
@@ -113,6 +118,10 @@ void GameCamera::Update()
 		m_direction.Normalize();
 		m_direction *= 120.0f;
 		m_LookInTo = false;
+	}
+	if (g_pad[0].IsPress(enButtonRB2) && m_player->GetDangan() && !m_isLookOn) {
+		float randam = rand() / 8000.0f;
+		m_direction.y += -1.0f * randam;
 	}
 	
 	g_camera3D.SetPosition(NewPosition);
@@ -130,7 +139,7 @@ void GameCamera::isLookOn(CVector3 pos)
 	m_direction = m_target - pos;
 	m_direction.Normalize();
 	m_direction *= -100.0f;
-	CVector3 right = g_camera3D.GetRight() * -3.0f;
-	m_direction += right;
+	//CVector3 right = g_camera3D.GetRight() * -3.0f;
+	//m_direction += right;
 }
 
