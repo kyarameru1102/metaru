@@ -2,6 +2,7 @@
 #include "level/Level.h"
 #include "DirectionLight.h"
 #include "NaviMesh.h"
+#include "sound/SoundSource.h"
 
 class GameCamera;
 class sensya;
@@ -59,6 +60,8 @@ private:
 	ClearPoint*				m_clearPoint = nullptr;
 	int						m_timer = 0;
 	bool					m_fadeflg = false;
+	CSoundSource			m_bgm;						//BGMÅB
+	CSoundSource			m_se;						//SEÅB
 };
 
 static inline Game* GetGame() {

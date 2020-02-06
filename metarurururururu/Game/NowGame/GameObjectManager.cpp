@@ -45,13 +45,7 @@ void GameObjectManager::Update()
 		}
 	}
 	
-	for (int i = 0; i < m_gameObjectListArray.size(); i++) {
-		for (auto go : m_gameObjectListArray[i]) {
-			if (go->GetIsDead() == false) {
-				go->RenderFont();
-			}
-		}
-	}
+
 
 	for (int i = 0; i < m_gameObjectListArray.size(); i++) {
 		for (auto go : m_gameObjectListArray[i]) {
@@ -60,7 +54,13 @@ void GameObjectManager::Update()
 			}
 		}
 	}
-
+	for (int i = 0; i < m_gameObjectListArray.size(); i++) {
+		for (auto go : m_gameObjectListArray[i]) {
+			if (go->GetIsDead() == false) {
+				go->RenderFont();
+			}
+		}
+	}
 	
 	
 	for(auto& deleteList : m_deleteObjectListArray){

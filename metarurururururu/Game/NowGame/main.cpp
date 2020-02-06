@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Title.h"
 #include "Clear.h"
+#include "sound/SoundEngine.h"
 
 
 ///////////////////////////////////////////////////////////////////
@@ -12,6 +13,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 {
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
+
+	CSoundEngine m_soundEngine;
+	m_soundEngine.Init();
 
 	//カメラを初期化。
 	g_camera3D.SetPosition({ 0.0f, 100.0f, 50.0f });
@@ -35,8 +39,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 		//物理エンジンの更新。
 		g_physics.Update();
-		
+		//ゲームオブジェクトマネージャーの更新。
 		gameObjectManager().Update();
+		//サウンドエンジン更新。
+		m_soundEngine.Update();
 
 		//描画終了。
 		g_graphicsEngine->EndRender();

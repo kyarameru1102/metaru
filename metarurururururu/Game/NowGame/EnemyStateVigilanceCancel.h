@@ -6,8 +6,6 @@
 class EnemyStateVigilanceCancel : public IEnemyState
 {
 public:
-	EnemyStateVigilanceCancel();
-	~EnemyStateVigilanceCancel();
 	virtual void Enter();
 	virtual void Leave();
 	virtual void Update();

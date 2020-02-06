@@ -46,9 +46,6 @@
     <Filter Include="Assets\sprite">
       <UniqueIdentifier>{78353d47-13e5-4685-afa1-5c2e113b3d38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sound">
-      <UniqueIdentifier>{f486cc96-f8cf-4f3c-b73b-fd7be5e39338}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NowGame\class2D">
       <UniqueIdentifier>{4cca7bbb-e930-48b3-8363-defcc0ac6d36}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,9 @@
     </Filter>
     <Filter Include="NowGame\Human\Enemy\EnemyState">
       <UniqueIdentifier>{035a1421-1705-492e-95a8-394d82c3b495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\sound">
+      <UniqueIdentifier>{861572d1-0483-4cde-8fe9-82cf5a1fd793}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     </ClCompile>
     <ClCompile Include="NowGame\SkinModelRender.cpp">
       <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="NowGame\SoundSource.cpp">
-      <Filter>sound</Filter>
     </ClCompile>
     <ClCompile Include="NowGame\SphereCollider.cpp">
       <Filter>physics</Filter>
@@ -282,6 +279,21 @@
     <ClCompile Include="NowGame\FontRender.cpp">
       <Filter>NowGame\class2D</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\BeforeTheGame.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\SoundEngine.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\SoundSource.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFile.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFileBank.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -385,9 +397,6 @@
     </ClInclude>
     <ClInclude Include="NowGame\SkinModelRender.h">
       <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\SoundSource.h">
-      <Filter>sound</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\SphereCollider.h">
       <Filter>physics</Filter>
@@ -506,6 +515,21 @@
     <ClInclude Include="NowGame\FontRender.h">
       <Filter>NowGame\class2D</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\BeforeTheGame.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\SoundEngine.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\SoundSource.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\WaveFile.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\WaveFileBank.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -580,6 +604,18 @@
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\Break_Down_Tank.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\black.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Mission.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi2.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
   </ItemGroup>

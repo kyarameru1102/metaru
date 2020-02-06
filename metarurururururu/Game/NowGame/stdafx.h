@@ -13,6 +13,9 @@
 #include <functional>
 #include <algorithm>
 #include <string>
+#include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"

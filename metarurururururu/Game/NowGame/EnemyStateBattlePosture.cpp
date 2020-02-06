@@ -1,16 +1,6 @@
 #include "stdafx.h"
 #include "EnemyStateBattlePosture.h"
 
-
-EnemyStateBattlePosture::EnemyStateBattlePosture()
-{
-}
-
-
-EnemyStateBattlePosture::~EnemyStateBattlePosture()
-{
-}
-
 void EnemyStateBattlePosture::Enter()
 {
 }

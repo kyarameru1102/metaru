@@ -20,7 +20,7 @@ bool EnemyGeneralCommander::Start()
 void EnemyGeneralCommander::Update()
 {
 	QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
-		if (enemy->GetCurrentstate() == &EnemyState::m_battlePosture || m_subjectDestroyed)
+		if (enemy->GetCurrentstate() == &EnemyState::m_battlePosture /*|| m_subjectDestroyed*/)
 		{
 			m_combatStart = true;
 		}

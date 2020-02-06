@@ -92,7 +92,6 @@ void Enemy::Update()
 	}
 	Damage();
 	
-	m_moveSpeed;
 	if (!m_death) {
 		//移動系処理。
 		{
@@ -202,6 +201,9 @@ void Enemy::Update()
 		m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 		m_skinModelRender->SetRotation(m_rotation);
 		m_skinModelRender->SetPosition(m_position);
+	}
+	else {
+		m_itai = false;
 	}
 }
 
@@ -404,13 +406,20 @@ void Enemy::Damage()
 	CVector3 EnemyCenter = m_position;
 	EnemyCenter.y += 80;
 	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
-		if ((bullet->GetPosition() - EnemyCenter).Length() <= 50.0f)
+		if ((bullet->GetPosition() - EnemyCenter).Length() <= 150.0f)
 		{
 			//プレイヤーの弾丸なら。
 			if (bullet->GetWhosebullet())
 			{
 				m_hp--;
+				m_itai = true;
 			}
+			else {
+				m_itai = false;
+			}
+		}
+		else {
+			m_itai = false;
 		}
 		return true;
 		});

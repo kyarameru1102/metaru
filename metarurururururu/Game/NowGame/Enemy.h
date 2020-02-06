@@ -12,6 +12,9 @@
 #include "physics/CapsuleCollider.h"
 #include "Human.h"
 
+/// <summary>
+/// エネミーのステート一覧。
+/// </summary>
 struct EnemyState
 {
 public:
@@ -101,11 +104,11 @@ public:
 	/// A*のスムージング処理。
 	/// </summary>
 	void AstarSmooth();
-	
-	void AddPath(Path path)
+	bool GetDamage() const
 	{
-		PathList.push_back(path);
+		return m_itai;
 	}
+	
 	void SetPathNum(const wchar_t* path)
 	{
 		wcscpy(m_initPath,path);
@@ -120,6 +123,13 @@ public:
 	{
 		return m_currentstate;
 	}
+	/// <summary>
+	/// ロックオンしているかどうか
+	/// </summary>
+	/// <returns>
+	/// true	している。
+	/// false	していない。
+	/// </returns>
 	bool GetNotLookOn() const
 	{
 		return m_notLookOn;
@@ -168,6 +178,7 @@ private:
 	float				m_toPlayerLen = 0.0f;								//プレイヤーまでの距離。
 	bool				m_hit = false;										//プレイヤーとの間に障害物があるかどうかのフラグ。trueならある。				
 	bool				m_relodeOn = false;									//リロード処理に入るかどうか。
+	bool				m_itai = false;										//ダメージを食らったときtrue。
 	bool				m_notLookOn = false;
 };
 

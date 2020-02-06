@@ -25,7 +25,7 @@ bool AfterTitle::Start()
 void AfterTitle::Update()
 {
 	if (m_fade->GetSpriteAlpha() >= 0.9f && !m_DeleteOK) {
-		NewGO<Game>(0, "Game");
+		NewGO<BeforeTheGame>(0);
 		m_DeleteOK = true;
 	}
 	if (m_fade->GetSpriteAlpha() <= 0.1f && m_DeleteOK) {

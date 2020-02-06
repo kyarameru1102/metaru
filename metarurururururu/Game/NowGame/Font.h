@@ -35,9 +35,15 @@ public:
 		float scale = 1.0f,
 		CVector2 pivot = { 0.5f, 0.5f }
 	);
+	void SetRenderState();
+	void GetRenderState();
 private:
-	DirectX::SpriteBatch*	m_spriteBatch = nullptr;	//スプライトバッチ。
-	DirectX::SpriteFont*	m_spriteFont = nullptr;		//スプライトフォント。
-	CMatrix m_scaleMat;
+	DirectX::SpriteBatch*		m_spriteBatch = nullptr;			//スプライトバッチ。
+	DirectX::SpriteFont*		m_spriteFont = nullptr;				//スプライトフォント。
+	CMatrix						m_scaleMat;
+	ID3D11DeviceContext*		m_DC = nullptr;						//デバイスコンテキスト。
+	ID3D11DepthStencilState*	m_depthState = nullptr;				//現在のデプスステンシルステート。
+	ID3D11RasterizerState*		m_rasterrizerState = nullptr;		//現在のラスタライザステート。
+	ID3D11BlendState*			m_blendState = nullptr;				//現在のブレンドステート。
 };
 

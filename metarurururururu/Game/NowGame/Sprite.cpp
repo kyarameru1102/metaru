@@ -28,6 +28,8 @@ Sprite::~Sprite()
 	if (m_cb != nullptr) {
 		m_cb->Release();
 	}
+	//レンダーステートを設定しなおす。
+	SetRenderState();
 }
 
 void Sprite::Init(const wchar_t * texFilePath, float w, float h)
@@ -60,6 +62,9 @@ void Sprite::Init(const wchar_t * texFilePath, float w, float h)
 	);
 	//定数バッファを初期化。
 	InitConstantBuffer();
+	//ステートを保存。
+	m_DC = g_graphicsEngine->GetD3DDeviceContext();
+	GetRenderState();
 }
 
 void Sprite::Update(const CVector3 & trans, const CQuaternion & rot, const CVector3 & scale, CVector2 pivot)
@@ -242,4 +247,20 @@ void Sprite::InitSamplerState()
 	desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
+}
+
+void Sprite::SetRenderState()
+{
+	m_DC->OMSetDepthStencilState(m_depthState, 0);
+	m_DC->OMSetBlendState(m_blendState, nullptr, 0xFFFFFFFF);
+	m_DC->RSSetState(m_rasterrizerState);
+}
+
+void Sprite::GetRenderState()
+{
+	m_DC->OMGetDepthStencilState(&m_depthState, 0);
+	float blendfactor[4];
+	UINT mask;
+	m_DC->OMGetBlendState(&m_blendState, blendfactor, &mask);
+	m_DC->RSGetState(&m_rasterrizerState);
 }

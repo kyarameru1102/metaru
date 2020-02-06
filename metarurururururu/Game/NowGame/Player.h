@@ -72,6 +72,14 @@ public:
 	/// <param name="nextState">切り替えたいステート。</param>
 	void ChangeState(IPlayerState* nextState);
 	/// <summary>
+	/// ダメージを受ける処理。
+	/// </summary>
+	void Damage();
+	/// <summary>
+	/// リロード処理。
+	/// </summary>
+	void Reload();
+	/// <summary>
 	/// プレイヤーの回転を返してくる関数。
 	/// </summary>
 	/// <returns>rotation	回転。</returns>
@@ -113,9 +121,9 @@ public:
 		return m_clear;
 	}
 	/// <summary>
-	/// ダメージを受ける処理。
+	/// 弾丸が出ているか返す関数。
 	/// </summary>
-	void Damage();
+	/// <returns></returns>
 	bool GetDangan() const
 	{
 		return m_dangan;
@@ -148,4 +156,12 @@ private:
 	bool				m_Firing = false;							//銃を撃っているかどうか。
 	bool				m_dash = false;								//走っているかどうか。
 	bool				m_dangan = false;							//弾丸が出ているかどうか。
+	CSoundSource		m_shotSE;									//銃を撃つSE。
+	CSoundSource		m_shotSE2;									//銃を撃つSEが流れている間にもういちどおなじSEを使いたい場合に使う。
+	CSoundSource		m_shotSE3;									//上に同じ。
+	CSoundSource		m_shotSE4;									//同じ。
+	CSoundSource		m_shotSE5;									//同じ。
+	CSoundSource		m_shotSE6;									//同じ。
+	CSoundSource		m_shotSE7;									//同じ。
+	CSoundSource		m_shotSE8;									//同じ。
 };

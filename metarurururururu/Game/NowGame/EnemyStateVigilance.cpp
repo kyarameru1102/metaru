@@ -1,16 +1,6 @@
 #include "stdafx.h"
 #include "EnemyStateVigilance.h"
 
-
-EnemyStateVigilance::EnemyStateVigilance()
-{
-}
-
-
-EnemyStateVigilance::~EnemyStateVigilance()
-{
-}
-
 void EnemyStateVigilance::Enter()
 {
 }

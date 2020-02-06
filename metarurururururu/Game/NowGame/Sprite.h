@@ -47,7 +47,10 @@ public:
 	/// 描画。
 	/// </summary>
 	void Draw();
-
+	/// <summary>
+	/// アルファ値を設定する関数。
+	/// </summary>
+	/// <param name="delta">deltaに渡した値に応じてアルファ値を変更する。</param>
 	void DeltaAlpha(float delta)
 	{
 		m_alpha += delta;
@@ -59,6 +62,10 @@ public:
 			m_alpha = 0.0f;
 		}
 	}
+	/// <summary>
+	/// 現在のアルファ値を返す関数。
+	/// </summary>
+	/// <returns>m_alpha　アルファ値。</returns>
 	float GetAlpha() const
 	{
 		return m_alpha;
@@ -86,6 +93,8 @@ private:
 	/// サンプラステートの初期化。
 	/// </summary>
 	void InitSamplerState();
+	void SetRenderState();
+	void GetRenderState();
 private:
 	struct ConstantBuffer {
 		CMatrix WVP;		//ワールドビュープロジェクション行列。
@@ -104,5 +113,9 @@ private:
 	CVector2					m_size = CVector2::Zero();				//画像のサイズ。
 	ID3D11Buffer*				m_cb = nullptr;							//定数バッファ。
 	float						m_alpha = 1.0f;							//スプライトのα値。
+	ID3D11DeviceContext*		m_DC = nullptr;							//デバイスコンテキスト。
+	ID3D11DepthStencilState*	m_depthState = nullptr;					//現在のデプスステンシルステート。
+	ID3D11RasterizerState*		m_rasterrizerState = nullptr;			//現在のラスタライザステート。
+	ID3D11BlendState*			m_blendState = nullptr;					//現在のブレンドステート。
 };
 

@@ -119,9 +119,14 @@ void GameCamera::Update()
 		m_direction *= 120.0f;
 		m_LookInTo = false;
 	}
+	//e‚Ì”½“®B
 	if (g_pad[0].IsPress(enButtonRB2) && m_player->GetDangan() && !m_isLookOn) {
 		float randam = rand() / 8000.0f;
 		m_direction.y += -1.0f * randam;
+	}
+	//”½“®‚ÅƒJƒƒ‰‚ªã‚ÉŒü‚«‚·‚¬‚È‚¢‚æ‚¤‚ÉC³B
+	if (toPosDir.y < -0.7f) {
+		m_direction = toCameraPosOld;
 	}
 	
 	g_camera3D.SetPosition(NewPosition);

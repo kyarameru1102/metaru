@@ -77,6 +77,7 @@ public:
 	{
 		m_pivot = pivot;
 	}
+
 	void RenderFont();
 private:
 	Font m_font;

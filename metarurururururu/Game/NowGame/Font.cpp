@@ -23,6 +23,10 @@ Font::~Font()
 
 void Font::Begin()
 {
+	//レンダーステートを保存しておく。
+	m_DC = g_graphicsEngine->GetD3DDeviceContext();
+	GetRenderState();
+
 	m_spriteBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,
 		nullptr,
@@ -37,6 +41,8 @@ void Font::Begin()
 void Font::End()
 {
 	m_spriteBatch->End();
+	//レンダーステートを設定しなおす。
+	SetRenderState();
 }
 
 void Font::Draw(
@@ -68,4 +74,20 @@ void Font::Draw(
 		DirectX::XMFLOAT2(pivot.x, pivot.y),
 		scale
 	);
+}
+
+void Font::SetRenderState()
+{
+	m_DC->OMSetDepthStencilState(m_depthState, 0);
+	m_DC->OMSetBlendState(m_blendState, nullptr, 0xFFFFFFFF);
+	m_DC->RSSetState(m_rasterrizerState);
+}
+
+void Font::GetRenderState()
+{
+	m_DC->OMGetDepthStencilState(&m_depthState, 0);
+	float blendfactor[4];
+	UINT mask;
+	m_DC->OMGetBlendState(&m_blendState, blendfactor, &mask);
+	m_DC->RSGetState(&m_rasterrizerState);
 }

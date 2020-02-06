@@ -6,6 +6,7 @@
 
 Title::Title()
 {
+	m_se.Init(L"Assets/sound/gunfire.wav");
 }
 
 
@@ -24,6 +25,7 @@ void Title::Update()
 	if (g_pad->IsTrigger(enButtonA) && !m_on) {
 		m_on = true;
 		NewGO<AfterTitle>(0, "afterTitle");
+		m_se.Play(false);
 	}
 	if (m_on) {
 		m_count++;

@@ -6,8 +6,6 @@
 class EnemyStateHesitate : public IEnemyState
 {
 public:
-	EnemyStateHesitate();
-	~EnemyStateHesitate();
 	virtual void Enter();
 	virtual void Leave();
 	virtual void Update();

@@ -17,7 +17,9 @@ Game* Game::m_game = nullptr;
 
 Game::Game()
 {
-	int aaa = 0;
+	m_bgm.Init(L"Assets/sound/wind1.wav");
+	m_bgm.Play(true);
+	m_bgm.SetVolume(0.3f);
 }
 
 
@@ -109,7 +111,6 @@ bool Game::Start()
 	if (m_game == nullptr) {
 		m_game = this;
 	}
-
 	return true;
 }
 

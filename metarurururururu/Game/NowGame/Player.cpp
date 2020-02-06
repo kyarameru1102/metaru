@@ -7,6 +7,14 @@
 Player::Player()
 {
 	m_ui = NewGO<UI>(0, "ui");
+	m_shotSE.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE2.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE3.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE4.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE5.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE6.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE7.Init(L"Assets/sound/gunfire.wav");
+	m_shotSE8.Init(L"Assets/sound/gunfire.wav");
 }
 
 
@@ -27,13 +35,11 @@ bool Player::Start()
 	m_animClips[enAnimationClip_reload].Load(L"Assets/animData/heisi_reload.tka");
 	m_animClips[enAnimationClip_death].Load(L"Assets/animData/heisi_death.tka");
 	
-
 	m_animClips[enAnimationClip_idle].SetLoopFlag(true);
 	m_animClips[enAnimationClip_run].SetLoopFlag(true);
 	m_animClips[enAnimationClip_shot].SetLoopFlag(true);
 	m_animClips[enAnimationClip_walk].SetLoopFlag(true);
 	m_animClips[enAnimationClip_hold].SetLoopFlag(true);
-
 
 	m_charaCon.Init(
 		15.0f,
@@ -63,7 +69,6 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
-	
 	if (!m_clear) {
 
 		if (m_position.y <= -10.0f) {
@@ -92,13 +97,7 @@ void Player::Update()
 			}
 			//リロード処理。
 			if (m_currentstate == &m_reloadState) {
-				m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
-				m_reloadTimer--;
-				if (m_reloadTimer <= 0) {
-					m_ammo = 30;
-					ChangeState(&m_idleState);
-					m_reloadTimer = 130;
-				}
+				Reload();
 			}
 			else if (!g_pad[0].IsPressAnyKey())
 			{
@@ -126,33 +125,20 @@ void Player::Update()
 				//パッドのR2が押されていたら。
 				if (g_pad[0].IsPress(enButtonRB2))
 				{
-					m_dangan = false;
-					//残弾があれば。
-					if (m_ammo >= 1) {
-						//ステートを切り替える。
-						ChangeState(&m_holdGunState);
-						//撃つ。
-						if (m_shotTimer == 0) {
-							Firing();
-							m_shotTimer = 5;
-							m_ammo--;
-							m_dangan = true;
-						}
-						m_Firing = true;
-						m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1);
-						m_shotTimerOn = true;
-					}
+					//撃つ。
+					Firing();
 				}
 				else {
 					//撃っていない。
 					m_Firing = false;
 					m_shotTimer = 0;
 					m_shotTimerOn = false;
+					m_dangan = false;
 				}
 				if (m_shotTimerOn) {
 					m_shotTimer--;
 				}
-				if (g_pad[0].IsPress(enButtonX)) {
+				if (g_pad[0].IsPress(enButtonX) && !m_dangan) {
 					ChangeState(&m_reloadState);
 				}
 			}
@@ -264,8 +250,8 @@ void Player::HoldMove()
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
 
-	m_moveSpeed += cameraRight * Lstick.x * 150;
-	m_moveSpeed += cameraFront * Lstick.y * 150;
+	m_moveSpeed += cameraRight * Lstick.x * 100;
+	m_moveSpeed += cameraFront * Lstick.y * 100;
 }
 
 void Player::Rotation()
@@ -300,22 +286,62 @@ void Player::HoldRotation()
 	}
 	m_rotation.SetRotation({ 0.0f,1.0f,0.0f }, atan2f(moveSpeedXZ.x, moveSpeedXZ.z));
 }
+//銃を撃つ。
 void Player::Firing()
 {
-	Bullet* bullet = nullptr;
-	bullet = NewGO<Bullet>(0, "bullet");
-	CVector3 BulletDrc;
-	if (m_fps) {
-		BulletDrc = m_fpsCamera->Getdirection();
+	m_dangan = false;
+	//残弾があれば。
+	if (m_ammo >= 1) {
+		//ステートを切り替える。
+		ChangeState(&m_holdGunState);
+		//撃つ。
+		if (m_shotTimer == 0) {
+			Bullet* bullet = nullptr;
+			bullet = NewGO<Bullet>(0, "bullet");
+			CVector3 BulletDrc;
+			if (m_fps) {
+				BulletDrc = m_fpsCamera->Getdirection();
+			}
+			else if (!m_fps) {
+				BulletDrc = m_gameCamera->Getdirection() * -1;
+			}
+			BulletDrc.Normalize();
+			BulletDrc *= 100;
+			bullet->SetPosition(m_position);
+			bullet->SetmoveSpeed(BulletDrc);
+			bullet->SetPlayer();
+			if (m_shotSE.IsPlaying() == false) {
+				m_shotSE.Play(false);
+			}
+			else if(m_shotSE2.IsPlaying() == false){
+				m_shotSE2.Play(false);
+			}
+			else if (m_shotSE3.IsPlaying() == false) {
+				m_shotSE3.Play(false);
+			}
+			else if (m_shotSE4.IsPlaying() == false) {
+				m_shotSE4.Play(false);
+			}
+			else if (m_shotSE5.IsPlaying() == false) {
+				m_shotSE5.Play(false);
+			}
+			else if (m_shotSE6.IsPlaying() == false) {
+				m_shotSE6.Play(false);
+			}
+			else if (m_shotSE7.IsPlaying() == false) {
+				m_shotSE7.Play(false);
+			}
+			else if (m_shotSE8.IsPlaying() == false) {
+				m_shotSE8.Play(false);
+			}
+			m_shotTimer = 5;
+			m_ammo--;
+			m_dangan = true;
+		}
+		m_Firing = true;
+		m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1);
+		m_shotTimerOn = true;
 	}
-	else if (!m_fps) {
-		BulletDrc = m_gameCamera->Getdirection() * -1;
-	}
-	BulletDrc.Normalize();
-	BulletDrc *= 100;
-	bullet->SetPosition(m_position);
-	bullet->SetmoveSpeed(BulletDrc);
-	bullet->SetPlayer();
 }
 //FPSカメラに切り替える関数。
 void Player::CameraSwitchFPS()
@@ -340,7 +366,6 @@ void Player::CameraSwitchTPS()
 {
 	if (m_fps == true)
 	{
-		//m_skinModelRender->SetRenderOn(true);
 		CVector3 direction;
 		direction = m_fpsCamera->Getdirection();
 		DeleteGO(m_fpsCamera);
@@ -376,5 +401,16 @@ void Player::Damage()
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
 		m_death = true;
+	}
+}
+
+void Player::Reload()
+{
+	m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
+	m_reloadTimer--;
+	if (m_reloadTimer <= 0) {
+		m_ammo = 30;
+		ChangeState(&m_idleState);
+		m_reloadTimer = 130;
 	}
 }

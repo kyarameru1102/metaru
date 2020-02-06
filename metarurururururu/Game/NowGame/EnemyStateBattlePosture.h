@@ -6,8 +6,6 @@
 class EnemyStateBattlePosture : public IEnemyState
 {
 public:
-	EnemyStateBattlePosture();
-	~EnemyStateBattlePosture();
 	virtual void Enter();
 	virtual void Leave();
 	virtual void Update();
