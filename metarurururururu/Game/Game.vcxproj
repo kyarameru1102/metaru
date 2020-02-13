@@ -167,6 +167,8 @@
     <ClCompile Include="NowGame\sensya.cpp" />
     <ClCompile Include="NowGame\Sprite.cpp" />
     <ClCompile Include="NowGame\PlayerReloadState.cpp" />
+    <ClCompile Include="NowGame\PlayerCreepState.cpp" />
+    <ClCompile Include="NowGame\PlayerCreepMoveState.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -255,6 +257,8 @@
     <ClInclude Include="NowGame\sensya.h" />
     <ClInclude Include="NowGame\Sprite.h" />
     <ClInclude Include="NowGame\PlayerReloadState.h" />
+    <ClInclude Include="NowGame\PlayerCreepState.h" />
+    <ClInclude Include="NowGame\PlayerCreepMoveState.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\WaveFile.h" />
@@ -342,6 +346,16 @@
     </ImageContentTask>
     <ImageContentTask Include="Assets\sprite\mozi2.png">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\damage.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\damage2.png">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
     </ImageContentTask>
   </ItemGroup>

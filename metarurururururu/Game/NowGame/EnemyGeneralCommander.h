@@ -18,10 +18,7 @@ public:
 	{
 		m_enemyArray.push_back(enemy);
 	}
-	void SetSubjectDestroyed(bool subjectDestroyed)
-	{
-		m_subjectDestroyed = subjectDestroyed;
-	}
+	
 private:
 	std::vector<Enemy*>			m_enemyArray;								//“G•º‚Ì”z—ñB
 	bool						m_combatStart = false;						//í“¬‘Ô¨‚©‚Ç‚¤‚©B	

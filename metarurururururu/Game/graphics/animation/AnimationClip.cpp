@@ -15,7 +15,7 @@ AnimationClip::~AnimationClip()
 	}
 }
 
-void AnimationClip::Load(const wchar_t* filePath)
+void AnimationClip::Load(const wchar_t* filePath, const wchar_t* clipName)
 {
 	FILE* fp = _wfopen(filePath, L"rb");
 	if (fp == nullptr) {
@@ -29,15 +29,29 @@ void AnimationClip::Load(const wchar_t* filePath)
 #endif
 		return;
 	}
-	
+	if (clipName != nullptr) {
+		m_clipName = clipName;
+	}
 	//アニメーションクリップのヘッダーをロード。
 	AnimClipHeader header;
 	fread(&header, sizeof(header), 1, fp);
 		
 	if (header.numAnimationEvent > 0) {
-		//アニメーションイベントは未対応。
-		//就職作品でチャレンジしてみよう。
-		std::abort();
+		m_animationEvent = std::make_unique<CAnimationEvent[]>(header.numAnimationEvent);
+		//アニメーションイベントがあるなら、イベント情報をロードする。
+		for (auto i = 0; i < (int)header.numAnimationEvent; i++) {
+			AnimationEvent animEvent;
+			fread(&animEvent, sizeof(animEvent), 1, fp);
+			//イベント名をロードする。
+			static char eventName[256];
+			static wchar_t wEventName[256];
+			fread(eventName, animEvent.eventNameLength + 1, 1, fp);
+			mbstowcs(wEventName, eventName, 255);
+			m_animationEvent[i].SetInvokeTime(animEvent.invokeTime);
+			animEvent.invokeTime;
+			m_animationEvent[i].SetEventName(wEventName);
+		}
+		m_numAnimationEvent = header.numAnimationEvent;
 	}
 
 

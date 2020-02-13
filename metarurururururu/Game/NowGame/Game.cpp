@@ -70,7 +70,9 @@ bool Game::Start()
 			return 0;
 		}
 	);
-	//敵の総司令的存在を生成。
+	//@todo for debug
+#if 1
+	////敵の総司令的存在を生成。
 	m_EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。
 	//敵生成時に同時にナビメッシュが生成される。
@@ -98,6 +100,7 @@ bool Game::Start()
 			return 0;
 		}
 	);
+#endif
 	//ナビゲーションメッシュを生成した後に地面を生成。
 	m_ground = NewGO<Ground>(0);
 	//カメラ生成。

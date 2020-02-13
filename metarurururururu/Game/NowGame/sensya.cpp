@@ -53,19 +53,16 @@ bool sensya::Start()
 
 void sensya::Update()
 {
-	CVector3 toPlayer = m_player->GetPosition() - m_position;
-	if (toPlayer.Length() < 500.0f)	{
-		if (g_pad[0].IsTrigger(enButtonB)) {
-			C4* c4;
-			c4 = NewGO<C4>(0,"c4");
-			c4->SetPosition(m_player->GetPosition());
-			c4->SetRotation(m_player->GetRotation());
+	QueryGOs<C4>("c4", [&](C4* c4) 
+		{
+		if ((c4->GetPosition() - m_position).Length() <= 500.0f) {
 			m_c4On = true;
 		}
-	}
+		return true;
+		}
+	);
 	if (m_c4On) {
-		if (g_pad[0].IsTrigger(enButtonX)) {
-			NewGO<TargetDestruction>(0, "TargetDestruction");
+		if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY)) {
 			NewGO<ClearPoint>(0, "clearPoint");
 			DeleteGO(this);
 		}

@@ -82,6 +82,10 @@ bool Enemy::Start()
 	m_moveSpeed = CVector3::Zero();
 	m_moveSpeed.x = -1.0f;
 	m_moveSpeed.Normalize();
+	Animation& anim = m_skinModelRender->GetAnimation();
+	anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) {
+		OnAnimationEvent();
+		});
 	return true;
 }
 
@@ -92,9 +96,10 @@ void Enemy::Update()
 	}
 	Damage();
 	
-	if (!m_death) {
-		//移動系処理。
+	if (!m_death && !m_player->GetDeath()) {
+		if(!m_relodeOn)
 		{
+		//移動系処理。
 			//徘徊中。
 			if (m_currentstate == &EnemyState::m_hesitate) {
 				PathMove();
@@ -183,7 +188,9 @@ void Enemy::Update()
 					}
 				}
 				else {
-					m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.3);
+					if (!m_relodeOn) {
+						m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.3);
+					}
 					m_onFiring = false;
 					m_shotTimer = 0;
 					m_shotTimerOn = false;
@@ -199,12 +206,12 @@ void Enemy::Update()
 		Rotation();
 		m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 		m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-		m_skinModelRender->SetRotation(m_rotation);
-		m_skinModelRender->SetPosition(m_position);
 	}
 	else {
 		m_itai = false;
 	}
+	m_skinModelRender->SetRotation(m_rotation);
+	m_skinModelRender->SetPosition(m_position);
 }
 
 void Enemy::Init()
@@ -341,7 +348,15 @@ void Enemy::BattleMove()
 void Enemy::Firing()
 {
 	CVector3 EnemyBulletDrc;
-	EnemyBulletDrc = m_player->GetPosition() - m_position;
+	CVector3 nextpos, startpos;
+	startpos = m_position;
+	startpos.y += 80.0f;
+	nextpos = m_player->GetPosition();
+	if (!m_player->GetCreep()) {
+		nextpos.y += 80.0f;
+	}
+
+	EnemyBulletDrc = nextpos - startpos;
 	EnemyBulletDrc.Normalize();
 	EnemyBulletDrc *= 100.0f;
 	Bullet* bullet = nullptr;
@@ -351,7 +366,11 @@ void Enemy::Firing()
 	bullet->SetEnemy();
 	EnemyBulletDrc.Normalize();
 	m_moveSpeed = EnemyBulletDrc * 0.1;
-	
+	//銃を撃つ時のSE。
+	CSoundSource* m_shotSE;
+	m_shotSE = NewGO<CSoundSource>(0);
+	m_shotSE->Init(L"Assets/sound/gunfire.wav");
+	m_shotSE->Play(false);
 }
 //移動時のアニメーション。
 void Enemy::MoveAnimation()
@@ -412,6 +431,7 @@ void Enemy::Damage()
 			if (bullet->GetWhosebullet())
 			{
 				m_hp--;
+				//DeleteGO(bullet);
 				m_itai = true;
 			}
 			else {
@@ -457,7 +477,12 @@ void Enemy::ShotPossible()
 	start.setIdentity();
 	end.setIdentity();
 	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-	end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+	if (m_player->GetCreep()) {
+		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y, m_player->GetPosition().z));
+	}
+	else {
+		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+	}
 	ShotCallBack callBack;
 	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
 	if (callBack.hit) {
@@ -496,4 +521,13 @@ void Enemy::AstarSmooth()
 			}
 		}
 	}
+}
+
+void Enemy::OnAnimationEvent()
+{
+	////足音のSE。
+	//CSoundSource* m_walkSE;
+	//m_walkSE = NewGO<CSoundSource>(0);
+	//m_walkSE->Init(L"Assets/sound/footstep.wav");
+	//m_walkSE->Play(false);
 }

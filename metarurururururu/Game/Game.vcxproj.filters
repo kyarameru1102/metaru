@@ -294,6 +294,12 @@
     <ClCompile Include="sound\WaveFileBank.cpp">
       <Filter>NowGame\sound</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\PlayerCreepState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerCreepMoveState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -530,6 +536,12 @@
     <ClInclude Include="sound\WaveFileBank.h">
       <Filter>NowGame\sound</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\PlayerCreepState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerCreepMoveState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -618,5 +630,13 @@
     <ImageContentTask Include="Assets\sprite\mozi2.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\damage.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\sprite\damage2.png">
+      <Filter>Assets\sprite</Filter>
+    </Image>
   </ItemGroup>
 </Project>

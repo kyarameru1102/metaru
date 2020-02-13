@@ -17,14 +17,20 @@ bool UI::Start()
 {
 	Game* game = GetGame();
 	m_player = game->GetPlayer();
-	m_sprite.Init(L"Assets/sprite/kaasoru.dds", 100, 100);
+	m_sprite.Init(L"Assets/sprite/kaasoru.dds", 100.0f, 100.0f);
 	m_fontRender = NewGO<FontRender>(0);
 	m_fontRender->SetPosition({ 450.0f,0.0f });
+	m_damegeSprite.Init(L"Assets/sprite/damage.dds", 1280.0f, 720.0f);
+	m_damegeSprite2.Init(L"Assets/sprite/damage2.dds", 1280.0f, 720.0f);
+	m_damegeSprite2.DeltaAlpha(-1.0f);
+	m_maxHP = m_player->GetHP();
 	return true;
 }
 
 void UI::Update()
 {
+	Damage();
+
 	if (m_sprite.GetAlpha() <= 0.5f) {
 		m_sprite.DeltaAlpha(0.5f);
 	}
@@ -40,10 +46,28 @@ void UI::Update()
 		return true;
 	});
 	m_sprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_damegeSprite.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	m_damegeSprite2.Update(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
 	g_camera2D.Update();
+}
+
+void UI::Damage()
+{
+	m_HP = m_player->GetHP();
+	m_HP /= m_maxHP;
+	m_HP *= -1.0f;
+	m_damegeSprite.SetAlpha(m_HP);
+	if (m_player->GetHP() < m_maxHP) {
+		m_damegeSprite2.DeltaAlpha(1.0f);
+	}
+	else {
+		m_damegeSprite2.DeltaAlpha(-1.0f);
+	}
 }
 
 void UI::Render2D()
 {
 	m_sprite.Draw();
+	m_damegeSprite.Draw();
+	m_damegeSprite2.Draw();
 }

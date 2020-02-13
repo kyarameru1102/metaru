@@ -5,8 +5,6 @@
 
 C4::C4()
 {
-	m_sensya = FindGO<sensya>("sensya");
-	m_EGC = FindGO<EnemyGeneralCommander>("EnemyGeneralCommander");
 }
 
 C4::~C4()
@@ -26,8 +24,8 @@ bool C4::Start()
 
 void C4::Update()
 {
-	if (g_pad[0].IsTrigger(enButtonX)) {
-		m_EGC->SetSubjectDestroyed(true);
+	if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY)) {
+		//”š”­—\’èB
 		DeleteGO(this);
 	}
 }

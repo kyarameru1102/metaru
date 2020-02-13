@@ -41,17 +41,17 @@ void FPSCamera::Update()
 
 	CVector3 toPosDir = m_direction;
 	toPosDir.Normalize();
-
-	if (toPosDir.y < -0.7f) {
+	//”½“®ˆ—B
+	if (g_pad[0].IsPress(enButtonRB2) && m_player->GetDangan()) {
+		m_direction.y += 1.0f;
+	}
+	if (toPosDir.y < -0.8f) {
 		m_direction = directionOld;
 	}
 	if (toPosDir.y > 0.8f) {
 		m_direction = directionOld;
 	}
 
-	if (g_pad[0].IsPress(enButtonRB2) && m_player->GetDangan()) {
-		m_direction.y += 1.0f;
-	}
 
 	CVector3 target = m_position + m_direction;
 

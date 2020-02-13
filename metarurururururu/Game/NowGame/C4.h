@@ -1,7 +1,4 @@
 #pragma once
-
-class EnemyGeneralCommander;
-class sensya;
 class C4 : public IGameObject
 {
 public:
@@ -36,6 +33,10 @@ public:
 	void SetRotation(CQuaternion rot)
 	{
 		m_rotation = rot;
+	}
+	CVector3 GetPosition() const
+	{
+		return m_position;
 	}
 private:
 	SkinModelRender*		m_skinModelRender = nullptr;				//スキンモデルレンダー。

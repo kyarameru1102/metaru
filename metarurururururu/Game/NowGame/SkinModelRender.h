@@ -93,7 +93,9 @@ public:
 	{
 		m_shadowCasterOn = caster;
 	}
-	
+	Animation& GetAnimation()  {
+		return m_animation2;
+	}
 private:
 	bool Start() override;
 	void Update() override;

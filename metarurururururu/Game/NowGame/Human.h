@@ -38,7 +38,7 @@ public:
 protected:
 	SkinModel			m_model;									//スキンモデル。
 	SkinModelRender*	m_skinModelRender = nullptr;				//スキンモデルレンダー。
-	CVector3			m_moveSpeed = CVector3::Zero();				//移動速度。
+	CVector3			m_moveSpeed = CVector3::Zero();				//移動速度及び移動方向。
 	CVector3			m_position = CVector3::Zero();				//座標。
 	CQuaternion			m_rotation = CQuaternion::Identity();		//回転。
 	bool				m_death = false;							//死んでいるかどうか。

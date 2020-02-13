@@ -3,18 +3,25 @@
 #include "GameCamera.h"
 #include "FPSCamera.h"
 #include "GameOver.h"
+#include "C4.h"
+
+struct FootStepCallBack : public btCollisionWorld::ClosestConvexResultCallback
+{
+	bool hit = false;
+	FootStepCallBack() :
+		btCollisionWorld::ClosestConvexResultCallback(btVector3(0.0f, 0.0f, 0.0f), btVector3(0.0f, 0.0f, 0.0f))
+	{}
+	virtual	btScalar addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
+	{
+		hit = true;
+		return 0.0;
+	}
+};
 
 Player::Player()
 {
 	m_ui = NewGO<UI>(0, "ui");
-	m_shotSE.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE2.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE3.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE4.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE5.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE6.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE7.Init(L"Assets/sound/gunfire.wav");
-	m_shotSE8.Init(L"Assets/sound/gunfire.wav");
+
 }
 
 
@@ -34,12 +41,18 @@ bool Player::Start()
 	m_animClips[enAnimationClip_shotend].Load(L"Assets/animData/heisi_shotend.tka");
 	m_animClips[enAnimationClip_reload].Load(L"Assets/animData/heisi_reload.tka");
 	m_animClips[enAnimationClip_death].Load(L"Assets/animData/heisi_death.tka");
+	m_animClips[enAnimationClip_creep_idle].Load(L"Assets/animData/heisi_huse_idle.tka");
+	m_animClips[enAnimationClip_creep_forward].Load(L"Assets/animData/heisi_creepingForward.tka");
 	
 	m_animClips[enAnimationClip_idle].SetLoopFlag(true);
 	m_animClips[enAnimationClip_run].SetLoopFlag(true);
 	m_animClips[enAnimationClip_shot].SetLoopFlag(true);
 	m_animClips[enAnimationClip_walk].SetLoopFlag(true);
 	m_animClips[enAnimationClip_hold].SetLoopFlag(true);
+	m_animClips[enAnimationClip_creep_idle].SetLoopFlag(true);
+	m_animClips[enAnimationClip_creep_forward].SetLoopFlag(true);
+	
+
 
 	m_charaCon.Init(
 		15.0f,
@@ -54,6 +67,18 @@ bool Player::Start()
 	m_skinModelRender->SetShadowReciever(true);
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
+
+	m_maxHP = m_hp;
+	m_maxAmmo = m_ammo;
+
+	//アニメーションイベントを設定する。
+	Animation& anim = m_skinModelRender->GetAnimation();
+	anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) 
+		{
+			OnAnimationEvent();
+		}
+	);
+
 	return true;
 }
 
@@ -69,17 +94,30 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
+	//@todo for debug
+#if 1
 	if (!m_clear) {
-
+		//マップから落ちてしまったときの処理。
 		if (m_position.y <= -10.0f) {
 			m_hp = 0;
 		}
-
+		//ダメージ処理。
 		Damage();
 
 		if (!m_death) {
 			m_currentstate->Update();
 
+			//C4設置処理。
+			InstallationC4();
+
+			//伏せているかどうかのフラグ解除。
+			if (m_currentstate != &m_creepState && m_currentstate != &m_creepMoveState) {
+				m_creep = false;
+			}
+
+			//自然回復。
+			NaturalRecovery();
+			
 			//銃を構えているなら。
 			if (m_currentstate == &m_holdGunState || m_currentstate == &m_reloadState)
 			{
@@ -91,17 +129,40 @@ void Player::Update()
 			//銃を構えていなくて動けるなら。
 			else if (m_currentstate->IsPossibleMove())
 			{
-				if (m_currentstate != &m_holdGunState) {
+				if (m_currentstate == &m_creepState || m_currentstate == &m_creepMoveState) {
+					m_creep = true;
+					Creep();
+					CreepMove();
+				}
+				else if (m_currentstate != &m_holdGunState) {
 					Move();
+				}
+			}
+			//伏せてなくて何も押されていないなら。
+			else if (!g_pad[0].IsPressAnyKey() && m_currentstate != &m_creepState && m_currentstate != &m_creepMoveState)
+			{
+				ChangeState(&m_idleState);
+			}
+			//伏せ切り替え。
+			if (m_currentstate == &m_idleState || m_currentstate == &m_moveState)
+			{
+				//Aボタンが押されたら。
+				if (g_pad[0].IsTrigger(enButtonA))
+				{
+					//伏せステートに切り替える。
+					ChangeState(&m_creepState);
+				}
+			}
+			//伏せステートなら。
+			else if (m_currentstate == &m_creepState) {
+				
+				if (g_pad[0].IsTrigger(enButtonA)) {
+					ChangeState(&m_idleState);
 				}
 			}
 			//リロード処理。
 			if (m_currentstate == &m_reloadState) {
 				Reload();
-			}
-			else if (!g_pad[0].IsPressAnyKey())
-			{
-				ChangeState(&m_idleState);
 			}
 			//銃が撃てるステートなら。
 			if (m_currentstate->IsPossibleGunShoot()) {
@@ -134,61 +195,77 @@ void Player::Update()
 					m_shotTimer = 0;
 					m_shotTimerOn = false;
 					m_dangan = false;
+					if (!g_pad[0].IsPress(enButtonLB2) && !g_pad[0].IsPress(enButtonLB1)) {
+						ChangeState(&m_idleState);
+					}
 				}
 				if (m_shotTimerOn) {
 					m_shotTimer--;
 				}
-				if (g_pad[0].IsPress(enButtonX) && !m_dangan) {
+				//リロードステート切り替え。
+				if (g_pad[0].IsPress(enButtonX) && !m_dangan && m_ammo < m_maxAmmo) {
 					ChangeState(&m_reloadState);
 				}
-			}
 
-			if (g_pad[0].IsPress(enButtonLB2)) {
-				if (m_currentstate != &m_reloadState) {
-					if (!m_Firing) {
-						m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+				//L2ボタンが押されたときの処理。
+				if (g_pad[0].IsPress(enButtonLB2)) {
+					//リロードステート以外ならば。
+					if (m_currentstate != &m_reloadState) {
+						//銃を構える。
+						if (!m_Firing) {
+							m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+						}
+						m_skinModelRender->SetRenderOn(false);
+						//一人称視点に切り替える。
+						CameraSwitchFPS();
 					}
-					m_skinModelRender->SetRenderOn(false);
-					CameraSwitchFPS();
+					else {
+						m_skinModelRender->SetRenderOn(true);
+						//三人称視点に切り替える。
+						CameraSwitchTPS();
+					}
 				}
 				else {
 					m_skinModelRender->SetRenderOn(true);
 					CameraSwitchTPS();
 				}
 			}
-			else {
-				m_skinModelRender->SetRenderOn(true);
-				CameraSwitchTPS();
-			}
-
 			if (m_currentstate->IsRotateByMove()) {
 				Rotation();
 			}
-			MoveAnimation();
-
-
-
+			if (m_currentstate != &m_creepState && m_currentstate != &m_creepMoveState) {
+				//移動アニメーション。
+				MoveAnimation();
+			}
 			//重力。
 			m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
+			//キャラクターコントローラーをもとに座標を設定。
 			m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 		}
 	}
+#endif
+	//スキンモデルに座標と回転を設定。
 	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }
 
 void Player::Move()
 {
-	if (m_currentstate != &m_reloadState) {
+	//リロードステート以外で。
+	if (m_currentstate != &m_reloadState) 
+	{
+		//移動ステートでなければ。
 		if (m_currentstate != &m_moveState)
 		{
+			//移動ステートに切り替える。
 			ChangeState(&m_moveState);
 		}
 	}
+	//左スティックの入力量を取得。
 	CVector3 Lstick;
 	Lstick.x = g_pad[0].GetLStickXF();
 	Lstick.y = g_pad[0].GetLStickYF();
-	
+	//カメラの前方方向と右方向を取得。
 	CVector3 cameraFront = g_camera3D.GetFront();
 	CVector3 cameraRight = g_camera3D.GetRight();
 
@@ -199,35 +276,43 @@ void Player::Move()
 
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
-
-	m_moveSpeed += cameraRight * Lstick.x * 300;
-	m_moveSpeed += cameraFront * Lstick.y * 300;
+	//移動速度を設定。
+	m_moveSpeed += cameraRight * Lstick.x * 200;
+	m_moveSpeed += cameraFront * Lstick.y * 200;
 }
 
+//基本的に下半身に適用するアニメーションを設定する関数。
 void Player::MoveAnimation()
 {
 	CVector3 toNextLength;
+	//次の座標。
 	CVector3 nextPos = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
+	//次の座標までの距離。
 	toNextLength = nextPos - m_position;
 	if(toNextLength.Length() >= 6.0f)
 	{
 		if (m_currentstate != &m_reloadState) {
-			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
+			//上半身に走りアニメーション適用。
+			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5f);
 		}
 		m_dash = true;
-		m_skinModelRender->PlayAnimation(enAnimationClip_run,false,0.5);
+		//下半身に走りアニメーション適用。
+		m_skinModelRender->PlayAnimation(enAnimationClip_run,false,0.5f);
 	}
-	else if (toNextLength.Length() >= 0.1f) {
+	else if (toNextLength.Length() >= 1.1f) {
 		m_dash = false;
-		m_skinModelRender->PlayAnimation(enAnimationClip_walk,false, 0.5);
+		//下半身に歩きアニメーション適用。
+		m_skinModelRender->PlayAnimation(enAnimationClip_walk,false, 0.5f);
 	}
 	else {
 		if (m_currentstate == &m_holdGunState)
 		{
-			m_skinModelRender->PlayAnimation(enAnimationClip_hold, false, 0.3);
+			//下半身に銃を構えるアニメーション適用。
+			m_skinModelRender->PlayAnimation(enAnimationClip_hold, false, 0.3f);
 		}
 		else {
-			m_skinModelRender->PlayAnimation(enAnimationClip_idle, false, 0.3);
+			//下半身に待機アニメーション適用。
+			m_skinModelRender->PlayAnimation(enAnimationClip_idle, false, 0.3f);
 		}
 		m_dash = false;
 	}
@@ -235,10 +320,11 @@ void Player::MoveAnimation()
 
 void Player::HoldMove()
 {
+	//左スティックの入力量を取得。
 	CVector3 Lstick;
 	Lstick.x = g_pad[0].GetLStickXF();
 	Lstick.y = g_pad[0].GetLStickYF();
-
+	//カメラの前方方向と右方向を取得。
 	CVector3 cameraFront = g_camera3D.GetFront();
 	CVector3 cameraRight = g_camera3D.GetRight();
 
@@ -249,13 +335,14 @@ void Player::HoldMove()
 
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
-
+	//移動速度を設定。
 	m_moveSpeed += cameraRight * Lstick.x * 100;
 	m_moveSpeed += cameraFront * Lstick.y * 100;
 }
 
 void Player::Rotation()
 {
+	//移動する方向を求める。
 	CVector3 moveSpeedXZ = m_moveSpeed;
 	moveSpeedXZ.y = 0.0f;
 	moveSpeedXZ.Normalize();
@@ -268,8 +355,7 @@ void Player::Rotation()
 
 void Player::HoldRotation()
 {
-	
-	CVector3 moveSpeedXZ = CVector3::One();
+	CVector3 moveSpeedXZ;
 	if (m_fps == true) {
 		m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 		moveSpeedXZ = m_fpsCamera->Getdirection();
@@ -296,8 +382,10 @@ void Player::Firing()
 		ChangeState(&m_holdGunState);
 		//撃つ。
 		if (m_shotTimer == 0) {
+			//弾丸生成。
 			Bullet* bullet = nullptr;
 			bullet = NewGO<Bullet>(0, "bullet");
+			//弾丸の向き。
 			CVector3 BulletDrc;
 			if (m_fps) {
 				BulletDrc = m_fpsCamera->Getdirection();
@@ -306,41 +394,33 @@ void Player::Firing()
 				BulletDrc = m_gameCamera->Getdirection() * -1;
 			}
 			BulletDrc.Normalize();
+			//速度も設定。
 			BulletDrc *= 100;
+			//初期位置設定。
 			bullet->SetPosition(m_position);
+			//移動速度及び移動方向を設定。
 			bullet->SetmoveSpeed(BulletDrc);
+			//プレイヤーの弾丸であることを設定。
 			bullet->SetPlayer();
-			if (m_shotSE.IsPlaying() == false) {
-				m_shotSE.Play(false);
-			}
-			else if(m_shotSE2.IsPlaying() == false){
-				m_shotSE2.Play(false);
-			}
-			else if (m_shotSE3.IsPlaying() == false) {
-				m_shotSE3.Play(false);
-			}
-			else if (m_shotSE4.IsPlaying() == false) {
-				m_shotSE4.Play(false);
-			}
-			else if (m_shotSE5.IsPlaying() == false) {
-				m_shotSE5.Play(false);
-			}
-			else if (m_shotSE6.IsPlaying() == false) {
-				m_shotSE6.Play(false);
-			}
-			else if (m_shotSE7.IsPlaying() == false) {
-				m_shotSE7.Play(false);
-			}
-			else if (m_shotSE8.IsPlaying() == false) {
-				m_shotSE8.Play(false);
-			}
+			//銃を撃つ時のSE。
+			CSoundSource* m_shotSE;
+			m_shotSE = NewGO<CSoundSource>(0);
+			m_shotSE->Init(L"Assets/sound/gunfire.wav");
+			m_shotSE->Play(false);
+
 			m_shotTimer = 5;
 			m_ammo--;
 			m_dangan = true;
 		}
 		m_Firing = true;
-		m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1);
+		//上半身に銃を撃つアニメーション適用。
+		m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1f);
 		m_shotTimerOn = true;
+	}
+	else {
+		if (!m_dash) {
+			m_skinModelRender->PlayAnimation(enAnimationClip_idle, true, 0.1f);
+		}
 	}
 }
 //FPSカメラに切り替える関数。
@@ -356,10 +436,8 @@ void Player::CameraSwitchFPS()
 		m_fps = true;
 		if (m_currentstate != &m_holdGunState) {
 			ChangeState(&m_holdGunState);
-		}
-		
+		}	
 	}
-	
 }
 //TPSカメラに切り替える。
 void Player::CameraSwitchTPS()
@@ -392,12 +470,14 @@ void Player::Damage()
 			if (!bullet->GetWhosebullet())
 			{
 				m_hp--;
+				//DeleteGO(bullet);
 			}
 		}
 		return true;
 		});
 	if (m_hp <= 0 && !m_death) {
 		NewGO<GameOver>(0, "gameOver");
+		//上半身と下半身に死亡アニメーション適用。
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
 		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
 		m_death = true;
@@ -406,11 +486,99 @@ void Player::Damage()
 
 void Player::Reload()
 {
+	//上半身にリロードアニメーションを適用。
 	m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
 	m_reloadTimer--;
 	if (m_reloadTimer <= 0) {
-		m_ammo = 30;
+		//残弾増加。
+		m_ammo = m_maxAmmo;
+		//待機ステートに変更。
 		ChangeState(&m_idleState);
 		m_reloadTimer = 130;
+	}
+}
+
+void Player::FootStep()
+{
+	//足音のSE。
+	CSoundSource* m_walkSE;
+	m_walkSE = NewGO<CSoundSource>(0);
+	m_walkSE->Init(L"Assets/sound/footstep.wav");
+	m_walkSE->Play(false);
+	
+}
+
+void Player::OnAnimationEvent()
+{
+	//足音処理。
+	FootStep();
+}
+
+void Player::NaturalRecovery()
+{
+	//自然回復できるHP。
+	int recoveryHP = m_maxHP;
+	if (m_hp < m_maxHP) {
+		m_naturalRecoveryTrigger = true;
+	}
+	else {
+		m_naturalRecoveryTrigger = false;
+	}
+
+	if (m_naturalRecoveryTrigger) {
+		m_naturalRecoveryCount++;
+	}
+	else {
+		m_naturalRecoveryCount = 0;
+	}
+
+	if (m_naturalRecoveryCount >= 300) {
+		if (recoveryHP > m_hp) {
+			m_hp++;
+		}
+	}
+}
+
+void Player::CreepMove()
+{
+	//左スティックの入力量を取得。
+	CVector3 Lstick;
+	Lstick.x = g_pad[0].GetLStickXF();
+	Lstick.y = g_pad[0].GetLStickYF();
+	//カメラの前方方向と右方向を取得。
+	CVector3 cameraFront = g_camera3D.GetFront();
+	CVector3 cameraRight = g_camera3D.GetRight();
+
+	cameraFront.y = 0.0f;
+	cameraRight.y = 0.0f;
+	cameraFront.Normalize();
+	cameraRight.Normalize();
+
+	m_moveSpeed.x = 0.0f;
+	m_moveSpeed.z = 0.0f;
+	//移動速度を設定。
+	m_moveSpeed += cameraRight * Lstick.x * 80;
+	m_moveSpeed += cameraFront * Lstick.y * 80;
+}
+
+void Player::Creep()
+{
+	if (!g_pad[0].GetLStickXF() && !g_pad[0].GetLStickYF()) {
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, true, 0.5f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, false, 0.5f);
+	}
+	else {
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, true, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, false, 0.3f);
+	}
+}
+
+void Player::InstallationC4()
+{
+	if (!m_creep) {
+		if (g_pad[0].IsTrigger(enButtonB) && !g_pad[0].IsPress(enButtonLB1) && !g_pad[0].IsPress(enButtonLB2)) {
+			C4* c4 = NewGO<C4>(0, "c4");
+			c4->SetPosition(m_position);
+		}
 	}
 }

@@ -64,7 +64,7 @@ void GameCamera::Update()
 	CVector3 toPosDir = m_direction;
 	toPosDir.Normalize();
 
-	if (toPosDir.y < -0.7f) {
+	if (toPosDir.y < -0.8f) {
 		m_direction = toCameraPosOld;
 	}
 	if (toPosDir.y > 0.8f) {
@@ -125,7 +125,7 @@ void GameCamera::Update()
 		m_direction.y += -1.0f * randam;
 	}
 	//”½“®‚ÅƒJƒƒ‰‚ªã‚ÉŒü‚«‚·‚¬‚È‚¢‚æ‚¤‚ÉC³B
-	if (toPosDir.y < -0.7f) {
+	if (toPosDir.y < -0.8f) {
 		m_direction = toCameraPosOld;
 	}
 	

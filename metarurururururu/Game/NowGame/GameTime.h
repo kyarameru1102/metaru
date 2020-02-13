@@ -14,7 +14,7 @@ public:
 	}
 	const float GetFrameDeltaTime() const
 	{
-		return m_frameDeltaTime;
+		return 1.0/30.0f;
 	}
 	void PushFrameDeltaTime(float deltaTime)
 	{

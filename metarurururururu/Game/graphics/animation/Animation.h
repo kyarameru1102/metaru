@@ -12,12 +12,14 @@
 class Skeleton;
 class SkinModel;
 
-
+using AnimationEventListener = std::function<void(const wchar_t* clipName, const wchar_t* eventName)>;
 /*!
 * @brief	アニメーションクラス。
 */
 class Animation {
 public:
+	Animation(const Animation &)=delete;
+	Animation & operator = (const Animation &) = delete;
 	Animation();
 	~Animation();
 	/*!
@@ -54,7 +56,29 @@ public:
 	*@param[in]	deltaTime		アニメーションを進める時間(単位：秒)。
 	*/
 	void Update(float deltaTime);
+	/*!
+	*@brief	アニメーションイベントリスナーを登録。
+	*@return
+	* 登録されたリスナー。
+	*/
+	void AddAnimationEventListener(AnimationEventListener eventListener)
+	{
+		m_animationEventListeners.push_back(eventListener);
+		int a = 0;
+	}
 
+	/*!
+	* @brief	アニメーションイベントをリスナーに通知。
+	*/
+	void NotifyAnimationEventToListener(const wchar_t* clipName, const wchar_t* eventName)
+	{
+		for (auto& listener : m_animationEventListeners) {
+			
+			OutputDebugStringW(eventName);
+			listener(clipName, eventName);
+		}
+		int a = 0;
+	}
 	/// <summary>
 	/// 上半身にアニメーションを流すか下半身にアニメーションを流すか決める関数。
 	/// </summary>
@@ -142,4 +166,5 @@ private:
 	float m_interpolateTimeEnd = 0.0f;
 	bool m_isInterpolate = false;														//!<補間中？
 	bool m_UpperBody = true;															//上半身ならtrue。
+	std::vector<AnimationEventListener>	m_animationEventListeners;	//!<アニメーションイベントリスナーのリスト。
 };

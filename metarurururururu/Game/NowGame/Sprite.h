@@ -63,6 +63,21 @@ public:
 		}
 	}
 	/// <summary>
+	/// アルファ値を設定する関数。
+	/// </summary>
+	/// <param name="alpha">alphaに渡した値をそのまま適用する。</param>
+	void SetAlpha(float alpha)
+	{
+		m_alpha = 1.0f;
+		m_alpha += alpha;
+		if (m_alpha > 1.0f) {
+			m_alpha = 1.0f;
+		}
+		else if (m_alpha < 0.0f) {
+			m_alpha = 0.0f;
+		}
+	}
+	/// <summary>
 	/// 現在のアルファ値を返す関数。
 	/// </summary>
 	/// <returns>m_alpha　アルファ値。</returns>

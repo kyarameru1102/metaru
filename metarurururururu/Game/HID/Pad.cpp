@@ -166,7 +166,6 @@ void Pad::UpdateAnalogStickInput()
 		}
 	}
 
-	//実習２　左スティックの入力の取得の仕方を参考にして、右スティックも入力をとれるようにしてみよう。
 	if ((m_state.xInputState.Gamepad.sThumbRX < INPUT_DEADZONE &&
 		m_state.xInputState.Gamepad.sThumbRX > -INPUT_DEADZONE) &&
 		(m_state.xInputState.Gamepad.sThumbRY < INPUT_DEADZONE &&

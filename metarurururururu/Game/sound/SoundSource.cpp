@@ -131,7 +131,7 @@ void CSoundSource::Play(bool isLoop)
 		}
 		m_isPlaying = true;
 	}
-	g_soundEngine->AddSoundSource(this);
+	//g_soundEngine->AddSoundSource(this);
 	m_isLoop = isLoop;
 }
 void CSoundSource::UpdateStreaming()

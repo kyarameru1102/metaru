@@ -23,11 +23,19 @@ public:
 	/// 更新関数。
 	/// </summary>
 	void Update() override;
+	/// <summary>
+	/// プレイヤーがダメージを受けたときの処理。
+	/// </summary>
+	void Damage();
 	void Render2D()override;
 private:
-	Sprite		m_sprite;				//スプライト。
+	Sprite		m_sprite;				//カーソル用スプライト。
+	Sprite		m_damegeSprite;			//被弾したとき用のスプライト。			
+	Sprite		m_damegeSprite2;		//被弾したとき用のスプライト２．
 	FontRender* m_fontRender = nullptr; //フォント。
 	Player*     m_player = nullptr;		//プレイヤー。
 	bool		m_hit = false;			//敵に弾丸があたった
+	float		m_HP;
+	float		m_maxHP;
 };
 

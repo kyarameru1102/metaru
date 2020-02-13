@@ -145,6 +145,7 @@ public:
 	{
 		return m_hit;
 	}
+	void OnAnimationEvent();
 private:
 	IEnemyState*				m_currentstate = nullptr;					//エネミーの現在の状態。
 	std::vector<Path>			PathList;
@@ -171,7 +172,7 @@ private:
 	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
 	CapsuleCollider		m_collider;											//カプセルコライダー。
 	bool				m_onFiring = false;									//銃を撃っているか。
-	int					m_hp = 3;											//敵兵のHP。
+	int					m_hp = 5;											//敵兵のHP。
 	int					m_time = 0;
 	CVector3			m_smoothPos = CVector3::Zero();
 	float				m_angle = 0.0f;										//視野角用の角度を記録。
@@ -180,5 +181,6 @@ private:
 	bool				m_relodeOn = false;									//リロード処理に入るかどうか。
 	bool				m_itai = false;										//ダメージを食らったときtrue。
 	bool				m_notLookOn = false;
+	
 };
 
