@@ -4,23 +4,24 @@
 
 Fade::Fade()
 {
+	m_sprite.Init(L"Assets/sprite/fade.dds", 1280, 720);
+	m_sprite.DeltaAlpha(-1.0f);
 }
 
 
 Fade::~Fade()
 {
+	m_sprite.DeltaAlpha(-1.0f);
 }
 
 bool Fade::Start()
 {
-	m_sprite.Init(L"Assets/sprite/fade.dds", 1280, 720);
-	m_sprite.DeltaAlpha(-1.0f);
 	return true;
 }
 
 void Fade::Update()
 {
-	if (m_sprite.GetAlpha() <= 0.9f && !m_fadeOutOK) {
+	if (m_sprite.GetAlpha() <= 0.99f && !m_fadeOutOK) {
 		m_sprite.DeltaAlpha(0.02f);
 	}
 	else {

@@ -145,7 +145,17 @@ public:
 	{
 		return m_hit;
 	}
+	/// <summary>
+	/// アニメーションイベントのタイミングで呼ばれる処理。
+	/// </summary>
 	void OnAnimationEvent();
+	/// <summary>
+	/// ほかのクラスから敵兵を殺したいときに呼ぶ関数。
+	/// </summary>
+	void OutDeath()
+	{
+		m_hp = 0;
+	}
 private:
 	IEnemyState*				m_currentstate = nullptr;					//エネミーの現在の状態。
 	std::vector<Path>			PathList;

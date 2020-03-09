@@ -169,6 +169,7 @@
     <ClCompile Include="NowGame\PlayerReloadState.cpp" />
     <ClCompile Include="NowGame\PlayerCreepState.cpp" />
     <ClCompile Include="NowGame\PlayerCreepMoveState.cpp" />
+    <ClCompile Include="NowGame\Result.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -181,12 +182,13 @@
     <ClCompile Include="sound\WaveFileBank.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="NowGame\SpringCamera.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="NowGame\Title.cpp" />
     <ClCompile Include="NowGame\UI.cpp" />
-    <ClCompile Include="NowGame\TargetDestruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\Body.h" />
     <ClInclude Include="NowGame\BeforeTheGame.h" />
     <ClInclude Include="NowGame\FontRender.h" />
     <ClInclude Include="NowGame\Human.h" />
@@ -259,25 +261,29 @@
     <ClInclude Include="NowGame\PlayerReloadState.h" />
     <ClInclude Include="NowGame\PlayerCreepState.h" />
     <ClInclude Include="NowGame\PlayerCreepMoveState.h" />
+    <ClInclude Include="NowGame\Result.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
+    <ClInclude Include="NowGame\SpringCamera.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="NowGame\Title.h" />
     <ClInclude Include="NowGame\UI.h" />
-    <ClInclude Include="NowGame\TargetDestruction.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\AbsoluteWall.FBX" />
     <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
     <MeshContentTask Include="Assets\modelData\bou.fbx" />
     <MeshContentTask Include="Assets\modelData\bullet.fbx" />
     <MeshContentTask Include="Assets\modelData\c4.FBX" />
     <MeshContentTask Include="Assets\modelData\dangan.FBX" />
     <MeshContentTask Include="Assets\modelData\ground.FBX" />
+    <MeshContentTask Include="Assets\modelData\ground_back.fbx" />
     <MeshContentTask Include="Assets\modelData\ground_test.FBX" />
     <MeshContentTask Include="Assets\modelData\heisi.FBX" />
     <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx" />
+    <MeshContentTask Include="Assets\modelData\heri.fbx" />
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
     <MeshContentTask Include="Assets\modelData\sensya.fbx" />
     <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx" />
@@ -356,6 +362,17 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\damage2.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\rankA.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankB.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankS.png">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
     </ImageContentTask>
   </ItemGroup>

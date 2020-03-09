@@ -5,6 +5,7 @@
 #include "Astar.h"
 #include "Bullet.h"
 
+
 //ステート一覧。
 EnemyStateBattlePosture		EnemyState::m_battlePosture;
 EnemyStateHesitate			EnemyState::m_hesitate;
@@ -75,7 +76,7 @@ bool Enemy::Start()
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
-	m_skinModelRender->PlayAnimation(enAnimationClip_idle,true);
+	m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody);
 	m_currentPath = 0;
 	m_position = PathList[0].position;
 
@@ -118,7 +119,7 @@ void Enemy::Update()
 		}
 		//リロード。
 		if (m_relodeOn) {
-			m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
+			m_skinModelRender->PlayAnimation(enAnimationClip_reload, Body::enUpperBody, 0.3);
 			m_reloadTimer--;
 			if (m_reloadTimer <= 0) {
 				m_ammo = 30;
@@ -132,7 +133,6 @@ void Enemy::Update()
 		//障害物があるか判定。
 		ShotPossible();
 
-
 		//徘徊中もしくは警戒態勢が解除中なら。
 		if (m_currentstate == &EnemyState::m_hesitate || m_currentstate == &EnemyState::m_vigilanceCancel) {
 			//視野角に入ったときの処理。
@@ -140,8 +140,24 @@ void Enemy::Update()
 				if (m_currentstate != &EnemyState::m_vigilance) {
 					//警戒体制に移行。
 					ChangeState(&EnemyState::m_vigilance);
+					//見えたかもSE
+					CSoundSource* SE;
+					SE = NewGO<CSoundSource>(0);
+					SE->Init(L"Assets/sound/mituketa.wav");
+					SE->Play(false);
 				}
-
+			}
+			//近くで銃声がしたときの処理。
+			if (m_toPlayerLen < 4000.0f && m_player->GetDangan()) {
+				if (m_currentstate != &EnemyState::m_vigilance) {
+					//警戒体制に移行。
+					ChangeState(&EnemyState::m_vigilance);
+					//見えたかもSE
+					CSoundSource* SE;
+					SE = NewGO<CSoundSource>(0);
+					SE->Init(L"Assets/sound/mituketa.wav");
+					SE->Play(false);
+				}
 			}
 		}
 		//警戒態勢中なら。
@@ -152,6 +168,11 @@ void Enemy::Update()
 					//戦闘体制に移行。
 					ChangeState(&EnemyState::m_battlePosture);
 					AstarEXEcount = 0;
+					//見えたかもSE
+					CSoundSource* SE;
+					SE = NewGO<CSoundSource>(0);
+					SE->Init(L"Assets/sound/mituketa.wav");
+					SE->Play(false);
 				}
 			}
 		}
@@ -174,7 +195,7 @@ void Enemy::Update()
 							m_moveSpeed.Normalize();
 							m_moveSpeed *= 0.1f;
 						}
-						m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.3);
+						m_skinModelRender->PlayAnimation(enAnimationClip_shot, Body::enUpperBody, 0.3);
 						m_onFiring = true;
 						m_shotTimerOn = true;
 					}
@@ -189,7 +210,7 @@ void Enemy::Update()
 				}
 				else {
 					if (!m_relodeOn) {
-						m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.3);
+						m_skinModelRender->PlayAnimation(enAnimationClip_run, Body::enUpperBody, 0.3);
 					}
 					m_onFiring = false;
 					m_shotTimer = 0;
@@ -200,7 +221,6 @@ void Enemy::Update()
 				}
 			}
 		}
-
 
 		MoveAnimation();
 		Rotation();
@@ -273,11 +293,10 @@ void Enemy::VigilanceMove()
 	//A*経路探査で出た結果でパス移動。
 	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 200.0f;
+	m_moveSpeed += m_moveSpeed * 300.0f;
 	
 	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 40.0f) {
-		//パスの最後まで行ったら。
-		
+		//パスの最後まで行ったら。		
 		ChangeState(&EnemyState::m_vigilanceCancel);
 		m_astar.Execute(m_position, PathList[PathList[m_currentPath].next].position);
 		
@@ -287,12 +306,11 @@ void Enemy::VigilanceMove()
 //警戒態勢解除中の移動。
 void Enemy::VigilanceCancelMove()
 {
-	
 	AstarSmooth();
 
 	m_moveSpeed = m_smoothPos - m_position;
 	m_moveSpeed.Normalize();
-	m_moveSpeed += m_moveSpeed * 200.0f;
+	m_moveSpeed += m_moveSpeed * 300.0f;
 	
 	if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
 		ChangeState(&EnemyState::m_hesitate);
@@ -312,7 +330,7 @@ void Enemy::BattleMove()
 			if (!m_relodeOn) {
 				m_moveSpeed = m_player->GetPosition() - m_position;
 				m_moveSpeed.Normalize();
-				m_moveSpeed *= 200.0f;
+				m_moveSpeed *= 300.0f;
 			}
 		}
 	}
@@ -333,7 +351,7 @@ void Enemy::BattleMove()
 				if (!m_relodeOn) {
 					m_moveSpeed = m_smoothPos - m_position;
 					m_moveSpeed.Normalize();
-					m_moveSpeed += m_moveSpeed * 200.0f;
+					m_moveSpeed += m_moveSpeed * 300.0f;
 				}
 			}
 			if (m_astar.GetAStarAnswerIt() == m_astar.GetAStarAnswerEnd() && (m_smoothPos - m_position).Length() <= 30.0f) {
@@ -355,6 +373,9 @@ void Enemy::Firing()
 	if (!m_player->GetCreep()) {
 		nextpos.y += 80.0f;
 	}
+	else {
+		nextpos.y += 40.0f;
+	}
 
 	EnemyBulletDrc = nextpos - startpos;
 	EnemyBulletDrc.Normalize();
@@ -375,27 +396,25 @@ void Enemy::Firing()
 //移動時のアニメーション。
 void Enemy::MoveAnimation()
 {
-	
 	if (!m_onFiring)
 	{
-
 		if (m_moveSpeed.Length() >= 100.f) {
-			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5);
-			m_skinModelRender->PlayAnimation(enAnimationClip_run, false, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_run, Body::enUpperBody, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_run, Body::enLowerBody, 0.5);
 		}
 		else if (m_moveSpeed.Length() >= 1.1f) {
-			m_skinModelRender->PlayAnimation(enAnimationClip_walk, true, 0.5);
-			m_skinModelRender->PlayAnimation(enAnimationClip_walk, false, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_walk, Body::enUpperBody, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_walk, Body::enLowerBody, 0.5);
 		}
 		else {
 			if (!m_relodeOn) {
-				m_skinModelRender->PlayAnimation(enAnimationClip_idle, true, 0.5);
+				m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody, 0.5);
 			}
-			m_skinModelRender->PlayAnimation(enAnimationClip_idle, false, 0.5);
+			m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enLowerBody, 0.5);
 		}
 	}
 	else {
-		m_skinModelRender->PlayAnimation(enAnimationClip_shot, false, 0.3);
+		m_skinModelRender->PlayAnimation(enAnimationClip_shot, Body::enLowerBody, 0.3);
 	}
 }
 //回転。
@@ -444,12 +463,14 @@ void Enemy::Damage()
 		return true;
 		});
 	if (m_hp <= 0) {
+		if (!m_death) {
+			m_player->AddKillCount();
+		}
 		m_death = true;
-		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
-		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, Body::enUpperBody, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, Body::enLowerBody, 0.3f);
 		m_charaCon.RemoveRigidBoby();
 		m_notLookOn = true;
-		//DeleteGO(this);
 	}
 }
 //視野角。
@@ -477,12 +498,7 @@ void Enemy::ShotPossible()
 	start.setIdentity();
 	end.setIdentity();
 	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
-	if (m_player->GetCreep()) {
-		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y, m_player->GetPosition().z));
-	}
-	else {
-		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
-	}
+	end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
 	ShotCallBack callBack;
 	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
 	if (callBack.hit) {
@@ -490,6 +506,12 @@ void Enemy::ShotPossible()
 	}
 	else {
 		m_hit = false;
+	}
+
+	if (m_player->GetCreep()) {
+		if ((m_player->GetPosition().y - m_position.y) > 1.0f || (m_player->GetPosition().y - m_position.y) < -1.0f) {
+			m_hit = true;
+		}
 	}
 }
 

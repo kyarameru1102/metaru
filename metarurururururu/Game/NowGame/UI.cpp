@@ -5,6 +5,13 @@
 
 UI::UI()
 {
+	m_sprite.Init(L"Assets/sprite/kaasoru.dds", 100.0f, 100.0f);
+	m_fontRender = NewGO<FontRender>(0);
+	m_fontRender->SetPosition({ 450.0f,0.0f });
+	m_damegeSprite.Init(L"Assets/sprite/damage.dds", 1280.0f, 720.0f);
+	m_damegeSprite.DeltaAlpha(-1.0f);
+	m_damegeSprite2.Init(L"Assets/sprite/damage2.dds", 1280.0f, 720.0f);
+	m_damegeSprite2.DeltaAlpha(-1.0f);
 }
 
 
@@ -17,12 +24,6 @@ bool UI::Start()
 {
 	Game* game = GetGame();
 	m_player = game->GetPlayer();
-	m_sprite.Init(L"Assets/sprite/kaasoru.dds", 100.0f, 100.0f);
-	m_fontRender = NewGO<FontRender>(0);
-	m_fontRender->SetPosition({ 450.0f,0.0f });
-	m_damegeSprite.Init(L"Assets/sprite/damage.dds", 1280.0f, 720.0f);
-	m_damegeSprite2.Init(L"Assets/sprite/damage2.dds", 1280.0f, 720.0f);
-	m_damegeSprite2.DeltaAlpha(-1.0f);
 	m_maxHP = m_player->GetHP();
 	return true;
 }
@@ -67,7 +68,9 @@ void UI::Damage()
 
 void UI::Render2D()
 {
-	m_sprite.Draw();
+	if (g_pad[0].IsPress(enButtonLB1) || g_pad[0].IsPress(enButtonLB2)) {
+		m_sprite.Draw();
+	}
 	m_damegeSprite.Draw();
 	m_damegeSprite2.Draw();
 }

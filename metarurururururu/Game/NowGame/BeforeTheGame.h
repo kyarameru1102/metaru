@@ -29,9 +29,9 @@ private:
 	Sprite		m_missionSprite;					//Mission!スプライト。
 	Sprite		m_moziSprite1;						//文字スプライトメイン。
 	Sprite		m_moziSprite2;						//文字スプライトサブ。
-	CVector3	m_missionPos = CVector3::Zero();	//Mission!の座標。
-	CVector3	m_mozi1Pos = CVector3::Zero();		//メインの座標。
-	CVector3	m_mozi2Pos = CVector3::Zero();		//サブの座標。
+	CVector3	m_missionPos = CVector3::One();		//Mission!の座標。
+	CVector3	m_mozi1Pos = CVector3::One();		//メインの座標。
+	CVector3	m_mozi2Pos = CVector3::One();		//サブの座標。
 	bool		m_mission = false;
 	bool		m_sabOn = false;
 	int			m_timer = 0;

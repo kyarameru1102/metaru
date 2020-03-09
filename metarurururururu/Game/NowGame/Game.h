@@ -62,6 +62,12 @@ private:
 	bool					m_fadeflg = false;
 	CSoundSource			m_bgm;						//BGM。
 	CSoundSource			m_se;						//SE。
+	enum ClearOrDeath {
+		en_clear,										//クリア。
+		en_death,										//死んだ。
+		en_neither										//初期化。どちらでもない。
+	};
+	ClearOrDeath			m_CorD = en_neither;		//死んだかクリアしたか。
 };
 
 static inline Game* GetGame() {

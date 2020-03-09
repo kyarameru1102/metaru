@@ -5,6 +5,7 @@
 #include "GameOver.h"
 #include "C4.h"
 
+
 struct FootStepCallBack : public btCollisionWorld::ClosestConvexResultCallback
 {
 	bool hit = false;
@@ -55,7 +56,7 @@ bool Player::Start()
 
 
 	m_charaCon.Init(
-		15.0f,
+		30.0f,
 		70.0f,
 		m_position
 	);
@@ -151,6 +152,7 @@ void Player::Update()
 				{
 					//伏せステートに切り替える。
 					ChangeState(&m_creepState);
+					m_creep = true;
 				}
 			}
 			//伏せステートなら。
@@ -172,16 +174,29 @@ void Player::Update()
 					//ステートを切り替える。
 					ChangeState(&m_holdGunState);
 					if (!m_Firing) {
-						m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+						m_skinModelRender->PlayAnimation(enAnimationClip_hold, Body::enUpperBody, 0.3);
 					}
 				}
 				else {
 					//構えていなくて銃を撃っていなくて走っていなければ。
-					if (!m_dash && !m_Firing) {
+					if (!m_dash && !m_Firing && !m_creep) {
 						if (!m_fps) {
-							m_skinModelRender->PlayAnimation(enAnimationClip_idle, true, 0.3);
+							m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody, 0.3);
 						}
 					}
+				}
+				if (g_pad[0].IsPress(enButtonRB2) && m_ammo == 0) {
+					if (!m_tamagireFlag) {
+						//弾切れのSE
+						CSoundSource* tamagireSE;
+						tamagireSE = NewGO<CSoundSource>(0);
+						tamagireSE->Init(L"Assets/sound/tamagire.wav");
+						tamagireSE->Play(false);
+						m_tamagireFlag = true;
+					}
+				}
+				else {
+					m_tamagireFlag = false;
 				}
 				//パッドのR2が押されていたら。
 				if (g_pad[0].IsPress(enButtonRB2))
@@ -189,13 +204,14 @@ void Player::Update()
 					//撃つ。
 					Firing();
 				}
+				
 				else {
 					//撃っていない。
 					m_Firing = false;
 					m_shotTimer = 0;
 					m_shotTimerOn = false;
 					m_dangan = false;
-					if (!g_pad[0].IsPress(enButtonLB2) && !g_pad[0].IsPress(enButtonLB1)) {
+					if (!g_pad[0].IsPress(enButtonLB2) && !g_pad[0].IsPress(enButtonLB1) && !m_creep) {
 						ChangeState(&m_idleState);
 					}
 				}
@@ -213,7 +229,7 @@ void Player::Update()
 					if (m_currentstate != &m_reloadState) {
 						//銃を構える。
 						if (!m_Firing) {
-							m_skinModelRender->PlayAnimation(enAnimationClip_hold, true, 0.3);
+							m_skinModelRender->PlayAnimation(enAnimationClip_hold, Body::enUpperBody, 0.3);
 						}
 						m_skinModelRender->SetRenderOn(false);
 						//一人称視点に切り替える。
@@ -293,26 +309,27 @@ void Player::MoveAnimation()
 	{
 		if (m_currentstate != &m_reloadState) {
 			//上半身に走りアニメーション適用。
-			m_skinModelRender->PlayAnimation(enAnimationClip_run, true, 0.5f);
+			m_skinModelRender->PlayAnimation(enAnimationClip_run, Body::enUpperBody, 0.5f);
 		}
 		m_dash = true;
 		//下半身に走りアニメーション適用。
-		m_skinModelRender->PlayAnimation(enAnimationClip_run,false,0.5f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_run, Body::enLowerBody,0.5f);
 	}
 	else if (toNextLength.Length() >= 1.1f) {
 		m_dash = false;
 		//下半身に歩きアニメーション適用。
-		m_skinModelRender->PlayAnimation(enAnimationClip_walk,false, 0.5f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_walk, Body::enLowerBody, 0.5f);
 	}
+	//銃を構えるステートなら。
 	else {
 		if (m_currentstate == &m_holdGunState)
 		{
 			//下半身に銃を構えるアニメーション適用。
-			m_skinModelRender->PlayAnimation(enAnimationClip_hold, false, 0.3f);
+			m_skinModelRender->PlayAnimation(enAnimationClip_hold, Body::enLowerBody, 0.2f);
 		}
 		else {
 			//下半身に待機アニメーション適用。
-			m_skinModelRender->PlayAnimation(enAnimationClip_idle, false, 0.3f);
+			m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enLowerBody, 0.2f);
 		}
 		m_dash = false;
 	}
@@ -378,8 +395,10 @@ void Player::Firing()
 	m_dangan = false;
 	//残弾があれば。
 	if (m_ammo >= 1) {
-		//ステートを切り替える。
-		ChangeState(&m_holdGunState);
+		if (!m_creep) {
+			//ステートを切り替える。
+			ChangeState(&m_holdGunState);
+		}
 		//撃つ。
 		if (m_shotTimer == 0) {
 			//弾丸生成。
@@ -413,13 +432,21 @@ void Player::Firing()
 			m_dangan = true;
 		}
 		m_Firing = true;
-		//上半身に銃を撃つアニメーション適用。
-		m_skinModelRender->PlayAnimation(enAnimationClip_shot, true, 0.1f);
+		if (!m_creep) {
+			//上半身に銃を撃つアニメーション適用。
+			m_skinModelRender->PlayAnimation(enAnimationClip_shot, Body::enUpperBody, 0.1f);
+		}
 		m_shotTimerOn = true;
 	}
+	//残弾がなければ。
 	else {
+		//走っていなければ。
 		if (!m_dash) {
-			m_skinModelRender->PlayAnimation(enAnimationClip_idle, true, 0.1f);
+			m_skinModelRender->PlayAnimation(enAnimationClip_hold, Body::enUpperBody, 0.1f);
+		}
+		//伏せていたら。
+		else if (m_creep) {
+			//何もしない。
 		}
 	}
 }
@@ -463,7 +490,7 @@ void Player::Damage()
 	CVector3 PlayerCenter = m_position;
 	PlayerCenter.y += 80;
 	QueryGOs<Bullet>("bullet", [&](Bullet* bullet) {
-		if ((bullet->GetPosition() - PlayerCenter).Length() <= 50.0f)
+		if ((bullet->GetPosition() - PlayerCenter).Length() <= 70.0f)
 		{
 			int aaaa = 0;
 			//敵兵の弾なら。
@@ -478,8 +505,13 @@ void Player::Damage()
 	if (m_hp <= 0 && !m_death) {
 		NewGO<GameOver>(0, "gameOver");
 		//上半身と下半身に死亡アニメーション適用。
-		m_skinModelRender->PlayAnimation(enAnimationClip_death, true, 0.3f);
-		m_skinModelRender->PlayAnimation(enAnimationClip_death, false, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, Body::enUpperBody, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_death, Body::enLowerBody, 0.3f);
+		//死亡SE
+		CSoundSource* deathSE;
+		deathSE = NewGO<CSoundSource>(0);
+		deathSE->Init(L"Assets/sound/loseSE.wav");
+		deathSE->Play(false);
 		m_death = true;
 	}
 }
@@ -487,7 +519,7 @@ void Player::Damage()
 void Player::Reload()
 {
 	//上半身にリロードアニメーションを適用。
-	m_skinModelRender->PlayAnimation(enAnimationClip_reload, true, 0.3);
+	m_skinModelRender->PlayAnimation(enAnimationClip_reload, Body::enUpperBody, 0.3);
 	m_reloadTimer--;
 	if (m_reloadTimer <= 0) {
 		//残弾増加。
@@ -501,10 +533,10 @@ void Player::Reload()
 void Player::FootStep()
 {
 	//足音のSE。
-	CSoundSource* m_walkSE;
-	m_walkSE = NewGO<CSoundSource>(0);
-	m_walkSE->Init(L"Assets/sound/footstep.wav");
-	m_walkSE->Play(false);
+	CSoundSource* walkSE;
+	walkSE = NewGO<CSoundSource>(0);
+	walkSE->Init(L"Assets/sound/footstep.wav");
+	walkSE->Play(false);
 	
 }
 
@@ -564,12 +596,12 @@ void Player::CreepMove()
 void Player::Creep()
 {
 	if (!g_pad[0].GetLStickXF() && !g_pad[0].GetLStickYF()) {
-		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, true, 0.5f);
-		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, false, 0.5f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, Body::enUpperBody, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_idle, Body::enLowerBody, 0.3f);
 	}
 	else {
-		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, true, 0.3f);
-		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, false, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, Body::enUpperBody, 0.3f);
+		m_skinModelRender->PlayAnimation(enAnimationClip_creep_forward, Body::enLowerBody, 0.3f);
 	}
 }
 
@@ -579,6 +611,7 @@ void Player::InstallationC4()
 		if (g_pad[0].IsTrigger(enButtonB) && !g_pad[0].IsPress(enButtonLB1) && !g_pad[0].IsPress(enButtonLB2)) {
 			C4* c4 = NewGO<C4>(0, "c4");
 			c4->SetPosition(m_position);
+
 		}
 	}
 }

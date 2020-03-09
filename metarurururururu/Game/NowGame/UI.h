@@ -35,7 +35,7 @@ private:
 	FontRender* m_fontRender = nullptr; //フォント。
 	Player*     m_player = nullptr;		//プレイヤー。
 	bool		m_hit = false;			//敵に弾丸があたった
-	float		m_HP;
-	float		m_maxHP;
+	float		m_HP = 999999;
+	float		m_maxHP = 999999;
 };
 

@@ -255,9 +255,6 @@
     <ClCompile Include="NowGame\Clear.cpp">
       <Filter>NowGame\class2D</Filter>
     </ClCompile>
-    <ClCompile Include="NowGame\TargetDestruction.cpp">
-      <Filter>NowGame\class2D</Filter>
-    </ClCompile>
     <ClCompile Include="NowGame\ClearPoint.cpp">
       <Filter>NowGame</Filter>
     </ClCompile>
@@ -299,6 +296,12 @@
     </ClCompile>
     <ClCompile Include="NowGame\PlayerCreepMoveState.cpp">
       <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\SpringCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Result.cpp">
+      <Filter>NowGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +500,6 @@
     <ClInclude Include="NowGame\Clear.h">
       <Filter>NowGame\class2D</Filter>
     </ClInclude>
-    <ClInclude Include="NowGame\TargetDestruction.h">
-      <Filter>NowGame\class2D</Filter>
-    </ClInclude>
     <ClInclude Include="NowGame\ClearPoint.h">
       <Filter>NowGame</Filter>
     </ClInclude>
@@ -541,6 +541,15 @@
     </ClInclude>
     <ClInclude Include="NowGame\PlayerCreepMoveState.h">
       <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Body.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\SpringCamera.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Result.h">
+      <Filter>NowGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +604,15 @@
     <MeshContentTask Include="Assets\modelData\bou.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heri.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\ground_back.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\AbsoluteWall.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Title.png">
@@ -633,10 +651,15 @@
     <ImageContentTask Include="Assets\sprite\damage.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\sprite\damage2.png">
+    <ImageContentTask Include="Assets\sprite\damage2.png" />
+    <ImageContentTask Include="Assets\sprite\rankA.png">
       <Filter>Assets\sprite</Filter>
-    </Image>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankB.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankS.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ public:
 	//e‚ªŒ‚‚Ä‚é‚©‚Ç‚¤‚©B
 	virtual bool IsPossibleGunShoot()
 	{
-		return false;
+		return true;
 	}
 	//e‚ğ\‚¦‚ê‚é‚©‚Ç‚¤‚©B
 	virtual bool IsPossibleHoldGun()

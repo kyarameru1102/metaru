@@ -14,7 +14,7 @@ Clear::~Clear()
 bool Clear::Start()
 {
 	m_sprite.Init(L"Assets/sprite/Clear.dds", 1280.0f, 720.0f);
-	m_sprite.DeltaAlpha(-1.0f);
+	m_sprite.DeltaAlpha(-0.98f);
 	return true;
 }
 

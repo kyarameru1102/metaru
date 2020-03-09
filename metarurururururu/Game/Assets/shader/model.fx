@@ -205,7 +205,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//pow関数使っていい感じにする。
 	//spec = pow(spec, specPow);
 	//スペキュラ反射の計算結果をligに加算する。
-	lig += spec;
+	lig += spec * drg.dligColor;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。
 		//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;

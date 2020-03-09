@@ -1,6 +1,7 @@
 #pragma once
 #include "ShadowMap.h"
 
+
 //3Dモデルを表示する機能を提供するクラス。
 class SkinModelRender : public IGameObject
 {
@@ -29,15 +30,19 @@ public:
 		EnFbxUpAxis fbxUpAxis = enFbxUpAxisZ
 	);
 	//アニメーションの再生。
-	void PlayAnimation(int animNo, bool UpperBody, float interpolateTime = 0.0f)
+	void PlayAnimation(int animNo, Body body, float interpolateTime = 0.0f)
 	{
-		if (UpperBody) {
+		if (body == Body::enUpperBody) {
 			m_animation.Play(animNo, interpolateTime);
-			m_animation.SetUpperBody(UpperBody);
+			m_animation.SetBody(body);
 		}
-		else {
+		else if(body == Body::enLowerBody) {
 			m_animation2.Play(animNo, interpolateTime);
-			m_animation2.SetUpperBody(UpperBody);
+			m_animation2.SetBody(body);
+		}
+		else if (body == Body::enWholeBody) {
+			m_animation.Play(animNo, interpolateTime);
+			m_animation.SetBody(body);
 		}
 	}
 

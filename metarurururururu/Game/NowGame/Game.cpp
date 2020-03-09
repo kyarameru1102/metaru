@@ -12,6 +12,7 @@
 #include "C4.h"
 #include "Bullet.h"
 #include "Fade.h"
+#include "Result.h"
 
 Game* Game::m_game = nullptr;
 
@@ -125,9 +126,11 @@ void Game::Update()
 		NewGO<Title>(0);
 	}
 	if (m_player->GetDeath()) {
+		m_CorD = en_death;
 		m_timer++;
 	}
 	if (m_player->GetClear()) {
+		m_CorD = en_clear;
 		m_timer++;
 	}
 	if (m_timer == 50 && !m_fadeflg) {
@@ -135,9 +138,18 @@ void Game::Update()
 		m_fadeflg = true;
 		m_timer = 0;
 	}
+	//ゲームオーバーなら。
 	if (m_fadeflg && m_timer == 50) {
-		DeleteGO(this);
-		NewGO<Title>(0);
-		m_timer = 1000;
+		if (m_CorD == en_death) {
+			DeleteGO(this);
+			NewGO<Title>(0);
+			m_timer = 1000;
+		}
+		else if (m_CorD == en_clear) {
+			DeleteGO(this);
+			Result* result = nullptr;
+			result = NewGO<Result>(0);
+			result->SetKillCount(m_player->GetPlayerKillCount());
+		}
 	}
 }

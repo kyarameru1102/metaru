@@ -28,8 +28,7 @@ Sprite::~Sprite()
 	if (m_cb != nullptr) {
 		m_cb->Release();
 	}
-	//レンダーステートを設定しなおす。
-	SetRenderState();
+	
 }
 
 void Sprite::Init(const wchar_t * texFilePath, float w, float h)
@@ -62,9 +61,9 @@ void Sprite::Init(const wchar_t * texFilePath, float w, float h)
 	);
 	//定数バッファを初期化。
 	InitConstantBuffer();
-	//ステートを保存。
-	m_DC = g_graphicsEngine->GetD3DDeviceContext();
-	GetRenderState();
+	////ステートを保存。
+	//m_DC = g_graphicsEngine->GetD3DDeviceContext();
+	//GetRenderState();
 }
 
 void Sprite::Update(const CVector3 & trans, const CQuaternion & rot, const CVector3 & scale, CVector2 pivot)
@@ -95,6 +94,8 @@ void Sprite::Update(const CVector3 & trans, const CQuaternion & rot, const CVect
 
 void Sprite::Draw()
 {
+	
+
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
 	unsigned int vertexSize = sizeof(SVertex);	//頂点のサイズ。
@@ -146,6 +147,11 @@ void Sprite::Draw()
 		0,				//開始インデックス番号。0でいい。
 		0				//開始頂点番号。0でいい。
 	);
+	////レンダリングステートを保存。
+	//m_DC = g_graphicsEngine->GetD3DDeviceContext();
+	//GetRenderState();
+	////レンダーステートを設定しなおす。
+	//SetRenderState();
 }
 
 void Sprite::InitConstantBuffer()

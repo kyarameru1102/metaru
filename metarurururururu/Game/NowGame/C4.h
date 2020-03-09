@@ -1,4 +1,6 @@
 #pragma once
+
+class Player;
 class C4 : public IGameObject
 {
 public:
@@ -44,5 +46,6 @@ private:
 	CQuaternion				m_rotation = CQuaternion::Identity();		//回転。
 	sensya*					m_sensya = nullptr;							//戦車。
 	EnemyGeneralCommander*	m_EGC = nullptr;							//敵兵の総司令。
+	Player*					m_player = nullptr;							//プレイヤー。
 };
 

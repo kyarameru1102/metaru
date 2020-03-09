@@ -2,6 +2,7 @@
 #include "GameCamera.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "ClearPoint.h"
 
 GameCamera::GameCamera()
 {
@@ -18,28 +19,42 @@ GameCamera::~GameCamera()
 bool GameCamera::Start()
 {
 	m_player = FindGO<Player>("player");
-	m_cameraCollider.Init(5.0f);
-	m_targetCollider.Init(8.0f);
+	//m_cameraCollider.Init(5.0f);
+	m_springCamera.Init(
+		g_camera3D,
+		1000.0f,
+		true,
+		10.0f
+	);
+	m_targetCollider.Init(20.0f);
 	m_rightLength = -40.0f;
 	return true;
 }
 
 void GameCamera::Update()
 {
+	if (FindGO<ClearPoint>("clearPoint") != nullptr && m_clearPoint == nullptr) {
+		m_clearPoint = FindGO<ClearPoint>("clearPoint");
+		if (!m_clearPoint->isFirstTime()) {
+			m_heri = true;
+			m_clearPoint->DidIt();
+		}
+	}
 	if (g_pad[0].IsTrigger(enButtonLB3)) {
 		m_rightLength *= -1;
 		m_migi = true;
 	}
-	CVector3 targetAdd = g_camera3D.GetRight() * m_rightLength;
+	//CVector3 targetAdd = g_camera3D.GetRight() * m_rightLength;
 	CVector3 camePos = CVector3::One();
 	if (m_player != nullptr) {
 		m_target = m_player->GetPosition();
 	}
+	
 	m_target.y += 70.0f;
 	CVector3 plpos = m_target;
 	CVector3 nowTarget = m_target;
 	
-	m_target += targetAdd;
+	//m_target += targetAdd;
 	float x, y;
 	if (m_LookInTo) {
 		x = g_pad[0].GetRStickXF() * 1;
@@ -71,13 +86,36 @@ void GameCamera::Update()
 		m_direction = toCameraPosOld;
 	}
 	
-	camePos += m_target + m_direction;
+	camePos = m_target + m_direction;
+
+	//カメラの右を計算
+	CVector3 camRight;
+	camRight.Cross(m_direction, CVector3::Up());
+	camRight.Normalize();
+	m_target += camRight * m_rightLength;
+	camePos += camRight * m_rightLength;
 
 	CVector3 targetNewPos;
+	//ターゲットのコライダーの座標計算実行。
 	m_targetCollider.Execute(targetNewPos, m_target, nowTarget);
 	CVector3 NewPosition;
+	//カメラのコライダーの座標計算実行。
+	//m_cameraCollider.Execute(NewPosition, camePos, targetNewPos);
+	m_target = targetNewPos;
+	//へりきた。
+	if (m_heri) {
+		m_heriTimer--;
+		m_heriPos = m_clearPoint->GetHeriPos();
+		m_direction *= 10.0f;
+		m_target = m_heriPos;
+	}
+	if (m_heriTimer <= 0) {
+		m_heri = false;
+	}
 	
-	m_cameraCollider.Execute(NewPosition, camePos, targetNewPos);
+	m_springCamera.SetPosition(camePos);
+	m_springCamera.SetTarget(m_target);
+	m_springCamera.Update();
 	CVector3 CameraToTarget = NewPosition - m_target;
 
 	
@@ -129,11 +167,12 @@ void GameCamera::Update()
 		m_direction = toCameraPosOld;
 	}
 	
-	g_camera3D.SetPosition(NewPosition);
-	g_camera3D.SetTarget(targetNewPos);
-	//g_camera3D.SetTarget(m_target);
-	//カメラの更新。
-	g_camera3D.Update();
+	
+	////g_camera3D.SetPosition(NewPosition);
+	////g_camera3D.SetTarget(targetNewPos);
+	////g_camera3D.SetTarget(m_target);
+	////カメラの更新。
+	////g_camera3D.Update();
 }
 
 void GameCamera::isLookOn(CVector3 pos)
@@ -144,7 +183,5 @@ void GameCamera::isLookOn(CVector3 pos)
 	m_direction = m_target - pos;
 	m_direction.Normalize();
 	m_direction *= -100.0f;
-	//CVector3 right = g_camera3D.GetRight() * -3.0f;
-	//m_direction += right;
 }
 

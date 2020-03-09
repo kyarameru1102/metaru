@@ -179,7 +179,28 @@ public:
 	{
 		return m_hp;
 	}
-	
+	/// <summary>
+	/// ほかのクラスからプレイヤーを殺したい場合に使う関数。
+	/// </summary>
+	void OutDeath()
+	{
+		m_hp = 0;
+	}
+	/// <summary>
+	/// プレイヤーのキル数を返す関数。
+	/// </summary>
+	/// <returns>m_playerKillCount	キル数。</returns>
+	int GetPlayerKillCount() const
+	{
+		return m_playerKillCount;
+	}
+	/// <summary>
+	/// プレイヤーのキル数を増加させる関数。敵兵が死んだときに呼ぶ。
+	/// </summary>
+	void AddKillCount()
+	{
+		m_playerKillCount++;
+	}
 private:
 	bool					m_fps = false;								//FPSカメラ状態か？
 	GameCamera*				m_gameCamera = nullptr;						//TPSカメラ。
@@ -217,4 +238,6 @@ private:
 	bool					m_naturalRecoveryTrigger = false;			//自然回復するフラグ。
 	int						m_naturalRecoveryCount = 0;					//自然回復までの時間。
 	bool					m_creep = false;							//伏せているかどうか。
+	bool					m_tamagireFlag = false;						//弾切れのフラグ。
+	int						m_playerKillCount = 0;						//プレイヤーのキル数。
 };

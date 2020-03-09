@@ -92,6 +92,7 @@ namespace {
 					dist = distTmp;
 				}
 			}
+			
 			return 0.0f;
 		}
 	};

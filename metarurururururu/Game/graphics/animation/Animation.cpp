@@ -139,7 +139,7 @@ void Animation::UpdateGlobalPose()
 		boneMatrix.Mul(boneMatrix, transMat);
 		const wchar_t* boneName = m_skeleton->GetBone(boneNo)->GetName();
 		
-		if (m_UpperBody) {
+		if (m_body == Body::enUpperBody) {
 			if (boneName[0] == L'U') {
 				m_skeleton->SetBoneLocalMatrix(
 					boneNo,
@@ -147,13 +147,19 @@ void Animation::UpdateGlobalPose()
 				);
 			}
 		}
-		else {
+		else if(m_body == Body::enLowerBody){
 			if (boneName[0] == L'L') {
 				m_skeleton->SetBoneLocalMatrix(
 					boneNo,
 					boneMatrix
 				);
 			}
+		}
+		else {
+			m_skeleton->SetBoneLocalMatrix(
+				boneNo,
+				boneMatrix
+			);
 		}
 	}
 		

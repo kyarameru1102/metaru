@@ -1,10 +1,12 @@
 #pragma once
 #include "CameraCollisionSolver.h"
+#include "SpringCamera.h"
 /// <summary>
 /// 三人称視点のカメラ。
 /// </summary>
 class Player;
 class Enemy;
+class ClearPoint;
 class GameCamera : public IGameObject
 {
 public:
@@ -49,17 +51,23 @@ public:
 	{
 		return m_direction;
 	}
+	
 private:
 	CVector3				m_target = CVector3::Zero();
 	Player*					m_player = nullptr;
-	CVector3				m_enemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };						//敵兵の座標。
-	CVector3				m_direction;					//向き。
-	CameraCollisionSolver	m_cameraCollider;				//カメラのコライダー。
+	ClearPoint*				m_clearPoint = nullptr;
+	CVector3				m_enemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };				//敵兵の座標。
+	CVector3				m_direction;												//向き。
+	CameraCollisionSolver	m_cameraCollider;											//カメラのコライダー。
 	float					m_rightLength;
-	CameraCollisionSolver	m_targetCollider;				//注視点のコライダー
-	bool					m_LookInTo = false;				//肩越しのフラグ。
+	CameraCollisionSolver	m_targetCollider;											//注視点のコライダー
+	bool					m_LookInTo = false;											//肩越しのフラグ。
 	CVector3				m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 	bool					m_migi = false;
-	bool					m_isLookOn = false;				//ロックオンしているかどうか。
+	bool					m_isLookOn = false;											//ロックオンしているかどうか。
+	bool					m_heri = false;												//ヘリコプターのほうにカメラを向けるかどうか。
+	CVector3				m_heriPos = CVector3::Zero();								//ヘリコプターの座標。
+	int						m_heriTimer = 120;											//ヘリコプターを見ている時間。
+	SpringCamera			m_springCamera;
 };
 

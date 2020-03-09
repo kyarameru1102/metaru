@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "C4.h"
 #include "Clear.h"
-#include "TargetDestruction.h"
 #include "ClearPoint.h"
 
 sensya::sensya()
@@ -61,8 +60,10 @@ void sensya::Update()
 		return true;
 		}
 	);
-	if (m_c4On) {
-		if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY)) {
+	if (m_c4On) 
+	{
+		if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY))
+		{
 			NewGO<ClearPoint>(0, "clearPoint");
 			DeleteGO(this);
 		}

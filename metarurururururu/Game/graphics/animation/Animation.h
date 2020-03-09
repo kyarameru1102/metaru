@@ -6,6 +6,7 @@
 
 #include "graphics/animation/AnimationClip.h"
 #include "graphics/animation/AnimationPlayController.h"
+#include "NowGame/Body.h"
 
 
 
@@ -82,12 +83,8 @@ public:
 	/// <summary>
 	/// 上半身にアニメーションを流すか下半身にアニメーションを流すか決める関数。
 	/// </summary>
-	/// <param name="UpperBody">
-	/// true	上半身。
-	/// false	下半身。
-	/// </param>
-	void SetUpperBody(bool UpperBody) {
-		m_UpperBody = UpperBody;
+	void SetBody(Body body) {
+		m_body = body;
 	}
 private:
 	void PlayCommon(AnimationClip* nextClip, float interpolateTime)
@@ -165,6 +162,6 @@ private:
 	float m_interpolateTime = 0.0f;
 	float m_interpolateTimeEnd = 0.0f;
 	bool m_isInterpolate = false;														//!<補間中？
-	bool m_UpperBody = true;															//上半身ならtrue。
+	Body m_body = Body::enWholeBody;													//アニメーションをどこに適用するか。
 	std::vector<AnimationEventListener>	m_animationEventListeners;	//!<アニメーションイベントリスナーのリスト。
 };
