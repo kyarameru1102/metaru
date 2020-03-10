@@ -108,6 +108,7 @@ private:
 	/// サンプラステートの初期化。
 	/// </summary>
 	void InitSamplerState();
+	void CreateDepthStencilState();
 	void SetRenderState();
 	void GetRenderState();
 private:

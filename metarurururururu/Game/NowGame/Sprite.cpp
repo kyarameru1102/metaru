@@ -8,6 +8,24 @@ struct SVertex {
 
 Sprite::Sprite()
 {
+	//作成するブレンドステートの情報を設定する。
+	CD3D11_DEFAULT defaultSettings;
+	//デフォルトセッティングで初期化する。
+	CD3D11_BLEND_DESC blendDesc(defaultSettings);
+
+	//αブレンディングを有効にする。
+	blendDesc.RenderTarget[0].BlendEnable = true;
+
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+	//半透明合成を行えるブレンドステートが作成できる。
+	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
+	d3dDevice->CreateBlendState(&blendDesc, &m_blendState);
+
 }
 
 
@@ -28,7 +46,9 @@ Sprite::~Sprite()
 	if (m_cb != nullptr) {
 		m_cb->Release();
 	}
-	
+	if (m_blendState != nullptr) {
+		m_blendState->Release();
+	}
 }
 
 void Sprite::Init(const wchar_t * texFilePath, float w, float h)
@@ -94,7 +114,12 @@ void Sprite::Update(const CVector3 & trans, const CQuaternion & rot, const CVect
 
 void Sprite::Draw()
 {
-	
+	//レンダリングステートを保存。
+	m_DC = g_graphicsEngine->GetD3DDeviceContext();
+	CreateDepthStencilState();
+
+	SetRenderState();
+	GetRenderState();
 
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
@@ -147,10 +172,8 @@ void Sprite::Draw()
 		0,				//開始インデックス番号。0でいい。
 		0				//開始頂点番号。0でいい。
 	);
-	////レンダリングステートを保存。
-	//m_DC = g_graphicsEngine->GetD3DDeviceContext();
-	//GetRenderState();
-	////レンダーステートを設定しなおす。
+	
+	//レンダーステートを設定しなおす。
 	//SetRenderState();
 }
 
@@ -269,4 +292,17 @@ void Sprite::GetRenderState()
 	UINT mask;
 	m_DC->OMGetBlendState(&m_blendState, blendfactor, &mask);
 	m_DC->RSGetState(&m_rasterrizerState);
+}
+
+void Sprite::CreateDepthStencilState()
+{
+	//D3Dデバイスを取得。
+	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
+	//作成する深度ステンシルステートの定義を設定していく。
+	D3D11_DEPTH_STENCIL_DESC desc = { 0 };
+	desc.DepthEnable = true;					 //Zテストが有効。
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; //ZバッファにZ値を描き込む。
+	desc.DepthFunc = D3D11_COMPARISON_LESS;		 //Z値が小さければフレームバッファに描き込む。
+	   //デプスステンシルステートを作成。
+	d3dDevice->CreateDepthStencilState(&desc, &m_depthState);
 }
