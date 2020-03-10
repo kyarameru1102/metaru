@@ -52,7 +52,7 @@ void GameCamera::Update()
 	
 	m_target.y += 70.0f;
 	CVector3 plpos = m_target;
-	CVector3 nowTarget = m_target;
+	//CVector3 nowTarget = m_target;		いらん。
 	
 	//m_target += targetAdd;
 	float x, y;
@@ -97,11 +97,11 @@ void GameCamera::Update()
 
 	CVector3 targetNewPos;
 	//ターゲットのコライダーの座標計算実行。
-	m_targetCollider.Execute(targetNewPos, m_target, nowTarget);
+	//m_targetCollider.Execute(targetNewPos, m_target, nowTarget);　　　イラン。
 	CVector3 NewPosition;
 	//カメラのコライダーの座標計算実行。
 	//m_cameraCollider.Execute(NewPosition, camePos, targetNewPos);
-	m_target = targetNewPos;
+	//m_target = targetNewPos;											いらん。
 	//へりきた。
 	if (m_heri) {
 		m_heriTimer--;

@@ -4,6 +4,7 @@
 #include "GameTime.h"
 #include "Astar.h"
 #include "Bullet.h"
+#include "Physics/CollisionAttr.h"
 
 
 //ステート一覧。
@@ -33,6 +34,10 @@ struct ShotCallBack : public btCollisionWorld::ClosestConvexResultCallback
 	{}
 	virtual	btScalar addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 	{
+		if (convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT
+			|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character) {
+			return 1.0f;
+		}
 		hit = true;
 		return 0.0;
 	}
@@ -497,8 +502,17 @@ void Enemy::ShotPossible()
 	btTransform start, end;
 	start.setIdentity();
 	end.setIdentity();
+	if (m_player->GetCreep()) {
+		start.setOrigin(btVector3(m_position.x, m_position.y + 1.0f, m_position.z));
+		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 20.0f, m_player->GetPosition().z));
+	}
+	else {
+		start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
+		end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+	}
 	start.setOrigin(btVector3(m_position.x, m_position.y + 80.0f, m_position.z));
 	end.setOrigin(btVector3(m_player->GetPosition().x, m_player->GetPosition().y + 80.0f, m_player->GetPosition().z));
+
 	ShotCallBack callBack;
 	g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callBack);
 	if (callBack.hit) {
@@ -508,11 +522,11 @@ void Enemy::ShotPossible()
 		m_hit = false;
 	}
 
-	if (m_player->GetCreep()) {
+	/*if (m_player->GetCreep()) {
 		if ((m_player->GetPosition().y - m_position.y) > 1.0f || (m_player->GetPosition().y - m_position.y) < -1.0f) {
 			m_hit = true;
 		}
-	}
+	}*/
 }
 
 void Enemy::AstarSmooth()
