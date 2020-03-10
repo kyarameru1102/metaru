@@ -15,7 +15,8 @@ public:
 		normal.Set(convexResult.m_hitNormalLocal);
 
 		if (convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT
-			|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_obstacle) {
+			|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_obstacle
+			|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character) {
 			return 1.0f;
 		}
 		return btCollisionWorld::ClosestConvexResultCallback::addSingleResult(convexResult, normalInWorldSpace);

@@ -56,7 +56,7 @@ bool Player::Start()
 
 
 	m_charaCon.Init(
-		30.0f,
+		60.0f,
 		70.0f,
 		m_position
 	);
