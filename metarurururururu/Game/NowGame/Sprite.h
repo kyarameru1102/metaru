@@ -25,6 +25,13 @@ public:
 	/// <param name="w">画像の幅。</param>
 	/// <param name="h">画像の高さ。</param>
 	void Init(const wchar_t* texFilePath, float w, float h);
+	/// <summary>
+	/// テクスチャのSRVを指定して初期化。
+	/// </summary>
+	/// <param name="srv"></param>
+	/// <param name="w"></param>
+	/// <param name="h"></param>
+	void Init(ID3D11ShaderResourceView* srv, float w, float h);
 
 	/// <summary>
 	/// 更新。
@@ -131,7 +138,6 @@ private:
 	float						m_alpha = 1.0f;							//スプライトのα値。
 	ID3D11DeviceContext*		m_DC = nullptr;							//デバイスコンテキスト。
 	ID3D11DepthStencilState*	m_depthState = nullptr;					//現在のデプスステンシルステート。
-	ID3D11RasterizerState*		m_rasterrizerState = nullptr;			//現在のラスタライザステート。
 	ID3D11BlendState*			m_blendState = nullptr;					//現在のブレンドステート。
 };
 

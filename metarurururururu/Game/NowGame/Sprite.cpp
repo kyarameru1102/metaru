@@ -26,6 +26,7 @@ Sprite::Sprite()
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
 	d3dDevice->CreateBlendState(&blendDesc, &m_blendState);
 
+	CreateDepthStencilState();
 }
 
 
@@ -65,6 +66,9 @@ void Sprite::Init(const wchar_t * texFilePath, float w, float h)
 	m_vs.Load("Assets/shader/sprite.fx", "VSMain", Shader::EnType::VS);
 	m_ps.Load("Assets/shader/sprite.fx", "PSMain", Shader::EnType::PS);
 
+	//定数バッファを初期化。
+	InitConstantBuffer();
+
 	//テクスチャをロード。
 	DirectX::CreateDDSTextureFromFileEx(
 		g_graphicsEngine->GetD3DDevice(),	//D3Dデバイス。
@@ -79,13 +83,31 @@ void Sprite::Init(const wchar_t * texFilePath, float w, float h)
 		&m_texture					//読み込んだテクスチャに
 									//アクセスするためのインターフェースの格納先。
 	);
-	//定数バッファを初期化。
-	InitConstantBuffer();
+	
 	////ステートを保存。
 	//m_DC = g_graphicsEngine->GetD3DDeviceContext();
 	//GetRenderState();
 }
+void Sprite::Init(ID3D11ShaderResourceView* srv, float w, float h)
+{
+	m_size.x = w;
+	m_size.y = h;
+	//頂点バッファの初期化。
+	InitVertexBuffer(w, h);
+	//インデックスバッファの初期化。
+	InitIndexBuffer();
+	//サンプラステートの初期化。
+	InitSamplerState();
+	//シェーダーのロード。
+	m_vs.Load("Assets/shader/sprite.fx", "VSMain", Shader::EnType::VS);
+	m_ps.Load("Assets/shader/sprite.fx", "PSMain", Shader::EnType::PS);
 
+	//定数バッファを初期化。
+	InitConstantBuffer();
+
+	m_texture = srv;
+	m_texture->AddRef();	//参照カウンタを増やす。
+}
 void Sprite::Update(const CVector3 & trans, const CQuaternion & rot, const CVector3 & scale, CVector2 pivot)
 {
 	//ピボットは真ん中が0.0, 0.0、左上が-1.0f, -1.0、右下が1.0、1.0になるようにする。
@@ -116,10 +138,9 @@ void Sprite::Draw()
 {
 	//レンダリングステートを保存。
 	m_DC = g_graphicsEngine->GetD3DDeviceContext();
-	CreateDepthStencilState();
 
 	SetRenderState();
-	GetRenderState();
+	//GetRenderState();
 
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
@@ -282,7 +303,6 @@ void Sprite::SetRenderState()
 {
 	m_DC->OMSetDepthStencilState(m_depthState, 0);
 	m_DC->OMSetBlendState(m_blendState, nullptr, 0xFFFFFFFF);
-	m_DC->RSSetState(m_rasterrizerState);
 }
 
 void Sprite::GetRenderState()
@@ -291,7 +311,6 @@ void Sprite::GetRenderState()
 	float blendfactor[4];
 	UINT mask;
 	m_DC->OMGetBlendState(&m_blendState, blendfactor, &mask);
-	m_DC->RSGetState(&m_rasterrizerState);
 }
 
 void Sprite::CreateDepthStencilState()
@@ -300,7 +319,7 @@ void Sprite::CreateDepthStencilState()
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
 	//作成する深度ステンシルステートの定義を設定していく。
 	D3D11_DEPTH_STENCIL_DESC desc = { 0 };
-	desc.DepthEnable = true;					 //Zテストが有効。
+	desc.DepthEnable = false;					 //Zテストが有効。
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL; //ZバッファにZ値を描き込む。
 	desc.DepthFunc = D3D11_COMPARISON_LESS;		 //Z値が小さければフレームバッファに描き込む。
 	   //デプスステンシルステートを作成。

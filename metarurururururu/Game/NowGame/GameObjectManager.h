@@ -6,7 +6,8 @@
 #include <vector>		//可変長配列。
 #include"GameObject.h"
 #include "util/Util.h"
-
+#include "Sprite.h"
+#include "RenderTarget.h"
 
 class GameObjectManager
 {
@@ -26,6 +27,26 @@ private:
 		}
 		return hash;
 	}
+	/// <summary>
+	/// 事前描画。
+	/// </summary>
+	void PreRender();
+	/// <summary>
+	/// 通常描画。
+	/// </summary>
+	void NormalRender();
+	/// <summary>
+	/// 遅延描画。
+	/// </summary>
+	void PostRender();
+	/// <summary>
+	/// レンダリングターゲットの切り替え。
+	/// </summary>
+	/// <param name="d3dDeviceContext">D3Dデバイスコンテキスト</param>
+	/// <param name="renderTarget">レンダリングターゲット</param>
+	/// <param name="viewport">ビューポート</param>
+	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
+	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
 public:
 	/// <summary>
 	/// 初期化関数。
@@ -42,6 +63,7 @@ public:
 	}
 	void Update();
 	void Render();
+
 	/// <summary>
 	/// ゲームオブジェクトのnew
 	/// </summary>
@@ -120,6 +142,13 @@ private:
 	std::vector<GameObjectList>			m_deleteObjectListArray;	//削除用のリスト。
 	GOPrio								m_priorityMax = 255;		//優先度の最大数。
 	CVector3							m_lightPos = { 0.0f,0.0f,0.0f, };
+
+	RenderTarget						m_mainRenderTarget;				//メインレンダリングターゲット。
+
+	Sprite								m_copyMainRtToFrameBufferSprite;			//メインレンダリングターゲットに描かれた絵をフレームバッファにコピーするためのスプライト。
+	D3D11_VIEWPORT						m_frameBufferViewports;			//フレームバッファのビューポート。
+	ID3D11RenderTargetView*				m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。
+	ID3D11DepthStencilView*				m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。
 };
 static inline GameObjectManager& gameObjectManager()
 {
