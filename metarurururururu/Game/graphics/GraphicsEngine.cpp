@@ -14,7 +14,7 @@ GraphicsEngine::~GraphicsEngine()
 
 void GraphicsEngine::BegineRender()
 {
-	float ClearColor[4] = { 0.5f, 0.5f, 0.7f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
 													  //描き込み先をバックバッファにする。
 	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
 	//バックバッファを灰色で塗りつぶす。
@@ -25,6 +25,26 @@ void GraphicsEngine::EndRender()
 {
 	//バックバッファとフロントバッファを入れ替える。
 	m_pSwapChain->Present(2, 0);
+}
+void GraphicsEngine::ChangeRenderTarget(RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
+{
+	ChangeRenderTarget(
+		renderTarget->GetRenderTargetView(),
+		renderTarget->GetDepthStensilView(),
+		viewport
+	);
+}
+void GraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
+{
+	ID3D11RenderTargetView* rtTbl[] = {
+		renderTarget
+	};
+	//レンダリングターゲットの切り替え。
+	m_pd3dDeviceContext->OMSetRenderTargets(1, rtTbl, depthStensil);
+	if (viewport != nullptr) {
+		//ビューポートが指定されていたら、ビューポートも変更する。
+		m_pd3dDeviceContext->RSSetViewports(1, viewport);
+	}
 }
 void GraphicsEngine::Release()
 {

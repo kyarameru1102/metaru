@@ -1,4 +1,5 @@
 #pragma once
+#include "RenderTarget.h"
 /*!
  *@brief	グラフィックスエンジン。
  */
@@ -79,6 +80,14 @@ public:
 	{
 		return m_2dSpaceScreenHeight;
 	}
+	/// <summary>
+	/// レンダリングターゲットの切り替え。
+	/// </summary>
+	/// <param name="d3dDeviceContext">D3Dデバイスコンテキスト</param>
+	/// <param name="renderTarget">レンダリングターゲット</param>
+	/// <param name="viewport">ビューポート</param>
+	void ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
+	void ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
 private:
 	std::unique_ptr<DirectX::SpriteBatch>	m_spriteBatch;								//スプライトバッチ。
 	std::unique_ptr<DirectX::SpriteFont>	m_spriteFont;								//スプライトフォント。

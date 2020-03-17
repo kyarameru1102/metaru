@@ -73,6 +73,9 @@
     <Filter Include="NowGame\sound">
       <UniqueIdentifier>{861572d1-0483-4cde-8fe9-82cf5a1fd793}</UniqueIdentifier>
     </Filter>
+    <Filter Include="graphics\PostEffect">
+      <UniqueIdentifier>{d767df2e-96b9-4653-920c-b557864b7cc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math\Vector.cpp">
@@ -302,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="NowGame\Result.cpp">
       <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Bloom.cpp">
+      <Filter>graphics\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="NowGame\Result.h">
       <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Bloom.h">
+      <Filter>graphics\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

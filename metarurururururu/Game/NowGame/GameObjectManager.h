@@ -8,6 +8,7 @@
 #include "util/Util.h"
 #include "Sprite.h"
 #include "RenderTarget.h"
+#include "Bloom.h"
 
 class GameObjectManager
 {
@@ -31,22 +32,23 @@ private:
 	/// 事前描画。
 	/// </summary>
 	void PreRender();
-	/// <summary>
-	/// 通常描画。
+	/// <summar
+	/// 3D描画。
 	/// </summary>
-	void NormalRender();
+	void Render3D();
 	/// <summary>
 	/// 遅延描画。
 	/// </summary>
 	void PostRender();
+	void Render2D();
 	/// <summary>
 	/// レンダリングターゲットの切り替え。
 	/// </summary>
 	/// <param name="d3dDeviceContext">D3Dデバイスコンテキスト</param>
 	/// <param name="renderTarget">レンダリングターゲット</param>
 	/// <param name="viewport">ビューポート</param>
-	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
-	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
+	/*void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
+	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);*/
 public:
 	/// <summary>
 	/// 初期化関数。
@@ -145,6 +147,7 @@ private:
 
 	RenderTarget						m_mainRenderTarget;				//メインレンダリングターゲット。
 
+	Bloom								m_bloom;						//ブルームクラス。
 	Sprite								m_copyMainRtToFrameBufferSprite;			//メインレンダリングターゲットに描かれた絵をフレームバッファにコピーするためのスプライト。
 	D3D11_VIEWPORT						m_frameBufferViewports;			//フレームバッファのビューポート。
 	ID3D11RenderTargetView*				m_frameBufferRenderTargetView = nullptr;	//フレームバッファのレンダリングターゲットビュー。

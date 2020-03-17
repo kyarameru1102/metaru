@@ -14,7 +14,7 @@ void GameObjectManager::Init(int gameObjectPrioMax)
 	m_mainRenderTarget.Create(
 		FRAME_BUFFER_W,
 		FRAME_BUFFER_H,
-		DXGI_FORMAT_R8G8B8A8_UNORM
+		DXGI_FORMAT_R16G16B16A16_FLOAT
 	);
 
 	//メインレンダリングターゲットに描かれた絵を
@@ -43,6 +43,7 @@ void GameObjectManager::Update()
 		}
 	}
 	//描画処理。
+	m_bloom.Update();
 	Render();
 	
 	for(auto& deleteList : m_deleteObjectListArray){
@@ -75,11 +76,14 @@ void GameObjectManager::Render()
 	//ビューポートもバックアップを取っておく。
 	unsigned int numViewport = 1;
 	d3dDeviceContext->RSGetViewports(&numViewport, &m_frameBufferViewports);
+	//事前描画。
 	PreRender();
-
-	NormalRender();
-
+	//３Dモデル描画。
+	Render3D();
+	//遅延描画。
 	PostRender();
+	//２D系の描画。
+	Render2D();
 }
 
 void GameObjectManager::PreRender()
@@ -94,11 +98,11 @@ void GameObjectManager::PreRender()
 	ShadowMap::GetShadowMap().RenderToShadowMap();
 }
 
-void GameObjectManager::NormalRender()
+void GameObjectManager::Render3D()
 {
 	//レンダリングターゲットをメインに変更する。
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	ChangeRenderTarget(d3dDeviceContext, &m_mainRenderTarget, &m_frameBufferViewports);
+	g_graphicsEngine->ChangeRenderTarget(&m_mainRenderTarget, &m_frameBufferViewports);
 	//メインレンダリングターゲットをクリアする。
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_mainRenderTarget.ClearRenderTarget(clearColor);
@@ -110,6 +114,27 @@ void GameObjectManager::NormalRender()
 			}
 		}
 	}
+}
+
+void GameObjectManager::PostRender()
+{
+	m_bloom.Drow(m_mainRenderTarget);
+	//レンダリングターゲットをフレームバッファに戻す。
+	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	g_graphicsEngine->ChangeRenderTarget(
+		m_frameBufferRenderTargetView,
+		m_frameBufferDepthStencilView,
+		&m_frameBufferViewports
+	);
+	//ドロドロ
+	m_copyMainRtToFrameBufferSprite.Draw();
+
+	m_frameBufferRenderTargetView->Release();
+	m_frameBufferDepthStencilView->Release();
+}
+
+void GameObjectManager::Render2D()
+{
 	//2Dを描画。
 	for (int i = 0; i < m_gameObjectListArray.size(); i++) {
 		for (auto go : m_gameObjectListArray[i]) {
@@ -128,42 +153,25 @@ void GameObjectManager::NormalRender()
 	}
 }
 
-void GameObjectManager::PostRender()
-{
-	//レンダリングターゲットをフレームバッファに戻す。
-	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	ChangeRenderTarget(
-		d3dDeviceContext,
-		m_frameBufferRenderTargetView,
-		m_frameBufferDepthStencilView,
-		&m_frameBufferViewports
-	);
-	//ドロドロ
-	m_copyMainRtToFrameBufferSprite.Draw();
-
-	m_frameBufferRenderTargetView->Release();
-	m_frameBufferDepthStencilView->Release();
-}
-
-void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
-{
-	ChangeRenderTarget(
-		d3dDeviceContext,
-		renderTarget->GetRenderTargetView(),
-		renderTarget->GetDepthStensilView(),
-		viewport
-	);
-}
-
-void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
-{
-	ID3D11RenderTargetView* rtTbl[] = {
-		renderTarget
-	};
-	//レンダリングターゲットの切り替え。
-	d3dDeviceContext->OMSetRenderTargets(1, rtTbl, depthStensil);
-	if (viewport != nullptr) {
-		//ビューポートが指定されていたら、ビューポートも変更する。
-		d3dDeviceContext->RSSetViewports(1, viewport);
-	}
-}
+//void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
+//{
+//	ChangeRenderTarget(
+//		d3dDeviceContext,
+//		renderTarget->GetRenderTargetView(),
+//		renderTarget->GetDepthStensilView(),
+//		viewport
+//	);
+//}
+//
+//void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
+//{
+//	ID3D11RenderTargetView* rtTbl[] = {
+//		renderTarget
+//	};
+//	//レンダリングターゲットの切り替え。
+//	d3dDeviceContext->OMSetRenderTargets(1, rtTbl, depthStensil);
+//	if (viewport != nullptr) {
+//		//ビューポートが指定されていたら、ビューポートも変更する。
+//		d3dDeviceContext->RSSetViewports(1, viewport);
+//	}
+//}
