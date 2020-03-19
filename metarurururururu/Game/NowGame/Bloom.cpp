@@ -25,29 +25,14 @@ Bloom::Bloom()
 			FRAME_BUFFER_H / 2,
 			DXGI_FORMAT_R16G16B16A16_FLOAT
 		);
-		////ブラーをかけるためのダウンサンプリング用のレンダリングターゲットを作成。
-		////横ブラー用。
-		//m_downSamplingRT[0].Create(
-		//	FRAME_BUFFER_W * 0.5f,	//横の解像度をフレームバッファの半分にする。
-		//	FRAME_BUFFER_H,
-		//	DXGI_FORMAT_R16G16B16A16_FLOAT
-		//);
-		////縦ブラー用。
-		//m_downSamplingRT[1].Create(
-		//	FRAME_BUFFER_W * 0.5f,	//横の解像度をフレームバッファの半分にする。
-		//	FRAME_BUFFER_H * 0.5f,	//縦の解像度をフレームバッファの半分にする。
-		//	DXGI_FORMAT_R16G16B16A16_FLOAT
-		//);
 	}
 
 	//シェーダーの初期化。
 	{
 		m_vs.Load("Assets/shader/bloom.fx", "VSMain", Shader::EnType::VS);
 		m_psLuminance.Load("Assets/shader/bloom.fx", "PSSamplingLuminance", Shader::EnType::PS);
-		/*m_vsXBlur.Load("Assets/shader/bloom.fx", "VSXBlur", Shader::EnType::VS);
-		m_vsYBlur.Load("Assets/shader/bloom.fx", "VSYBlur", Shader::EnType::VS);
-		m_psBlur.Load("Assets/shader/bloom.fx", "PSBlur", Shader::EnType::PS);*/
 		m_psFinal.Load("Assets/shader/bloom.fx", "PSFinal", Shader::EnType::PS);
+		m_psCombine.Load("Assets/shader/bloom.fx", "PSCombine", Shader::EnType::PS);
 	}
 
 	//aブレンディングステートを初期化。
@@ -66,14 +51,6 @@ Bloom::Bloom()
 		blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 		device->CreateBlendState(&blendDesc, &m_finalBlendState);
 	}
-	////定数バッファの初期化。
-	//D3D11_BUFFER_DESC Bdesc;
-	//ZeroMemory(&Bdesc, sizeof(Bdesc));
-	//Bdesc.Usage = D3D11_USAGE_DEFAULT;
-	//Bdesc.ByteWidth = (((sizeof(SBlurParam) - 1) / 16) + 1) * 16;	//16バイトアライメントに切りあげる。
-	//Bdesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	//Bdesc.CPUAccessFlags = 0;
-	//g_graphicsEngine->GetD3DDevice()->CreateBuffer(&Bdesc, NULL, &m_blurParamCB);
 
 	//サンプラステートの初期化。
 	{
@@ -94,51 +71,51 @@ Bloom::Bloom()
 		srcBlurTexture = gaussianBlur.GetResultTextureSRV();
 	}
 
-	////フルスクリーン描画のための四角形プリミティブを初期化。
-	////頂点バッファを初期化。
-	//SVertex vertex[4] = {
-	//	頂点１
-	//	{
-	//		座標　position[4]
-	//		-1.0f,  -1.0f, 0.0f, 1.0f,
-	//		UV座標 uv[2]
-	//		0.0f, 1.0f
-	//	},
-	//	頂点２
-	//	{
-	//		座標　position[4]
-	//		1.0f, -1.0f, 0.0f, 1.0f,
-	//		UV座標 uv[2]
-	//		1.0f, 1.0f
-	//	},
-	//	頂点３
-	//	{
-	//		座標　position[4]
-	//		-1.0f,  1.0f, 0.0f, 1.0f,
-	//		UV座標 uv[2]
-	//		0.0f, 0.0f
-	//	},
-	//	頂点４
-	//	{
-	//		座標　position[4]
-	//		1.0f,  1.0f, 0.0f, 1.0f,
-	//		UV座標 uv[2]
-	//		1.0f, 0.0f
-	//	},
-	//};
-	//D3D11_BUFFER_DESC bd;
-	//ZeroMemory(&bd, sizeof(bd));				//構造体を0で初期化する。
-	//bd.Usage = D3D11_USAGE_DEFAULT;				//バッファーで想定されている読み込みおよび書き込みの方法。
-	//											取りあえずはD3D11_USAGE_DEFAULTでよい。
-	//bd.ByteWidth = sizeof(vertex);				//頂点バッファのサイズ。頂点のサイズ×頂点数となる。
-	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;	//これから作成するバッファが頂点バッファであることを指定する。
+	//フルスクリーン描画のための四角形プリミティブを初期化。
+	//頂点バッファを初期化。
+	SVertex vertex[4] = {
+		//頂点１
+		{
+			//座標　position[4]
+			-1.0f,  -1.0f, 0.0f, 1.0f,
+			//UV座標 uv[2]
+			0.0f, 1.0f
+		},
+		//頂点２
+		{
+			//座標　position[4]
+			1.0f, -1.0f, 0.0f, 1.0f,
+			//UV座標 uv[2]
+			1.0f, 1.0f
+		},
+		//頂点３
+		{
+			//座標　position[4]
+			-1.0f,  1.0f, 0.0f, 1.0f,
+			//UV座標 uv[2]
+			0.0f, 0.0f
+		},
+		//頂点４
+		{
+			//座標　position[4]
+			1.0f,  1.0f, 0.0f, 1.0f,
+			//UV座標 uv[2]
+			1.0f, 0.0f
+		},
+	};
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));				//構造体を0で初期化する。
+	bd.Usage = D3D11_USAGE_DEFAULT;				//バッファーで想定されている読み込みおよび書き込みの方法。
+												//取りあえずはD3D11_USAGE_DEFAULTでよい。
+	bd.ByteWidth = sizeof(vertex);				//頂点バッファのサイズ。頂点のサイズ×頂点数となる。
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;	//これから作成するバッファが頂点バッファであることを指定する。
 
-	//D3D11_SUBRESOURCE_DATA InitData;
-	//ZeroMemory(&InitData, sizeof(InitData));
-	//InitData.pSysMem = vertex;
+	D3D11_SUBRESOURCE_DATA InitData;
+	ZeroMemory(&InitData, sizeof(InitData));
+	InitData.pSysMem = vertex;
 
-	////頂点バッファの作成。
-	//g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+	//頂点バッファの作成。
+	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
 }
 
 
@@ -246,48 +223,4 @@ void Bloom::DrowFullScreen(Shader& vsShader, Shader& psShader)
 	deviceContext->Draw(4, 0);
 }
 
-//void Bloom::Blur()
-//{
-//	Update();
-//	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
-//	//輝度を抽出したテクスチャにXブラーをかける。
-//	{
-//		//Xブラー用のレンダリングターゲットに変更する。
-//		g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[0], m_downSamplingRT[0].GetViewport());
-//
-//		//輝度テクスチャをt0レジスタに設定する。
-//		auto luminanceTexSRV = m_luminanceRT.GetRenderTargetSRV();
-//		deviceContext->VSSetShaderResources(0, 1, &luminanceTexSRV);
-//		deviceContext->PSSetShaderResources(0, 1, &luminanceTexSRV);
-//		// 定数バッファを更新。
-//		m_blurParam.offset.x = 16.0f / m_luminanceRT.GetWidth();
-//		m_blurParam.offset.y = 0.0f;
-//		deviceContext->UpdateSubresource(m_blurParamCB, 0, nullptr, &m_blurParam, 0, 0);
-//		//ブラー用の定数バッファを設定する。
-//		deviceContext->PSSetConstantBuffers(0, 1, &m_blurParamCB);
-//
-//		//フルスクリーン描画。
-//		DrowFullScreen(m_vsXBlur, m_psBlur);
-//	}
-//	//XブラーをかけたテクスチャにYブラーをかける。
-//	{
-//		//Yブラー用のレンダリングターゲットに変更する。
-//		g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[1], m_downSamplingRT[1].GetViewport());
-//
-//		//Xブラーをかけたテクスチャをt0レジスタに設定する。
-//		auto xBlurSRV = m_downSamplingRT[0].GetRenderTargetSRV();
-//		deviceContext->VSSetShaderResources(0, 1, &xBlurSRV);
-//		deviceContext->PSSetShaderResources(0, 1, &xBlurSRV);
-//
-//		// 定数バッファを更新。
-//		m_blurParam.offset.x = 0.0f;
-//		m_blurParam.offset.y = 16.0f / m_luminanceRT.GetHeight();
-//		deviceContext->UpdateSubresource(m_blurParamCB, 0, nullptr, &m_blurParam, 0, 0);
-//		//ブラー用の定数バッファを設定する。
-//		deviceContext->PSSetConstantBuffers(0, 1, &m_blurParamCB);
-//
-//		//フルスクリーン描画。
-//		DrowFullScreen(m_vsYBlur, m_psBlur);
-//	}
-//
-//}
+
