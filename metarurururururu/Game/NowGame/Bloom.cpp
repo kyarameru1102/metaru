@@ -143,7 +143,7 @@ void Bloom::Update()
 	}
 }
 
-void Bloom::Drow(RenderTarget renderTarget)
+void Bloom::Drow(RenderTarget& renderTarget)
 {
 	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	deviceContext->PSSetSamplers(0, 1, &m_samplerState);

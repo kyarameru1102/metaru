@@ -8,7 +8,7 @@ public:
 	Bloom();
 	~Bloom();
 	void Update();
-	void Drow(RenderTarget renderTarget);
+	void Drow(RenderTarget& renderTarget);
 private:
 	static const int NUM_WEIGHTS = 8;	//カウスフィルタの重みの数。
 	/// <summary>
