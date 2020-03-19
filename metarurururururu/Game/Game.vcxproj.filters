@@ -309,6 +309,9 @@
     <ClCompile Include="NowGame\Bloom.cpp">
       <Filter>graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\GaussianBlur.cpp">
+      <Filter>graphics\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -558,6 +561,9 @@
       <Filter>NowGame</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\Bloom.h">
+      <Filter>graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GaussianBlur.h">
       <Filter>graphics\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

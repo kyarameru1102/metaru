@@ -43,7 +43,7 @@ void GameObjectManager::Update()
 		}
 	}
 	//•`‰æˆ—B
-	m_bloom.Update();
+
 	Render();
 	
 	for(auto& deleteList : m_deleteObjectListArray){

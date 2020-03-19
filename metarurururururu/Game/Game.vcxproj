@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NowGame\GaussianBlur.cpp" />
     <ClCompile Include="NowGame\Bloom.cpp" />
     <ClCompile Include="NowGame\BeforeTheGame.cpp" />
     <ClCompile Include="NowGame\FontRender.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="NowGame\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NowGame\GaussianBlur.h" />
     <ClInclude Include="NowGame\Bloom.h" />
     <ClInclude Include="NowGame\Body.h" />
     <ClInclude Include="NowGame\BeforeTheGame.h" />
