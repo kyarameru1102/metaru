@@ -70,7 +70,7 @@ void SkinModel::InitLight()
 {
 	m_Light.dirLig.direction = { 1.0f, -2.0f, 1.0f, 0.0f };
 	m_Light.dirLig.direction.Normalize();
-	m_Light.dirLig.color = { 0.4f, 0.4f, 0.4f, 1.0f };
+	m_Light.dirLig.color = { 0.4f, 0.4f,0.4f, 1.0f };
 	m_Light.Ambient = { 1.0f,1.0f,1.0f,1.0f };
 	m_Light.specPow = 5.0f;
 }

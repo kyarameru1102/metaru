@@ -9,6 +9,7 @@ public:
 	~Bloom();
 	void Update();
 	void Drow(RenderTarget& renderTarget);
+	void DrowFullScreen(Shader& vsShader, Shader& psShader);
 private:
 	static const int NUM_WEIGHTS = 8;	//カウスフィルタの重みの数。
 	/// <summary>

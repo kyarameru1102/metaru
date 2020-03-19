@@ -148,31 +148,102 @@ void Bloom::Drow(RenderTarget& renderTarget)
 	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	deviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	//輝度を抽出。
-	//αブレンドを無効にする。
-	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
+	{
+		//αブレンドを無効にする。
+		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
 
-	//輝度抽出用のレンダリングターゲットに変更する。
-	g_graphicsEngine->ChangeRenderTarget(&m_luminanceRT, m_luminanceRT.GetViewport());
-	//レンダリングターゲットのクリア。
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	m_luminanceRT.ClearRenderTarget(clearColor);
+		//輝度抽出用のレンダリングターゲットに変更する。
+		g_graphicsEngine->ChangeRenderTarget(&m_luminanceRT, m_luminanceRT.GetViewport());
+		//レンダリングターゲットのクリア。
+		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		m_luminanceRT.ClearRenderTarget(clearColor);
 
-	//シーンをテクスチャとする。
-	auto mainRTTexSRV = renderTarget.GetRenderTargetSRV();
-	deviceContext->PSSetShaderResources(0, 1, &mainRTTexSRV);
+		//シーンをテクスチャとする。
+		auto mainRTTexSRV = renderTarget.GetRenderTargetSRV();
+		deviceContext->PSSetShaderResources(0, 1, &mainRTTexSRV);
 
-	//フルスクリーン描画。
+		//フルスクリーン描画。
+		DrowFullScreen(m_vs,m_psLuminance);
+	}
+	//輝度テクスチャをぼかす。
+	//輝度を抽出したテクスチャにXブラーをかける。
+	{
+		//Xブラー用のレンダリングターゲットに変更する。
+		g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[0], m_downSamplingRT[0].GetViewport());
+
+		//輝度テクスチャをt0レジスタに設定する。
+		auto luminanceTexSRV = m_luminanceRT.GetRenderTargetSRV();
+		deviceContext->VSSetShaderResources(0, 1, &luminanceTexSRV);
+		deviceContext->PSSetShaderResources(0, 1, &luminanceTexSRV);
+		// 定数バッファを更新。
+		m_blurParam.offset.x = 16.0f / m_luminanceRT.GetWidth();
+		m_blurParam.offset.y = 0.0f;
+		deviceContext->UpdateSubresource(m_blurParamCB, 0, nullptr, &m_blurParam, 0, 0);
+		//ブラー用の定数バッファを設定する。
+		deviceContext->PSSetConstantBuffers(0, 1, &m_blurParamCB);
+
+		//フルスクリーン描画。
+		DrowFullScreen(m_vsXBlur, m_psBlur);
+	}
+	//XブラーをかけたテクスチャにYブラーをかける。
+	{
+		//Yブラー用のレンダリングターゲットに変更する。
+		g_graphicsEngine->ChangeRenderTarget(&m_downSamplingRT[1], m_downSamplingRT[1].GetViewport());
+
+		//Xブラーをかけたテクスチャをt0レジスタに設定する。
+		auto xBlurSRV = m_downSamplingRT[0].GetRenderTargetSRV();
+		deviceContext->VSSetShaderResources(0, 1, &xBlurSRV);
+		deviceContext->PSSetShaderResources(0, 1, &xBlurSRV);
+
+		// 定数バッファを更新。
+		m_blurParam.offset.x = 0.0f;
+		m_blurParam.offset.y = 16.0f / m_luminanceRT.GetHeight();
+		deviceContext->UpdateSubresource(m_blurParamCB, 0, nullptr, &m_blurParam, 0, 0);
+		//ブラー用の定数バッファを設定する。
+		deviceContext->PSSetConstantBuffers(0, 1, &m_blurParamCB);
+
+		//フルスクリーン描画。
+		DrowFullScreen(m_vsYBlur, m_psBlur);
+	}
+	
+	//ぼかしたテクスチャをメインレンダリングターゲットに合成加算。
+	{
+		auto mainRT = &renderTarget;
+		g_graphicsEngine->ChangeRenderTarget(mainRT, mainRT->GetViewport());
+
+		//XYブラーをかけたテクスチャをt0レジスタに設定する。
+		auto srv = m_downSamplingRT[1].GetRenderTargetSRV();
+		deviceContext->PSSetShaderResources(0, 1, &srv);
+
+		//加算合成用のブレンディングステートを設定する。
+		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		deviceContext->OMSetBlendState(m_finalBlendState, blendFactor, 0xffffffff);
+
+		//フルスクリーン描画。
+		DrowFullScreen(m_vs, m_psFinal);
+
+		//ブレンディングステートを戻す。
+		deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
+
+	}
+
+
+}
+
+void Bloom::DrowFullScreen(Shader& vsShader, Shader& psShader)
+{
+	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	//プリミティブのトポロジーとして、トライアングルストリップを設定する。
 	deviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	unsigned int vertexSize = sizeof(SVertex);
 	unsigned int offset = 0;
 	//輝度抽出用のシェーダーを設定する。
 	deviceContext->VSSetShader(
-		(ID3D11VertexShader*)m_vs.GetBody(), nullptr, 0
+		(ID3D11VertexShader*)vsShader.GetBody(), nullptr, 0
 	);
 	deviceContext->PSSetShader(
-		(ID3D11PixelShader*)m_psLuminance.GetBody(), nullptr, 0
+		(ID3D11PixelShader*)psShader.GetBody(), nullptr, 0
 	);
 	deviceContext->IASetInputLayout(m_vs.GetInputLayout());
 
