@@ -176,6 +176,12 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
 	psInput.Tangent = normalize( mul(skinning, In.Tangent) );
 	
+	if (isShadowReciever == 1) {
+		//続いて、ライトビュープロジェクション空間に変換。
+		psInput.posInLVP = mul(mLightView, psInput.WorldPos);
+		psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
+	}
+
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -210,12 +216,12 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float specPower;
 	//スペキュラマップがある。
 	if (isHasSpecularMap == 1) {
-		specPower = specularMap.Sample(Sampler, In.TexCoord).x;
+		specPower = albedo.a;
 	}
 	//pow関数使っていい感じにする。
 	spec = pow(spec, specPow);
 	//スペキュラ反射の計算結果をligに加算する。
-	lig += spec * drg.dligColor * specPower * 10.0f;
+	lig += spec * drg.dligColor * specPower * 30.0f;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。
 		//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;

@@ -689,4 +689,9 @@
       <Filter>Assets\modelData</Filter>
     </ImageContentTask>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\kyara\Desktop\授業用unity\Assets_sagasu\Assets\LowPolySoldiers_demo\models\Materials\demo_soldier_512.tga">
+      <Filter>Assets\modelData</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
