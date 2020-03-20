@@ -85,6 +85,7 @@ struct PSInput{
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
 	float4 posInLVP		: TEXCOORD1;	//ライトビュープロジェクション空間での座標。
+	float4 WorldPos		: TEXCOORD2;
 };
 
 /// <summary>
@@ -118,6 +119,7 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 	PSInput psInput = (PSInput)0;
 	float4 pos = mul(mWorld, In.Position);
 	float4 worldPos = pos;
+	psInput.WorldPos = pos;
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -193,9 +195,8 @@ float4 PSMain( PSInput In ) : SV_Target0
 		In.TexCoord
 	);
 	//ディレクションライトの鏡面反射を計算する。
-	
 	//ライトを当てる面から視点に伸びるベクトルを計算する。
-	float3 toEyeDir = normalize(eye - In.Position);
+	float3 toEyeDir = normalize(eye - In.WorldPos.xyz);
 	//反射を計算する。
 	float3 R = -toEyeDir + 2.0f * dot(In.Normal, toEyeDir) * In.Normal;
 	R = normalize(R);
