@@ -240,4 +240,5 @@ private:
 	bool					m_creep = false;							//伏せているかどうか。
 	bool					m_tamagireFlag = false;						//弾切れのフラグ。
 	int						m_playerKillCount = 0;						//プレイヤーのキル数。
+	ID3D11ShaderResourceView* m_specMapSRV = nullptr;					//スペキュラマップのSRV
 };

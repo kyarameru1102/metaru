@@ -9,6 +9,7 @@
 //アルベドテクスチャ。
 Texture2D<float4> albedoTexture : register(t0);	
 Texture2D<float4> g_shadowMap : register(t2);
+Texture2D<float4> specularMap : register(t3);		//スペキュラマップ。
 //ボーン行列
 StructuredBuffer<float4x4> boneMatrix : register(t1);
 
@@ -31,6 +32,7 @@ cbuffer VSPSCb : register(b0){
 	float4x4 mLightView;	//ライトビュー行列。
 	float4x4 mLightProj;	//ライトプロジェクション行列。
 	int isShadowReciever;	//シャドウレシーバーフラグ。
+	int isHasSpecularMap;	//スペキュラマップあるかどうか。
 };
 
 //ライト用の定数バッファ。
@@ -170,6 +172,7 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 		//mulは乗算命令。
 	    pos = mul(skinning, In.Position);
 	}
+	psInput.WorldPos = pos;
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
 	psInput.Tangent = normalize( mul(skinning, In.Tangent) );
 	
@@ -195,6 +198,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 		In.TexCoord
 	);
 	//ディレクションライトの鏡面反射を計算する。
+
 	//ライトを当てる面から視点に伸びるベクトルを計算する。
 	float3 toEyeDir = normalize(eye - In.WorldPos.xyz);
 	//反射を計算する。
@@ -203,10 +207,15 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float3 direction = normalize(drg.dligDirection);
 	//反射ベクトルとディレクションライトの方向との内積をとってスペキュラの強さを計算する。
 	float3 spec = max(0.0f, dot(-direction, R));
+	float specPower;
+	//スペキュラマップがある。
+	if (isHasSpecularMap == 1) {
+		specPower = specularMap.Sample(Sampler, In.TexCoord).x;
+	}
 	//pow関数使っていい感じにする。
-	//spec = pow(spec, specPow);
+	spec = pow(spec, specPow);
 	//スペキュラ反射の計算結果をligに加算する。
-	lig += spec * drg.dligColor;
+	lig += spec * drg.dligColor * specPower * 10.0f;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。
 		//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;

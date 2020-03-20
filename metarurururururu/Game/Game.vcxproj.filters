@@ -676,5 +676,17 @@
     <ImageContentTask Include="Assets\sprite\rankS.png">
       <Filter>Assets\sprite</Filter>
     </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec1.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec2.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec3.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec4.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
   </ItemGroup>
 </Project>

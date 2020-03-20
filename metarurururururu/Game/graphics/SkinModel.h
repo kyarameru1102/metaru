@@ -95,6 +95,14 @@ public:
 	{
 		m_isShadowReciever = flag;
 	}
+	/// <summary>
+	/// スペキュラマップを設定。
+	/// </summary>
+	/// <param name="srv"></param>
+	void SetSpecularMap(ID3D11ShaderResourceView* srv)
+	{
+		m_specularMapSRV = srv;
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -122,6 +130,7 @@ private:
 		CMatrix mLightView;		//ライトビュー行列。
 		CMatrix mLightProj;		//ライトプロジェクション行列。
 		int isShadowReciever;	//シャドウレシーバーのフラグ。
+		int isHasSpecuraMap;	//スペキュラマップを保持しているかどうかのフラグ。
 	};
 	
 	//ディレクションライト。
@@ -147,6 +156,8 @@ private:
 	Light						m_Light;						//ライト。
 	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV。
 	ID3D11ShaderResourceView*   m_shadowMapSRV = nullptr;		//シャドウマップのSRV.
+	ID3D11ShaderResourceView*	m_specularMapSRV = nullptr;		//スペキュラマップのSRV
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
+	bool						isHasSpecuraMap = false;		//スペキュラマップのフラグ。
 };
 

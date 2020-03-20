@@ -70,7 +70,7 @@ void SkinModel::InitLight()
 {
 	m_Light.dirLig.direction = { 1.0f, -2.0f, 1.0f, 0.0f };
 	m_Light.dirLig.direction.Normalize();
-	m_Light.dirLig.color = { 7.7f, 7.7f,7.7f, 1.0f };
+	m_Light.dirLig.color = { 0.7f, 0.7f,0.7f, 1.0f };
 	m_Light.Ambient = { 1.0f,1.0f,1.0f,1.0f };
 	m_Light.specPow = 5.0f;
 }
@@ -162,6 +162,13 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	else {
 		vsCb.isShadowReciever = 0;
 	}
+	//スペキュラマップを使用するかどうかのフラグを送る。
+	if (m_specularMapSRV != nullptr) {
+		vsCb.isHasSpecuraMap = true;
+	}
+	else {
+		vsCb.isHasSpecuraMap = false;
+	}
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	m_Light.eyePos = g_camera3D.GetPosition();
 	//ライト用の定数バッファを更新。
@@ -182,7 +189,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	//シャドウマップを設定する。
 	m_shadowMapSRV = ShadowMap::GetShadowMap().GetShadowMapSRV();
 	d3dDeviceContext->PSSetShaderResources(2, 1, &m_shadowMapSRV);
-
+	if (m_specularMapSRV != nullptr) {
+		//スペキュラマップが設定されていたらレジスタt3に設定する。
+		d3dDeviceContext->PSSetShaderResources(3, 1, &m_specularMapSRV);
+	}
 	m_modelDx->Draw(
 		d3dDeviceContext,
 		state,
