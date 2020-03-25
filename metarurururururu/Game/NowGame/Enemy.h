@@ -179,18 +179,18 @@ private:
 		enAnimationClip_death,												//死亡。
 		enAnimationClip_Num,
 	};
-	AnimationClip		m_animClips[enAnimationClip_Num];					//アニメーションクリップ。
-	CapsuleCollider		m_collider;											//カプセルコライダー。
-	bool				m_onFiring = false;									//銃を撃っているか。
-	int					m_hp = 5;											//敵兵のHP。
-	int					m_time = 0;
-	CVector3			m_smoothPos = CVector3::Zero();
-	float				m_angle = 0.0f;										//視野角用の角度を記録。
-	float				m_toPlayerLen = 0.0f;								//プレイヤーまでの距離。
-	bool				m_hit = false;										//プレイヤーとの間に障害物があるかどうかのフラグ。trueならある。				
-	bool				m_relodeOn = false;									//リロード処理に入るかどうか。
-	bool				m_itai = false;										//ダメージを食らったときtrue。
-	bool				m_notLookOn = false;
-	
+	AnimationClip				m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
+	CapsuleCollider				m_collider;									//カプセルコライダー。
+	bool						m_onFiring = false;							//銃を撃っているか。
+	int							m_hp = 5;									//敵兵のHP。
+	int							m_time = 0;
+	CVector3					m_smoothPos = CVector3::Zero();
+	float						m_angle = 0.0f;								//視野角用の角度を記録。
+	float						m_toPlayerLen = 0.0f;						//プレイヤーまでの距離。
+	bool						m_hit = false;								//プレイヤーとの間に障害物があるかどうかのフラグ。trueならある。				
+	bool						m_relodeOn = false;							//リロード処理に入るかどうか。
+	bool						m_itai = false;								//ダメージを食らったときtrue。
+	bool						m_notLookOn = false;
+	ID3D11ShaderResourceView*	m_specMapSRV = nullptr;						//スペキュラマップのSRV
 };
 

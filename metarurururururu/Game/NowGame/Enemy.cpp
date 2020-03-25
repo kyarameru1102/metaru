@@ -78,10 +78,18 @@ bool Enemy::Start()
 	Game* game = GetGame();
 	m_player = game->GetPlayer();
 	ChangeState(&EnemyState::m_hesitate);
+
+	//スペキュラマップ。
+	DirectX::CreateDDSTextureFromFileEx(
+		g_graphicsEngine->GetD3DDevice(), L"Assets/modelData/heisi_spec4.dds", 0,
+		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
+		false, nullptr, &m_specMapSRV);
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody);
+	m_skinModelRender->SetShadowReciever(true);
+	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV);
 	m_currentPath = 0;
 	m_position = PathList[0].position;
 
@@ -521,12 +529,6 @@ void Enemy::ShotPossible()
 	else {
 		m_hit = false;
 	}
-
-	/*if (m_player->GetCreep()) {
-		if ((m_player->GetPosition().y - m_position.y) > 1.0f || (m_player->GetPosition().y - m_position.y) < -1.0f) {
-			m_hit = true;
-		}
-	}*/
 }
 
 void Enemy::AstarSmooth()

@@ -197,10 +197,7 @@ void Bloom::Drow(RenderTarget& renderTarget)
 
 		//ブレンディングステートを戻す。
 		deviceContext->OMSetBlendState(m_disableBlendState, blendFactor, 0xffffffff);
-
 	}
-
-
 }
 
 void Bloom::DrowFullScreen(Shader& vsShader, Shader& psShader)

@@ -62,6 +62,7 @@ bool Player::Start()
 	);
 	ChangeState(&m_idleState);
 
+	//スペキュラマップ。
 	DirectX::CreateDDSTextureFromFileEx(
 		g_graphicsEngine->GetD3DDevice(), L"Assets/modelData/heisi_spec4.dds", 0,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
@@ -71,8 +72,8 @@ bool Player::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->SetShadowReciever(true);
-
 	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV);
+
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	m_fpsCamera = FindGO<FPSCamera>("fpsCamera");
 

@@ -213,15 +213,16 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float3 direction = normalize(drg.dligDirection);
 	//反射ベクトルとディレクションライトの方向との内積をとってスペキュラの強さを計算する。
 	float3 spec = max(0.0f, dot(-direction, R));
-	float specPower;
+	float specPower = 1.0f;
 	//スペキュラマップがある。
 	if (isHasSpecularMap == 1) {
 		specPower = albedo.a;
+		specPower *= 20.0f;
 	}
 	//pow関数使っていい感じにする。
 	spec = pow(spec, specPow);
 	//スペキュラ反射の計算結果をligに加算する。
-	lig += spec * drg.dligColor * specPower * 30.0f;
+	lig += spec * drg.dligColor * specPower;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。
 		//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
