@@ -291,6 +291,8 @@
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
     <MeshContentTask Include="Assets\modelData\sensya.fbx" />
     <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx" />
+    <MeshContentTask Include="Assets\modelData\sky.fbx" />
+    <MeshContentTask Include="Assets\modelData\sky2.fbx" />
     <MeshContentTask Include="Assets\modelData\souko.FBX" />
     <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

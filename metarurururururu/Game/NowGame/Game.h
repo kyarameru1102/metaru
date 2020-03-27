@@ -68,6 +68,7 @@ private:
 		en_neither										//初期化。どちらでもない。
 	};
 	ClearOrDeath			m_CorD = en_neither;		//死んだかクリアしたか。
+	SkinModelRender*		m_skyModel = nullptr;		//空。
 };
 
 static inline Game* GetGame() {

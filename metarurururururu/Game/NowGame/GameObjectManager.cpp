@@ -104,7 +104,7 @@ void GameObjectManager::Render3D()
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	g_graphicsEngine->ChangeRenderTarget(&m_mainRenderTarget, &m_frameBufferViewports);
 	//メインレンダリングターゲットをクリアする。
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float clearColor[] = { 1.0f, 0.0f, 1.0f, 1.0f };
 	m_mainRenderTarget.ClearRenderTarget(clearColor);
 	//3Dを描画。
 	for (int i = 0; i < m_gameObjectListArray.size(); i++) {
