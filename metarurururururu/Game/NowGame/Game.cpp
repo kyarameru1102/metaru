@@ -44,7 +44,7 @@ bool Game::Start()
 
 	m_skyModel = NewGO<SkinModelRender>(0);
 	m_skyModel->Init(L"Assets/modelData/sky.cmo");
-	m_skyModel->SetScale({ 10.0f,10.0f,10.0f });
+	m_skyModel->SetScale({ 60.0f,60.0f,60.0f });
 
 	//戦車の座標レベルデータをロード。
 	m_level.Init(L"Assets/level/sensyaPos.tkl",
