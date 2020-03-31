@@ -197,7 +197,7 @@ void NaviMesh::Create(SkinModel & model)
 	}
 
 	//デバッグ用リンク確認。
-	/*for (int i = 0; i < m_cells.size(); i++)
+	for (int i = 0; i < m_cells.size(); i++)
 	{
 		CVector3 c_position;
 		c_position = m_cells[i]->centerPos;
@@ -234,7 +234,7 @@ void NaviMesh::Create(SkinModel & model)
 				skin->SetScale({ 2.f,2.f,2.f });
 			}
 		}
-	}*/
+	}
 	
 		int i = 0;
 }
