@@ -125,6 +125,7 @@ bool Game::Start()
 
 void Game::Update()
 {
+	GetNaviMesh().Update();
 	if (g_pad[0].IsTrigger(enButtonStart))
 	{
 		DeleteGO(this);

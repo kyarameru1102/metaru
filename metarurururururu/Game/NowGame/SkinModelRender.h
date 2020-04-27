@@ -29,6 +29,14 @@ public:
 		numAnimationClips = 0, 
 		EnFbxUpAxis fbxUpAxis = enFbxUpAxisZ
 	);
+	//重みでブレンディングする方
+	void Init(const wchar_t* filePath,
+		bool blend,	
+		AnimationClip* animationClips = nullptr, int
+		numAnimationClips = 0,
+		EnFbxUpAxis fbxUpAxis = enFbxUpAxisZ
+	);
+
 	//アニメーションの再生。
 	void PlayAnimation(int animNo, Body body, float interpolateTime = 0.0f)
 	{
@@ -74,6 +82,8 @@ public:
 	}
 	//アニメーションの初期化。
 	void InitAnimation(AnimationClip* animationClips, int numAnimationClips);
+	//アニメーションの初期化。
+	void InitAnimation(AnimationClip* animationClips, int numAnimationClips,Skeleton& skeletonUpper,Skeleton& skeletonLower);
 	/// <summary>
 	/// モデルをレンダリングするかどうかの関数。
 	/// </summary>
@@ -113,13 +123,17 @@ private:
 	CVector3					m_scale = CVector3::One();				//拡大率。
 	EnFbxUpAxis					m_enFbxUpAxis = enFbxUpAxisZ;			//FBXの上方向。
 	SkinModel					m_skinModel;							//スキンモデル。
-	Animation					m_animation;							//アニメーション。
-	Animation					m_animation2;							//アニメーション。
+	Animation					m_animation;							//上半身アニメーション。
+	Animation					m_animation2;							//下半身アニメーション。
 	bool						m_isUpdateAnimation = true;				//アニメーションを連続再生するか？
 	bool						m_RenderOn = true;						//描画されるかどうか。
 	bool                        m_renderOK = false;						//Updateの後にレンダーが呼ばれるようにするフラグ。
 	bool						m_shadowRecieverOn = true;				//影を表示される側になるかどうか。
 	bool						m_shadowCasterOn = true;				//影を落とすかどうか。
 	bool						m_UpperBody = true;						//上半身のアニメーションを流すならtrue。
+	Skeleton					m_skeletonUpper;				//上半身のアニメーション用のスケルトン。
+	Skeleton					m_skeletonLower;				//下半身のアニメーション用のスケルトン。
+	Skeleton					m_blendSkeleton;				//上半身と下半身のアニメーションを合成したスケルトン。
+	bool						m_blend = false;
 };
 

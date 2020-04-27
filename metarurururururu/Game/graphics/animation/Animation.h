@@ -28,9 +28,15 @@ public:
 		*@param[in]	skinModel		アニメーションさせるスキンモデル。
 		*@param[in]	animeClipList	アニメーションクリップの配列。
 		*@param[in]	numAnimClip		アニメーションクリップの数。
-		*/
+	*/
 	void Init(SkinModel& skinModel, AnimationClip animClipList[], int numAnimClip);
-		
+	/// <summary>
+	/// 初期化関数。上半身用のアニメーションと下半身用のアニメーションを合成したスケルトンを使う用。
+	/// </summary>
+	/// <param name="skeleton">skeleton				アニメーションさせるスケルトン</param>
+	/// <param name="animClipList">animeClipList	アニメーションクリップの配列。</param>
+	/// <param name="numAnimClip">numAnimClip		アニメーションクリップの数。</param>
+	void Init(Skeleton& skeleton, AnimationClip animClipList[], int numAnimClip);
 	/*!
 	*@brief	アニメーションの再生。
 	*@param[in]	clipNo	アニメーションクリップの番号。Init関数に渡したanimClipListの並びとなる。
@@ -56,7 +62,7 @@ public:
 	* ユーザーは使用しないでください。
 	*@param[in]	deltaTime		アニメーションを進める時間(単位：秒)。
 	*/
-	void Update(float deltaTime);
+	void Update(float deltaTime,bool blend);
 	/*!
 	*@brief	アニメーションイベントリスナーを登録。
 	*@return
@@ -135,6 +141,7 @@ private:
 		* @brief	グローバルポーズの更新。
 		*/
 	void UpdateGlobalPose();
+	void UpdateGlobalPoseBlend();
 private:
 	/*!
 		*@brief	最終ポーズになるアニメーションのリングバッファ上でのインデックスを取得。

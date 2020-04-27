@@ -70,7 +70,7 @@ bool Player::Start()
 
 	//cmoファイルの読み込み。
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
+	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",true,m_animClips,enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->SetShadowReciever(true);
 	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV);
 
@@ -400,6 +400,7 @@ void Player::HoldRotation()
 //銃を撃つ。
 void Player::Firing()
 {
+	//CMatrix boneMat_a, boneMat_b
 	m_dangan = false;
 	//残弾があれば。
 	if (m_ammo >= 1) {
@@ -450,6 +451,7 @@ void Player::Firing()
 	else {
 		//走っていなければ。
 		if (!m_dash) {
+			m_Firing = true;
 			m_skinModelRender->PlayAnimation(enAnimationClip_hold, Body::enUpperBody, 0.1f);
 		}
 		//伏せていたら。

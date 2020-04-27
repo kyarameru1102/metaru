@@ -226,19 +226,19 @@ private:
 		enAnimationClip_creep_forward,									//匍匐前進。
 		enAnimationClip_Num,
 	};
-	AnimationClip			m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
-	UI*						m_ui = nullptr;								//UI。
-	bool					m_clear = false;							//クリアしたかどうかのフラグ。
-	int						m_hp = 5;									//現在のプレイヤーのHP。
-	int						m_maxHP;									//HPの最大値。
-	bool					m_Firing = false;							//銃を撃っているかどうか。
-	bool					m_dash = false;								//走っているかどうか。
-	bool					m_dangan = false;							//弾丸が出ているかどうか。
-	int						m_maxAmmo;									//銃に装填できる最大弾数。
-	bool					m_naturalRecoveryTrigger = false;			//自然回復するフラグ。
-	int						m_naturalRecoveryCount = 0;					//自然回復までの時間。
-	bool					m_creep = false;							//伏せているかどうか。
-	bool					m_tamagireFlag = false;						//弾切れのフラグ。
-	int						m_playerKillCount = 0;						//プレイヤーのキル数。
-	ID3D11ShaderResourceView* m_specMapSRV = nullptr;					//スペキュラマップのSRV
+	AnimationClip				m_animClips[enAnimationClip_Num];			//アニメーションクリップ。
+	UI*							m_ui = nullptr;								//UI。
+	bool						m_clear = false;							//クリアしたかどうかのフラグ。
+	int							m_hp = 5;									//現在のプレイヤーのHP。
+	int							m_maxHP;									//HPの最大値。
+	bool						m_Firing = false;							//銃を撃っているかどうか。
+	bool						m_dash = false;								//走っているかどうか。
+	bool						m_dangan = false;							//弾丸が出ているかどうか。
+	int							m_maxAmmo;									//銃に装填できる最大弾数。
+	bool						m_naturalRecoveryTrigger = false;			//自然回復するフラグ。
+	int							m_naturalRecoveryCount = 0;					//自然回復までの時間。
+	bool						m_creep = false;							//伏せているかどうか。
+	bool						m_tamagireFlag = false;						//弾切れのフラグ。
+	int							m_playerKillCount = 0;						//プレイヤーのキル数。
+	ID3D11ShaderResourceView*	m_specMapSRV = nullptr;						//スペキュラマップのSRV
 };

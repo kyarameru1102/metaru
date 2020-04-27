@@ -353,9 +353,6 @@
     <ClInclude Include="graphics\animation\AnimationClip.h">
       <Filter>graphics\animation</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\animation\AnimationPlayController.h">
-      <Filter>graphics\animation</Filter>
-    </ClInclude>
     <ClInclude Include="HID\Pad.h">
       <Filter>HID</Filter>
     </ClInclude>
@@ -565,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="NowGame\GaussianBlur.h">
       <Filter>graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\animation\AnimationPlayController.h">
+      <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

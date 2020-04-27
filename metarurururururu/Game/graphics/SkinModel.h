@@ -61,6 +61,10 @@ public:
 	{
 		return m_skeleton;
 	}
+	void SetSkeleton(Skeleton& skeleton)
+	{
+		m_skeleton = skeleton;
+	}
 	/*!
 	*@brief	メッシュを検索する。
 	*@param[in] onFindMesh		メッシュが見つかったときのコールバック関数

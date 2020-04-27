@@ -196,45 +196,64 @@ void NaviMesh::Create(SkinModel & model)
 		}
 	}
 
-	//デバッグ用リンク確認。
-	for (int i = 0; i < m_cells.size(); i++)
-	{
-		CVector3 c_position;
-		c_position = m_cells[i]->centerPos;
-		for (int j = 0; j < 3; j++) {
-			if (m_cells[i]->linkCells[j]!= nullptr)
-			{
-				auto cell = m_cells[i]->linkCells[j];
-				CVector3 Vector = CVector3::Zero();
-				Vector = cell->centerPos - c_position;
-				Vector.Normalize();
-				CQuaternion Rot = CQuaternion::Identity();
-				float kakuo = acos(Vector.Dot(CVector3::AxisY()));
-				if (kakuo > 0.0f || kakuo < -FLT_MIN)
-				{
-					kakuo = CMath::RadToDeg(kakuo);
-					CVector3 jiku;
-					jiku.Cross(CVector3::AxisY(), Vector);
-					if (kakuo > 0.0f || kakuo < -FLT_MIN)
-					{
-						jiku.Normalize();
-						Rot.SetRotationDeg(jiku, kakuo);
-					}
+	
+}
 
-				}
-				m_skin = NewGO<SkinModelRender>(0);
-				m_skin->Init(L"Assets/modelData/bou.cmo");
-				m_skin->SetPosition(cell->centerPos);
-				m_skin->SetScale({ 1.0f,1.0f,1.0f });
-
-				SkinModelRender* skin = NewGO<SkinModelRender>(0);
-				skin->Init(L"Assets/modelData/bou.cmo");
-				skin->SetPosition(c_position);
-				skin->SetRotation(Rot);
-				skin->SetScale({ 2.f,2.f,2.f });
-			}
+void NaviMesh::Update()
+{
+	if (g_pad[0].IsTrigger(enButtonB)) {
+		if (!m_debugCount) {
+			m_debugCount = true;
+		}
+		else {
+			m_debugCount = false;
+			m_debugCount2 = 0;
+			DeleteGOs("bou1");
+			DeleteGOs("bou2");
 		}
 	}
-	
-		int i = 0;
+	if (m_debugCount) {
+		if (m_debugCount2 <= 0) {
+			//デバッグ用リンク確認。
+			for (int i = 0; i < m_cells.size(); i++)
+			{
+				CVector3 c_position;
+				c_position = m_cells[i]->centerPos;
+				for (int j = 0; j < 3; j++) {
+					if (m_cells[i]->linkCells[j] != nullptr)
+					{
+						auto cell = m_cells[i]->linkCells[j];
+						CVector3 Vector = CVector3::Zero();
+						Vector = cell->centerPos - c_position;
+						Vector.Normalize();
+						CQuaternion Rot = CQuaternion::Identity();
+						float kakuo = acos(Vector.Dot(CVector3::AxisY()));
+						if (kakuo > 0.0f || kakuo < -FLT_MIN)
+						{
+							kakuo = CMath::RadToDeg(kakuo);
+							CVector3 jiku;
+							jiku.Cross(CVector3::AxisY(), Vector);
+							if (kakuo > 0.0f || kakuo < -FLT_MIN)
+							{
+								jiku.Normalize();
+								Rot.SetRotationDeg(jiku, kakuo);
+							}
+
+						}
+						m_skin = NewGO<SkinModelRender>(0,"bou1");
+						m_skin->Init(L"Assets/modelData/bou.cmo");
+						m_skin->SetPosition(cell->centerPos);
+						m_skin->SetScale({ 1.0f,1.0f,1.0f });
+
+						m_skin2 = NewGO<SkinModelRender>(0,"bou2");
+						m_skin2->Init(L"Assets/modelData/bou.cmo");
+						m_skin2->SetPosition(c_position);
+						m_skin2->SetRotation(Rot);
+						m_skin2->SetScale({ 2.0f,2.0f,2.0f });
+					}
+				}
+			}
+		}
+		m_debugCount2++;
+	}
 }

@@ -168,7 +168,7 @@ public:
 	*/
 	bool Load(const wchar_t* filePath);
 	/*!
-	 *@brief	ボーンの名前からボーンIDを検索。
+	 *@brief	ボーンの名前からボーンIDを検索。\
 	 */
 	int FindBoneID(const wchar_t* boneName) const
 	{
@@ -212,7 +212,13 @@ public:
 	*@param[in]	parentMatrix	親のボーンのワールド行列。
 	*/
 	static 	void UpdateBoneWorldMatrix(Bone& bone, const CMatrix& parentMatrix);
-
+	/// <summary>
+	/// ボーン行列を合成
+	/// </summary>
+	/// <param name="skeleton0">ボーン行列計算済みのスケルトン</param>
+	/// <param name="skeleton1">ボーン行列計算済みのスケルトン</param>
+	/// <param name="weightTbl">重みテーブル(nullptrが指定されていたら、全ての骨重み0.5でブレンディング。</param>
+	void BlendBoneMatrix(Skeleton& skeleton0, Skeleton& skeleton1, float weightTbl[]);
 private:
 	
 	std::vector<Bone*>			m_bones;					//!<ボーンの配列。

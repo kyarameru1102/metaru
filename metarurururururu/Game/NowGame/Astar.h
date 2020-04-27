@@ -46,6 +46,10 @@ public:
 	{
 		return AStarAnswerIt;
 	}
+	/*NaviMesh* GetNaviMesh()
+	{
+		return m_naviMesh;
+	}*/
 private:
 	bool isExecute = false;
 	NaviMesh* m_naviMesh = nullptr;

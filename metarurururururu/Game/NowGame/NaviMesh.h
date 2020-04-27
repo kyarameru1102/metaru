@@ -56,6 +56,7 @@ public:
 		return r;
 	};
 	void Create(SkinModel& model);
+	void Update();
 	Cell* Findcell(CVector3 pos)
 	{
 		CVector3 closepos;
@@ -79,9 +80,11 @@ public:
 private:
 	std::vector<Cell*>	m_cells;
 	SkinModelRender*	m_skin = nullptr;
+	SkinModelRender*	m_skin2 = nullptr;
 	CapsuleCollider		m_collider;
 	SkinModel			m_model;
-	
+	bool				m_debugCount = false;
+	int					m_debugCount2 = 0;
 };
 static NaviMesh& GetNaviMesh()
 {

@@ -233,3 +233,27 @@ void Skeleton::SendBoneMatrixArrayToGPU()
 	g_graphicsEngine->GetD3DDeviceContext()->VSSetShaderResources(enSkinModelSRVReg_BoneMatrixArray, 1, &m_boneMatrixSRV);
 
 }
+void Skeleton::BlendBoneMatrix(Skeleton& skeleton0, Skeleton& skeleton1, float weightTbl[])
+{
+	for (int boneNo = 0; boneNo < m_bones.size(); boneNo++) {
+		float w = 0.5f;
+		if (weightTbl != nullptr) {
+			//重みテーブルが指定されている。
+			w = weightTbl[boneNo];
+		}
+		//スケルトン0の骨をコピー。
+		auto matrix_0 = skeleton0.GetBone(boneNo)->GetLocalMatrix();
+		auto matrix_1 = skeleton1.GetBone(boneNo)->GetLocalMatrix();
+		CMatrix mat;
+
+
+		//行列を合成する。
+		for (int x = 0; x < 4; x++) {
+			for (int y = 0; y < 4; y++) {
+				mat.m[x][y] = matrix_0.m[x][y] * w + matrix_1.m[x][y] * (1.0f - w);
+			}
+		}
+		//合成済みの行列を流し込む
+		m_bones[boneNo]->SetLocalMatrix( mat );
+	}
+}

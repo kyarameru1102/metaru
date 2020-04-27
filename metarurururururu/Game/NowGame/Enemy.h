@@ -156,6 +156,10 @@ public:
 	{
 		m_hp = 0;
 	}
+	Astar GetAstar()
+	{
+		return m_astar;
+	}
 private:
 	IEnemyState*				m_currentstate = nullptr;					//エネミーの現在の状態。
 	std::vector<Path>			PathList;
