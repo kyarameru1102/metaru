@@ -77,7 +77,7 @@ bool Game::Start()
 		}
 	);
 	//@todo for debug
-#if 0
+#if 1
 	////敵の総司令的存在を生成。
 	m_EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。

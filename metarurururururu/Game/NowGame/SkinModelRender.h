@@ -8,6 +8,7 @@ class SkinModelRender : public IGameObject
 	//IGameObjectなのでNewGOでインスタンスを作成する必要がある。
 public:
 	SkinModelRender();
+	~SkinModelRender();
 	void OnDestroy() override;
 	/// <summary>
 	/// 初期化関数。

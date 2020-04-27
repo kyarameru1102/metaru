@@ -5,7 +5,10 @@
 SkinModelRender::SkinModelRender()
 {
 }
+SkinModelRender::~SkinModelRender()
+{
 
+}
 void SkinModelRender::OnDestroy()
 {
 }

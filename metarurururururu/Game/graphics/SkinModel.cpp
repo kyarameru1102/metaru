@@ -140,7 +140,11 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 	m_worldMatrix.Mul(m_worldMatrix, transMatrix);
 
 	//スケルトンの更新。
-	m_skeleton.Update(m_worldMatrix);
+	if (m_skeletonRef) {
+		m_skeletonRef->Update(m_worldMatrix);
+	} {
+		m_skeleton.Update(m_worldMatrix);
+	}
 }
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 {
@@ -182,7 +186,12 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	
 	//ボーン行列をGPUに転送。
-	m_skeleton.SendBoneMatrixArrayToGPU();
+	if (m_skeletonRef) {
+		m_skeletonRef->SendBoneMatrixArrayToGPU();
+	}
+	else {
+		m_skeleton.SendBoneMatrixArrayToGPU();
+	}
 	
 	//アルベドテクスチャを設定する。
 	d3dDeviceContext->PSSetShaderResources(0, 1, &m_albedoTextureSRV);

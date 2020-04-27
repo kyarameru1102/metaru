@@ -9,6 +9,7 @@
 */
 class Bone {
 public:
+	Bone(){}
 	/*!
 	*@brief	コンストラクタ。
 	*@param[in]	boneName		ボーンの名前。
@@ -133,10 +134,17 @@ private:
 	CQuaternion		m_rotation = CQuaternion::Identity();	//!<このボーンの回転。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	std::vector<Bone*>	m_children;		//!<子供。
 };
+//デフォルトのコピーコンストラクタと代入演算子を削除。
+class Noncopyable {
+public:
+	Noncopyable(){}
+	Noncopyable(Noncopyable& a) = delete;
+	const Noncopyable& operator=(Noncopyable& a) = delete;
+};
 /*!
  *@brief	スケルトン。
  */
-class Skeleton  {
+class Skeleton : Noncopyable {
 public:
 	using OnPostProcessSkeletonUpdate = std::function<void()>;
 

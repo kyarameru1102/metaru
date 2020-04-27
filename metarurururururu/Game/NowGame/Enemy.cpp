@@ -86,7 +86,7 @@ bool Enemy::Start()
 		false, nullptr, &m_specMapSRV);
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo", m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
+	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",true, m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody);
 	m_skinModelRender->SetShadowReciever(true);
 	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV);

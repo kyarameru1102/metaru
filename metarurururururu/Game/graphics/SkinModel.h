@@ -63,7 +63,7 @@ public:
 	}
 	void SetSkeleton(Skeleton& skeleton)
 	{
-		m_skeleton = skeleton;
+		m_skeletonRef = &skeleton;
 	}
 	/*!
 	*@brief	メッシュを検索する。
@@ -152,6 +152,7 @@ private:
 	};
 	EnFbxUpAxis					m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
 	ID3D11Buffer*				m_cb = nullptr;					//!<定数バッファ。
+	Skeleton*					m_skeletonRef = nullptr;		//!<外部のスケルトン。指定されていなければnullptr
 	Skeleton					m_skeleton;						//!<スケルトン。
 	CMatrix						m_worldMatrix;					//!<ワールド行列。
 	DirectX::Model*				m_modelDx;						//!<DirectXTKが提供するモデルクラス。
