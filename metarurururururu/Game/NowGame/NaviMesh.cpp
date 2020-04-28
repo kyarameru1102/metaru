@@ -201,7 +201,7 @@ void NaviMesh::Create(SkinModel & model)
 
 void NaviMesh::Update()
 {
-	if (g_pad[0].IsTrigger(enButtonB)) {
+	if (g_pad[0].IsTrigger(enButtonY)) {
 		if (!m_debugCount) {
 			m_debugCount = true;
 		}

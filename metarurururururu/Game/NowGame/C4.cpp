@@ -27,7 +27,7 @@ bool C4::Start()
 
 void C4::Update()
 {
-	if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY)) {
+	if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonB)) {
 		if ((m_player->GetPosition() - m_position).Length() <= 200.0f) {
 			m_player->OutDeath();
 		}
