@@ -62,7 +62,7 @@ void sensya::Update()
 	);
 	if (m_c4On) 
 	{
-		if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonY))
+		if (g_pad[0].IsPress(enButtonLB1) && g_pad[0].IsTrigger(enButtonB))
 		{
 			NewGO<ClearPoint>(0, "clearPoint");
 			DeleteGO(this);
