@@ -103,6 +103,7 @@ void Player::ChangeState(IPlayerState* nextState)
 
 void Player::Update()
 {
+	int a = 0;
 	//@todo for debug
 #if 1
 	if (!m_clear) {
