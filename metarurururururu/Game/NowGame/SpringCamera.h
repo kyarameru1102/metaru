@@ -44,7 +44,7 @@ public:
 	/// <summary>
 	/// 更新関数。
 	/// </summary>
-	void Update();
+	void Update(bool heri);
 	/// <summary>
 	/// ばねカメラのみの更新関数。
 	/// </summary>

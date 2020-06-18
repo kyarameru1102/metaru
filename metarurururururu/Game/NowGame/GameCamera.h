@@ -58,9 +58,7 @@ private:
 	ClearPoint*				m_clearPoint = nullptr;
 	CVector3				m_enemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };				//敵兵の座標。
 	CVector3				m_direction;												//向き。
-	CameraCollisionSolver	m_cameraCollider;											//カメラのコライダー。
 	float					m_rightLength;
-	CameraCollisionSolver	m_targetCollider;											//注視点のコライダー
 	bool					m_LookInTo = false;											//肩越しのフラグ。
 	CVector3				m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
 	bool					m_migi = false;

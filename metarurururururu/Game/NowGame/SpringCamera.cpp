@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SpringCamera.h"
 
-
 float dampingK = 35.0f;
 float CalcSpringScalar(
 	float positionNow,
@@ -52,6 +51,7 @@ float CalcSpringScalar(
 	}
 	return newPos;
 }
+
 /// <summary>
 /// バネ減衰を使用して、現在の位置、目標となる位置、速度、加速度から新しい位置を計算する。
 /// </summary>
@@ -134,10 +134,10 @@ void SpringCamera::Init(
 	m_isRefresh = true;
 }
 
-void SpringCamera::Update()
+void SpringCamera::Update(bool heri)
 {
 	UpdateSpringCamera();
-	if (m_isEnableCollisionSolver) {
+	if (!heri) {
 		CVector3 result;
 		m_cameraCollisionSolver.Execute(
 			result,

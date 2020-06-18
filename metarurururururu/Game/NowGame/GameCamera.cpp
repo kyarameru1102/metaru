@@ -26,7 +26,7 @@ bool GameCamera::Start()
 		true,
 		10.0f
 	);
-	m_targetCollider.Init(20.0f);
+	
 	m_rightLength = -40.0f;
 	return true;
 }
@@ -52,7 +52,6 @@ void GameCamera::Update()
 	
 	m_target.y += 70.0f;
 	CVector3 plpos = m_target;
-	//CVector3 nowTarget = m_target;		Ç¢ÇÁÇÒÅB
 	
 	//m_target += targetAdd;
 	float x, y;
@@ -115,10 +114,9 @@ void GameCamera::Update()
 	
 	m_springCamera.SetPosition(camePos);
 	m_springCamera.SetTarget(m_target);
-	m_springCamera.Update();
+	m_springCamera.Update(m_heri);
 	CVector3 CameraToTarget = NewPosition - m_target;
 
-	
 	if (g_pad[0].IsPress(enButtonLB1))
 	{
 		m_okEnemyPos = { FLT_MAX, FLT_MAX , FLT_MAX };
