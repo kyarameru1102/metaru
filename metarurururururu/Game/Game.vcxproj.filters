@@ -171,9 +171,6 @@
     <ClCompile Include="NowGame\ShadowMap.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="NowGame\SkinModelRender.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="NowGame\SphereCollider.cpp">
       <Filter>physics</Filter>
     </ClCompile>
@@ -312,6 +309,12 @@
     <ClCompile Include="NowGame\GaussianBlur.cpp">
       <Filter>graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\SkinModelRender.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Sky.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -408,9 +411,6 @@
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\ShadowMap.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="NowGame\SkinModelRender.h">
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="NowGame\SphereCollider.h">
@@ -566,6 +566,12 @@
     <ClInclude Include="graphics\animation\AnimationPlayController.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="NowGame\SkinModelRender.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Sky.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -626,12 +632,6 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\AbsoluteWall.FBX">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\sky.fbx">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\sky2.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
   </ItemGroup>

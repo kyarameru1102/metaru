@@ -11,6 +11,7 @@ class EnemyGeneralCommander;
 class Enemy;
 class Ground;
 class ClearPoint;
+class Sky;
 class Game : public IGameObject
 {
 public:
@@ -68,7 +69,8 @@ private:
 		en_neither										//初期化。どちらでもない。
 	};
 	ClearOrDeath			m_CorD = en_neither;		//死んだかクリアしたか。
-	SkinModelRender*		m_skyModel = nullptr;		//空。
+	Sky*					m_sky = nullptr;			//空。
+	float					m_skyScale = 20000.0f;		//空の大きさ。
 };
 
 static inline Game* GetGame() {

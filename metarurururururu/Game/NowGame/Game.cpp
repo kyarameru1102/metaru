@@ -13,6 +13,7 @@
 #include "Bullet.h"
 #include "Fade.h"
 #include "Result.h"
+#include "Sky.h"
 
 Game* Game::m_game = nullptr;
 
@@ -35,7 +36,7 @@ Game::~Game()
 	DeleteGOs("fpsCamera");
 	DeleteGOs("bullet");
 	DeleteGOs("c4");
-	DeleteGO(m_skyModel);
+	DeleteGO(m_sky);
 	m_game = nullptr;
 }
 
@@ -77,7 +78,7 @@ bool Game::Start()
 		}
 	);
 	//@todo for debug
-#if 1
+#if 0
 	////敵の総司令的存在を生成。
 	m_EGC = NewGO<EnemyGeneralCommander>(0, "EnemyGeneralCommander");
 	//敵キャラのレベルデータ。
@@ -111,6 +112,9 @@ bool Game::Start()
 	m_ground = NewGO<Ground>(0);
 	//カメラ生成。
 	m_gameCamera = NewGO<GameCamera>(1, "gameCamera");
+	//空生成。
+	m_sky = NewGO<Sky>(0, "sky");
+	m_sky->SetScale(m_skyScale);
 	//カメラの方向とプレイヤーとの距離を決定。
 	CVector3 direction = { -100.0f, 50.0f, -70.0f };
 	direction.Normalize();

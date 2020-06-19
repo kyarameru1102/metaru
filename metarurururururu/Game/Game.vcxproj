@@ -172,6 +172,7 @@
     <ClCompile Include="NowGame\PlayerCreepState.cpp" />
     <ClCompile Include="NowGame\PlayerCreepMoveState.cpp" />
     <ClCompile Include="NowGame\Result.cpp" />
+    <ClCompile Include="NowGame\Sky.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -266,6 +267,7 @@
     <ClInclude Include="NowGame\PlayerCreepState.h" />
     <ClInclude Include="NowGame\PlayerCreepMoveState.h" />
     <ClInclude Include="NowGame\Result.h" />
+    <ClInclude Include="NowGame\Sky.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\WaveFile.h" />
@@ -291,8 +293,6 @@
     <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
     <MeshContentTask Include="Assets\modelData\sensya.fbx" />
     <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx" />
-    <MeshContentTask Include="Assets\modelData\sky.fbx" />
-    <MeshContentTask Include="Assets\modelData\sky2.fbx" />
     <MeshContentTask Include="Assets\modelData\souko.FBX" />
     <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

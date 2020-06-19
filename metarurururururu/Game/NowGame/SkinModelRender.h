@@ -1,6 +1,6 @@
 #pragma once
 #include "ShadowMap.h"
-
+#include "graphics/SkinModelEffect.h"
 
 //3Dモデルを表示する機能を提供するクラス。
 class SkinModelRender : public IGameObject
@@ -111,6 +111,14 @@ public:
 	}
 	Animation& GetAnimation()  {
 		return m_animation2;
+	}
+	/*!
+	*@brief	モデルマテリアルの検索。
+	*@param[in]	findEffect		マテリアルを見つけた時に呼ばれるコールバック関数
+	*/
+	void FindMaterial(std::function<void(ModelEffect*)> findMaterial) const
+	{
+		m_skinModel.FindMaterial(findMaterial);
 	}
 private:
 	bool Start() override;

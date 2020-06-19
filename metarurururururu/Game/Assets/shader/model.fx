@@ -137,7 +137,7 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 	//UV座標はそのままピクセルシェーダーに渡す。
 	psInput.TexCoord = In.TexCoord;
 	//法線はそのままピクセルシェーダーに渡す。
-	psInput.Normal = In.Normal;
+	psInput.Normal = normalize( mul(mWorld, In.Normal ) );
 	return psInput;
 }
 
@@ -280,4 +280,15 @@ float4 PSMain_ShadowMap(PSInput_ShadowMap In) : SV_Target0
 {
 	//射影空間でのZ値を返す。
 	return In.Position.z / In.Position.w;
+}
+
+TextureCube<float4> skyCubeMap : register(t0);	//スカイキューブマップ。
+
+/// <summary>
+///	空用シェーダー。
+/// </summary>
+float4 PSMain_SkyCube(PSInput In) : SV_Target0
+{
+	float4 color = skyCubeMap.Sample(Sampler, In.Normal);
+	return color;
 }

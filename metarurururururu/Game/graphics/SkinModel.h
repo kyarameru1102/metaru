@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Skeleton.h"
-
+#include "SkinModelEffect.h"
 
 /*!
 *@brief	FBXの上方向。
@@ -76,6 +76,17 @@ public:
 				onFindMesh(mesh);
 			}
 		}
+	}
+	/*!
+		*@brief	モデルマテリアルの検索。
+		*@param[in]	findEffect		マテリアルを見つけた時に呼ばれるコールバック関数
+		*/
+	void FindMaterial(std::function<void(ModelEffect*)> findMaterial) const
+	{
+		FindMesh([&](auto& mesh) {
+			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
+			findMaterial(effect);
+			});
 	}
 	/*!
 	*@brief	SRVのレジスタ番号。

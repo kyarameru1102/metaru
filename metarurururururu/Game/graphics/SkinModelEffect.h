@@ -17,6 +17,7 @@ protected:
 	bool isSkining;
 	bool m_renderMode = 0;
 	ID3D11ShaderResourceView* m_albedoTex = nullptr;
+	ID3D11ShaderResourceView* m_diffuseTex = nullptr;
 
 public:
 	ModelEffect()
@@ -30,6 +31,9 @@ public:
 		if (m_albedoTex) {
 			m_albedoTex->Release();
 		}
+		if (m_diffuseTex) {
+			m_diffuseTex->Release();
+		}
 	}
 	void __cdecl Apply(ID3D11DeviceContext* deviceContext) override;
 
@@ -40,6 +44,9 @@ public:
 	}
 	void SetAlbedoTexture(ID3D11ShaderResourceView* tex)
 	{
+		if (m_albedoTex) {
+			m_albedoTex->Release();
+		}
 		m_albedoTex = tex;
 	}
 	void SetMatrialName(const wchar_t* matName)
@@ -54,6 +61,24 @@ public:
 	void SetRenderMode(int renderMode)
 	{
 		m_renderMode = renderMode;
+	}
+	void SetDiffuseTexture(ID3D11ShaderResourceView* tex)
+	{
+		m_diffuseTex = tex;
+	}
+	/// <summary>
+	/// brief	enRenderStep_Render3DModelToSceneの時に使用される頂点シェーダーを設定。
+	/// </summary>
+	void SetRender3DModelVSShader(Shader& vsShader)
+	{
+		m_pVSShader = &vsShader;
+	}
+	/// <summary>
+	/// enRenderStep_Render3DModelToSceneの時に使用されるピクセルシェーダーを設定。
+	/// </summary>
+	void SetRender3DModelPSShader(Shader& psShader)
+	{
+		m_pPSShader = &psShader;
 	}
 };
 /*!
