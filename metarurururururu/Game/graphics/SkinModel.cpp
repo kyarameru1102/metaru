@@ -179,6 +179,12 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	else {
 		vsCb.isShadowReciever = 0;
 	}
+	if (m_isAlpha == SkinModel::Alpha) {
+		vsCb.isAlpha = 1;
+	}
+	else if(m_isAlpha == SkinModel::None){
+		vsCb.isAlpha = 0;
+	}
 	//スペキュラマップを使用するかどうかのフラグを送る。
 	if (m_specularMapSRV != nullptr) {
 		vsCb.isHasSpecuraMap = true;

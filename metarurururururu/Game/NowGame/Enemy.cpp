@@ -89,7 +89,7 @@ bool Enemy::Start()
 	m_skinModelRender->Init(L"Assets/modelData/heisi.cmo",true, m_animClips, enAnimationClip_Num, EnFbxUpAxis::enFbxUpAxisZ);
 	m_skinModelRender->PlayAnimation(enAnimationClip_idle, Body::enUpperBody);
 	m_skinModelRender->SetShadowReciever(true);
-	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV);
+	m_skinModelRender->GetSkinModel().SetSpecularMap(m_specMapSRV,SkinModel::Alpha);
 	m_currentPath = 0;
 	m_position = PathList[0].position;
 

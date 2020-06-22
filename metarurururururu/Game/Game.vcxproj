@@ -400,10 +400,12 @@
   <ItemGroup>
     <ImageContentTask Include="Assets\modelData\heisi_spec4.tga">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
     </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\modelData\WallSpec.tga" />
+    <ImageContentTask Include="Assets\modelData\WallSpec2.tga" />
     <Image Include="C:\Users\kyara\Desktop\授業用unity\Assets_sagasu\Assets\LowPolySoldiers_demo\models\Materials\demo_soldier_512.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

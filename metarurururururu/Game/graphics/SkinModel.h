@@ -111,12 +111,20 @@ public:
 		m_isShadowReciever = flag;
 	}
 	/// <summary>
+	///	αに入ってるかどうか。
+	/// </summary>
+	enum WhetherAlpha {
+		Alpha,
+		None,
+	};
+	/// <summary>
 	/// スペキュラマップを設定。
 	/// </summary>
 	/// <param name="srv"></param>
-	void SetSpecularMap(ID3D11ShaderResourceView* srv)
+	void SetSpecularMap(ID3D11ShaderResourceView* srv,WhetherAlpha whetherAlpha)
 	{
 		m_specularMapSRV = srv;
+		m_isAlpha = whetherAlpha;
 	}
 private:
 	/*!
@@ -146,6 +154,7 @@ private:
 		CMatrix mLightProj;		//ライトプロジェクション行列。
 		int isShadowReciever;	//シャドウレシーバーのフラグ。
 		int isHasSpecuraMap;	//スペキュラマップを保持しているかどうかのフラグ。
+		int isAlpha;			//スペキュラマップがαに入っているかどうか。
 	};
 	
 	//ディレクションライト。
@@ -176,5 +185,6 @@ private:
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
 	bool						isHasSpecuraMap = false;		//スペキュラマップのフラグ。
 	ID3D11ShaderResourceView*	m_skyCube = nullptr;			//スカイキューブマップのSRV
+	WhetherAlpha				m_isAlpha = WhetherAlpha::None;
 };
 

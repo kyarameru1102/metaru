@@ -35,6 +35,7 @@ cbuffer VSPSCb : register(b0){
 	float4x4 mLightProj;	//ライトプロジェクション行列。
 	int isShadowReciever;	//シャドウレシーバーフラグ。
 	int isHasSpecularMap;	//スペキュラマップあるかどうか。
+	int	isAlpha;			//スペキュラマップがαに入っているかどうか。
 };
 
 //ライト用の定数バッファ。
@@ -216,10 +217,21 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//反射ベクトルとディレクションライトの方向との内積をとってスペキュラの強さを計算する。
 	float3 spec = max(0.0f, dot(-direction, R));
 	float specPower = 0.0f;
+	float4 specMap;
 	//スペキュラマップがある。
 	if (isHasSpecularMap == 1) {
-		specPower = albedo.a;
-		specPower *= 20.0f;
+		if (isAlpha == 1) {
+			specPower = albedo.a;
+			specPower *= 20.0f;
+		}
+		else {
+			specMap = specularMap.Sample(
+				Sampler,
+				In.TexCoord
+			);
+			specPower = specMap.x * 5.0;
+		}
+		
 	}
 	//pow関数使っていい感じにする。
 	spec = pow(spec, specPow);
@@ -248,11 +260,15 @@ float4 PSMain( PSInput In ) : SV_Target0
 		}
 	}
 	float4 final = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//映り込み用スカイカラー。
 	float4 skyColor = skyCubeMapReflection.Sample(Sampler, In.Normal);
 
 	if (isHasSpecularMap == 1) {
-		albedo.xyz = lerp(albedo.xyz, skyColor.xyz, albedo.a);
+		if (isAlpha == 1) {
+			albedo.xyz = lerp(albedo.xyz, skyColor.xyz, albedo.a);
+		}
+		else {
+			albedo.xyz = lerp(albedo.xyz, skyColor.xyz, specMap.x / 5.0f);
+		}
 	}
 	final.xyz = albedo.xyz * lig;
 	
