@@ -8,8 +8,8 @@ ShadowMap::ShadowMap()
 	//解像度は2048×2048。
 	//テクスチャのフォーマットはR成分のみの32bit浮動小数点型。
 	m_shadowMapRT.Create(
-		9182,
-		9182,
+		4096,
+		4096,
 		DXGI_FORMAT_R32_FLOAT
 	);
 }
@@ -57,8 +57,8 @@ void ShadowMap::UpdateFromLightDir(CVector3 lightPos, CVector3 lightDir)
 	//ライトプロジェクション行列を作成する。
 	//太陽光からの影を落としたいなら、平行投影行列を作成する。
 	m_lightProjMatrix.MakeOrthoProjectionMatrix(
-		5000,
-		5000,
+		1000,
+		1000,
 		0.1f,
 		4000.0f
 	);

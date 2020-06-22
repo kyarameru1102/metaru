@@ -403,6 +403,7 @@
     </ImageContentTask>
   </ItemGroup>
   <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\WallSpec.tga" />
     <Image Include="C:\Users\kyara\Desktop\授業用unity\Assets_sagasu\Assets\LowPolySoldiers_demo\models\Materials\demo_soldier_512.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

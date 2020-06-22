@@ -140,9 +140,9 @@ private:
 	bool						m_shadowRecieverOn = true;				//影を表示される側になるかどうか。
 	bool						m_shadowCasterOn = true;				//影を落とすかどうか。
 	bool						m_UpperBody = true;						//上半身のアニメーションを流すならtrue。
-	Skeleton					m_skeletonUpper;				//上半身のアニメーション用のスケルトン。
-	Skeleton					m_skeletonLower;				//下半身のアニメーション用のスケルトン。
-	Skeleton					m_blendSkeleton;				//上半身と下半身のアニメーションを合成したスケルトン。
+	Skeleton					m_skeletonUpper;						//上半身のアニメーション用のスケルトン。
+	Skeleton					m_skeletonLower;						//下半身のアニメーション用のスケルトン。
+	Skeleton					m_blendSkeleton;						//上半身と下半身のアニメーションを合成したスケルトン。
 	bool						m_blend = false;
 };
 

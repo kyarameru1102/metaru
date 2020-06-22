@@ -44,10 +44,6 @@ bool Game::Start()
 {
 	std::wstring p[10];
 
-	//m_skyModel = NewGO<SkinModelRender>(0);
-	//m_skyModel->Init(L"Assets/modelData/sky.cmo");
-	//m_skyModel->SetScale({ 60.0f,60.0f,60.0f });
-
 	//戦車の座標レベルデータをロード。
 	m_level.Init(L"Assets/level/sensyaPos.tkl",
 		[&](LevelObjectData& obiData)->int {
@@ -162,5 +158,4 @@ void Game::Update()
 			result->SetKillCount(m_player->GetPlayerKillCount());
 		}
 	}
-	//m_skyModel->SetPosition({0.0f,0.0f,0.0f});
 }

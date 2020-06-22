@@ -39,6 +39,13 @@ void UI::Update()
 	wchar_t zan[10];
 	swprintf_s(zan, L"%d/30", ammo);
 	m_fontRender->SetText(zan);
+	if (ammo <= 10) {
+		m_fontColor.x = 1.0f;
+	}
+	else {
+		m_fontColor.x = 0.0f;
+	}
+	m_fontRender->SetColor(m_fontColor);
 	QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
 		if (enemy->GetDamage())
 		{

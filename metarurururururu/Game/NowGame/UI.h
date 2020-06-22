@@ -37,5 +37,6 @@ private:
 	bool		m_hit = false;			//“G‚É’eŠÛ‚ª‚ ‚½‚Á‚½
 	float		m_HP = 999999;
 	float		m_maxHP = 999999;
+	CVector3	m_fontColor = { 0.0f,0.0f,0.0f };
 };
 

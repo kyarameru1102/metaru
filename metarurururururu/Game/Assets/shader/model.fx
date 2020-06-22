@@ -10,6 +10,8 @@
 Texture2D<float4> albedoTexture : register(t0);	
 Texture2D<float4> g_shadowMap : register(t2);
 Texture2D<float4> specularMap : register(t3);		//スペキュラマップ。
+TextureCube<float4> skyCubeMapReflection : register(t4);	//スカイキューブマップ。
+
 //ボーン行列
 StructuredBuffer<float4x4> boneMatrix : register(t1);
 
@@ -137,7 +139,7 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 	//UV座標はそのままピクセルシェーダーに渡す。
 	psInput.TexCoord = In.TexCoord;
 	//法線はそのままピクセルシェーダーに渡す。
-	psInput.Normal = normalize( mul(mWorld, In.Normal ) );
+	psInput.Normal = normalize(mul(mWorld, In.Normal));
 	return psInput;
 }
 
@@ -213,7 +215,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float3 direction = normalize(drg.dligDirection);
 	//反射ベクトルとディレクションライトの方向との内積をとってスペキュラの強さを計算する。
 	float3 spec = max(0.0f, dot(-direction, R));
-	float specPower = 1.0f;
+	float specPower = 0.0f;
 	//スペキュラマップがある。
 	if (isHasSpecularMap == 1) {
 		specPower = albedo.a;
@@ -246,9 +248,14 @@ float4 PSMain( PSInput In ) : SV_Target0
 		}
 	}
 	float4 final = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//映り込み用スカイカラー。
+	float4 skyColor = skyCubeMapReflection.Sample(Sampler, In.Normal);
 
+	if (isHasSpecularMap == 1) {
+		albedo.xyz = lerp(albedo.xyz, skyColor.xyz, albedo.a);
+	}
 	final.xyz = albedo.xyz * lig;
-
+	
 	//セピア調にする。
 	/*{
 		float4 NewColor;

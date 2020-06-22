@@ -88,12 +88,13 @@ void GameObjectManager::Render()
 
 void GameObjectManager::PreRender()
 {
-	m_lightPos = g_camera3D.GetPosition();
-	m_lightPos.x += -1000.0f;
+	m_lightPos = g_camera3D.GetTarget();
+	m_lightPos.x += -300.0f;
 	m_lightPos.y += 500.0f;
-	m_lightPos.z += -1000.0f;
+	m_lightPos.z += -300.0f;
 
-	CVector3 lightDer = { 1.0f, -2.0f, 1.0f, };
+	CVector3 lightDer = g_camera3D.GetTarget() - m_lightPos;
+	lightDer.Normalize();
 	ShadowMap::GetShadowMap().UpdateFromLightDir(m_lightPos, lightDer);
 	ShadowMap::GetShadowMap().RenderToShadowMap();
 }
@@ -153,25 +154,4 @@ void GameObjectManager::Render2D()
 	}
 }
 
-//void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
-//{
-//	ChangeRenderTarget(
-//		d3dDeviceContext,
-//		renderTarget->GetRenderTargetView(),
-//		renderTarget->GetDepthStensilView(),
-//		viewport
-//	);
-//}
-//
-//void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
-//{
-//	ID3D11RenderTargetView* rtTbl[] = {
-//		renderTarget
-//	};
-//	//レンダリングターゲットの切り替え。
-//	d3dDeviceContext->OMSetRenderTargets(1, rtTbl, depthStensil);
-//	if (viewport != nullptr) {
-//		//ビューポートが指定されていたら、ビューポートも変更する。
-//		d3dDeviceContext->RSSetViewports(1, viewport);
-//	}
-//}
+

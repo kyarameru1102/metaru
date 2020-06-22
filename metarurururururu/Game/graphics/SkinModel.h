@@ -175,5 +175,6 @@ private:
 	ID3D11ShaderResourceView*	m_specularMapSRV = nullptr;		//スペキュラマップのSRV
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
 	bool						isHasSpecuraMap = false;		//スペキュラマップのフラグ。
+	ID3D11ShaderResourceView*	m_skyCube = nullptr;			//スカイキューブマップのSRV
 };
 

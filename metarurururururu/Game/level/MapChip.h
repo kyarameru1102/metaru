@@ -26,5 +26,5 @@ public:
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//スキンモデルレンダー。
 	PhysicsStaticObject m_physicsStaticObject;	//!<静的物理オブジェクト。
-	
+	ID3D11ShaderResourceView* m_specMapSRV = nullptr;		//スペキュラ用シェーダーリソースビュー。
 };

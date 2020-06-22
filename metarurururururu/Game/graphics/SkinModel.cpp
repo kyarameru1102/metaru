@@ -37,6 +37,19 @@ void SkinModel::Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis)
 
 	//アルベドテクスチャを初期化。
 	InitAlbedoTexture();
+	//スカイキューブテクスチャを初期化。
+	//空映り込み用。
+	if (m_skyCube != nullptr) {
+		m_skyCube->Release();
+		m_skyCube = nullptr;
+	}
+	DirectX::CreateDDSTextureFromFileEx(
+		g_graphicsEngine->GetD3DDevice(), L"Assets/modelData/skyCubeMap.dds", 0,
+		D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0,
+		false, nullptr, &m_skyCube);
+	if (m_skyCube != nullptr) {
+		m_skyCube->AddRef();
+	}
 
 	//SkinModelDataManagerを使用してCMOファイルのロード。
 	m_modelDx = g_skinModelDataManager.Load(filePath, m_skeleton);
@@ -71,7 +84,7 @@ void SkinModel::InitLight()
 	m_Light.dirLig.direction = { 1.0f, -2.0f, 1.0f, 0.0f };
 	m_Light.dirLig.direction.Normalize();
 	m_Light.dirLig.color = { 0.7f, 0.7f,0.7f, 1.0f };
-	m_Light.Ambient = { 1.0f,1.0f,1.0f,1.0f };
+	m_Light.Ambient = { 0.8f,0.8f,0.8f,1.0f };
 	m_Light.specPow = 5.0f;
 }
 //アルベドテクスチャを初期化。
@@ -202,6 +215,11 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		//スペキュラマップが設定されていたらレジスタt3に設定する。
 		d3dDeviceContext->PSSetShaderResources(3, 1, &m_specularMapSRV);
 	}
+	
+	//レジスタ4に設定。
+	d3dDeviceContext->PSSetShaderResources(4, 1, &m_skyCube);
+
+	//描画。
 	m_modelDx->Draw(
 		d3dDeviceContext,
 		state,
@@ -209,12 +227,5 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
-	/*描画。
-	m_modelDx->Draw(
-		d3dDeviceContext,
-		state,
-		m_worldMatrix,
-		viewMatrix,
-		projMatrix
-	);*/
+	
 }
