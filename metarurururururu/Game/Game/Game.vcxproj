@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9CB90C92-58AF-482A-B34C-AC02496110F6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Lesson_00</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\ImageContentTask.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\MeshContentTask.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;$(SolutionDir)/x64/Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;C:\Users\kyara\Desktop\metaru\metarurururururu\Game\NowGame;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;XAudio2.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <ImageContentTask>
+      <ContentOutput>$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <MeshContentTask>
+      <ContentOutput>$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;dxguid.lib;XAudio2.lib;Winmm.lib</AdditionalDependencies>
+    </Link>
+    <ImageContentTask>
+      <ContentOutput>$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <MeshContentTask>
+      <ContentOutput>$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="NowGame\GaussianBlur.cpp" />
+    <ClCompile Include="NowGame\Bloom.cpp" />
+    <ClCompile Include="NowGame\BeforeTheGame.cpp" />
+    <ClCompile Include="NowGame\FontRender.cpp" />
+    <ClCompile Include="NowGame\Human.cpp" />
+    <ClCompile Include="NowGame\GameOver.cpp" />
+    <ClCompile Include="NowGame\AfterTitle.cpp" />
+    <ClCompile Include="NowGame\Fade.cpp" />
+    <ClCompile Include="NowGame\ClearPoint.cpp" />
+    <ClCompile Include="NowGame\Clear.cpp" />
+    <ClCompile Include="NowGame\C4.cpp" />
+    <ClCompile Include="NowGame\EnemyGeneralCommander.cpp" />
+    <ClCompile Include="NowGame\Astar.cpp" />
+    <ClCompile Include="NowGame\Bullet.cpp" />
+    <ClCompile Include="NowGame\CameraCollisionSolver.cpp" />
+    <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="NowGame\DirectionLight.cpp" />
+    <ClCompile Include="NowGame\Enemy.cpp" />
+    <ClCompile Include="NowGame\EnemyStateBattlePosture.cpp" />
+    <ClCompile Include="NowGame\EnemyStateHesitate.cpp" />
+    <ClCompile Include="NowGame\EnemyStateVigilance.cpp" />
+    <ClCompile Include="NowGame\EnemyStateVigilanceCancel.cpp" />
+    <ClCompile Include="NowGame\Font.cpp" />
+    <ClCompile Include="NowGame\FPSCamera.cpp" />
+    <ClCompile Include="NowGame\Game.cpp" />
+    <ClCompile Include="NowGame\GameCamera.cpp" />
+    <ClCompile Include="NowGame\GameObject.cpp" />
+    <ClCompile Include="NowGame\GameObjectManager.cpp" />
+    <ClCompile Include="NowGame\GameTime.cpp" />
+    <ClCompile Include="graphics\animation\Animation.cpp" />
+    <ClCompile Include="graphics\animation\AnimationClip.cpp" />
+    <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
+    <ClCompile Include="graphics\Camera.cpp" />
+    <ClCompile Include="graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="graphics\Shader.cpp" />
+    <ClCompile Include="graphics\ShaderResources.cpp" />
+    <ClCompile Include="graphics\Skeleton.cpp" />
+    <ClCompile Include="graphics\SkinModel.cpp" />
+    <ClCompile Include="graphics\SkinModelDataManager.cpp" />
+    <ClCompile Include="graphics\SkinModelEffect.cpp" />
+    <ClCompile Include="NowGame\Ground.cpp" />
+    <ClCompile Include="HID\Pad.cpp" />
+    <ClCompile Include="level\Level.cpp" />
+    <ClCompile Include="level\MapChip.cpp" />
+    <ClCompile Include="NowGame\main.cpp" />
+    <ClCompile Include="math\kMath.cpp" />
+    <ClCompile Include="math\Matrix.cpp" />
+    <ClCompile Include="math\Vector.cpp" />
+    <ClCompile Include="NowGame\NaviMesh.cpp" />
+    <ClCompile Include="physics\MeshCollider.cpp" />
+    <ClCompile Include="physics\Physics.cpp" />
+    <ClCompile Include="physics\RigidBody.cpp" />
+    <ClCompile Include="physics\CapsuleCollider.cpp" />
+    <ClCompile Include="physics\PhysicsStaticObject.cpp" />
+    <ClCompile Include="NowGame\Player.cpp" />
+    <ClCompile Include="NowGame\PlayerStateHoldGun.cpp" />
+    <ClCompile Include="NowGame\PlayerStateIdle.cpp" />
+    <ClCompile Include="NowGame\PlayerStateMove.cpp" />
+    <ClCompile Include="NowGame\RenderTarget.cpp" />
+    <ClCompile Include="NowGame\ShadowMap.cpp" />
+    <ClCompile Include="NowGame\SkinModelRender.cpp" />
+    <ClCompile Include="NowGame\SphereCollider.cpp" />
+    <ClCompile Include="NowGame\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="NowGame\StopWatch.cpp" />
+    <ClCompile Include="NowGame\sensya.cpp" />
+    <ClCompile Include="NowGame\Sprite.cpp" />
+    <ClCompile Include="NowGame\PlayerReloadState.cpp" />
+    <ClCompile Include="NowGame\PlayerCreepState.cpp" />
+    <ClCompile Include="NowGame\PlayerCreepMoveState.cpp" />
+    <ClCompile Include="NowGame\Result.cpp" />
+    <ClCompile Include="NowGame\Sky.cpp" />
+    <ClCompile Include="sound\SoundEngine.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sound\SoundSource.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFileBank.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="NowGame\SpringCamera.cpp" />
+    <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="NowGame\Title.cpp" />
+    <ClCompile Include="NowGame\UI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NowGame\GaussianBlur.h" />
+    <ClInclude Include="NowGame\Bloom.h" />
+    <ClInclude Include="NowGame\Body.h" />
+    <ClInclude Include="NowGame\BeforeTheGame.h" />
+    <ClInclude Include="NowGame\FontRender.h" />
+    <ClInclude Include="NowGame\Human.h" />
+    <ClInclude Include="NowGame\GameOver.h" />
+    <ClInclude Include="NowGame\AfterTitle.h" />
+    <ClInclude Include="NowGame\Fade.h" />
+    <ClInclude Include="NowGame\ClearPoint.h" />
+    <ClInclude Include="NowGame\Clear.h" />
+    <ClInclude Include="NowGame\C4.h" />
+    <ClInclude Include="NowGame\EnemyGeneralCommander.h" />
+    <ClInclude Include="NowGame\Astar.h" />
+    <ClInclude Include="NowGame\Bullet.h" />
+    <ClInclude Include="NowGame\CameraCollisionSolver.h" />
+    <ClInclude Include="character\CharacterController.h" />
+    <ClInclude Include="NowGame\DirectionLight.h" />
+    <ClInclude Include="NowGame\Enemy.h" />
+    <ClInclude Include="NowGame\EnemyState.h" />
+    <ClInclude Include="NowGame\EnemyStateBattlePosture.h" />
+    <ClInclude Include="NowGame\EnemyStateHesitate.h" />
+    <ClInclude Include="NowGame\EnemyStateVigilance.h" />
+    <ClInclude Include="NowGame\EnemyStateVigilanceCancel.h" />
+    <ClInclude Include="NowGame\Font.h" />
+    <ClInclude Include="NowGame\FPSCamera.h" />
+    <ClInclude Include="NowGame\Game.h" />
+    <ClInclude Include="NowGame\GameCamera.h" />
+    <ClInclude Include="NowGame\GameObject.h" />
+    <ClInclude Include="NowGame\GameObjectManager.h" />
+    <ClInclude Include="NowGame\GameTime.h" />
+    <ClInclude Include="graphics\animation\Animation.h" />
+    <ClInclude Include="graphics\animation\AnimationClip.h" />
+    <ClInclude Include="graphics\animation\AnimationPlayController.h" />
+    <ClInclude Include="graphics\Camera.h" />
+    <ClInclude Include="graphics\GraphicsEngine.h" />
+    <ClInclude Include="graphics\Shader.h" />
+    <ClInclude Include="graphics\ShaderResources.h" />
+    <ClInclude Include="graphics\Skeleton.h" />
+    <ClInclude Include="graphics\SkinModel.h" />
+    <ClInclude Include="graphics\SkinModelDataManager.h" />
+    <ClInclude Include="graphics\SkinModelEffect.h" />
+    <ClInclude Include="graphics\SkinModelShaderConst.h" />
+    <ClInclude Include="NowGame\Ground.h" />
+    <ClInclude Include="HID\Pad.h" />
+    <ClInclude Include="level\Level.h" />
+    <ClInclude Include="level\MapChip.h" />
+    <ClInclude Include="math\kMath.h" />
+    <ClInclude Include="math\Matrix.h" />
+    <ClInclude Include="math\Vector.h" />
+    <ClInclude Include="NowGame\NaviMesh.h" />
+    <ClInclude Include="NowGame\Path.h" />
+    <ClInclude Include="physics\ICollider.h" />
+    <ClInclude Include="physics\MeshCollider.h" />
+    <ClInclude Include="physics\Physics.h" />
+    <ClInclude Include="physics\RigidBody.h" />
+    <ClInclude Include="physics\CapsuleCollider.h" />
+    <ClInclude Include="physics\CollisionAttr.h" />
+    <ClInclude Include="physics\PhysicsStaticObject.h" />
+    <ClInclude Include="NowGame\Player.h" />
+    <ClInclude Include="NowGame\PlayerState.h" />
+    <ClInclude Include="NowGame\PlayerStateHoldGun.h" />
+    <ClInclude Include="NowGame\PlayerStateIdle.h" />
+    <ClInclude Include="NowGame\PlayerStateMove.h" />
+    <ClInclude Include="NowGame\RenderTarget.h" />
+    <ClInclude Include="NowGame\ShadowMap.h" />
+    <ClInclude Include="NowGame\SkinModelRender.h" />
+    <ClInclude Include="NowGame\SphereCollider.h" />
+    <ClInclude Include="NowGame\stdafx.h" />
+    <ClInclude Include="NowGame\StopWatch.h" />
+    <ClInclude Include="NowGame\sensya.h" />
+    <ClInclude Include="NowGame\Sprite.h" />
+    <ClInclude Include="NowGame\PlayerReloadState.h" />
+    <ClInclude Include="NowGame\PlayerCreepState.h" />
+    <ClInclude Include="NowGame\PlayerCreepMoveState.h" />
+    <ClInclude Include="NowGame\Result.h" />
+    <ClInclude Include="NowGame\Sky.h" />
+    <ClInclude Include="sound\SoundEngine.h" />
+    <ClInclude Include="sound\SoundSource.h" />
+    <ClInclude Include="sound\WaveFile.h" />
+    <ClInclude Include="sound\WaveFileBank.h" />
+    <ClInclude Include="NowGame\SpringCamera.h" />
+    <ClInclude Include="system\system.h" />
+    <ClInclude Include="NowGame\Title.h" />
+    <ClInclude Include="NowGame\UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\AbsoluteWall.FBX" />
+    <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx" />
+    <MeshContentTask Include="Assets\modelData\bou.fbx" />
+    <MeshContentTask Include="Assets\modelData\bullet.fbx" />
+    <MeshContentTask Include="Assets\modelData\c4.FBX" />
+    <MeshContentTask Include="Assets\modelData\dangan.FBX" />
+    <MeshContentTask Include="Assets\modelData\ground.FBX" />
+    <MeshContentTask Include="Assets\modelData\ground_back.fbx" />
+    <MeshContentTask Include="Assets\modelData\ground_test.FBX" />
+    <MeshContentTask Include="Assets\modelData\heisi.FBX" />
+    <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx" />
+    <MeshContentTask Include="Assets\modelData\heri.fbx" />
+    <MeshContentTask Include="Assets\modelData\Obstacle.FBX" />
+    <MeshContentTask Include="Assets\modelData\sensya.fbx" />
+    <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx" />
+    <MeshContentTask Include="Assets\modelData\souko.FBX" />
+    <MeshContentTask Include="Assets\modelData\takatozin.FBX" />
+    <MeshContentTask Include="Assets\modelData\unityChan.fbx">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wall.FBX" />
+    <MeshContentTask Include="Assets\modelData\yazirusi.FBX" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Title.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\kaasoru.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Clear.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\fade.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\GameOver.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Break_Down_Tank.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\black.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Mission.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi2.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\damage.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\damage2.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\rankA.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankB.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankS.png">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\sprite\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\heisi_spec1.tga">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\heisi_spec2.tga">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\heisi_spec3.tga">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\heisi_spec4.tga">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Assets\modelData\%(Filename).dds</ContentOutput>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\modelData\WallSpec.tga" />
+    <ImageContentTask Include="Assets\modelData\WallSpec2.tga" />
+    <Image Include="Assets\modelData\38T.png" />
+    <Image Include="C:\Users\kyara\Desktop\授業用unity\Assets_sagasu\Assets\LowPolySoldiers_demo\models\Materials\demo_soldier_512.tga" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\ImageContentTask.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\MeshContentTask.targets" />
+  </ImportGroup>
+</Project>

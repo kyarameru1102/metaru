@@ -1,0 +1,78 @@
+#pragma once
+#include "level/Level.h"
+#include "DirectionLight.h"
+#include "NaviMesh.h"
+#include "sound/SoundSource.h"
+
+class GameCamera;
+class sensya;
+class Player;
+class EnemyGeneralCommander;
+class Enemy;
+class Ground;
+class ClearPoint;
+class Sky;
+class Game : public IGameObject
+{
+public:
+	/// <summary>
+	/// コンストラクタ。
+	/// </summary>
+	Game();
+	/// <summary>
+	/// デストラクタ。
+	/// </summary>
+	~Game();
+	/// <summary>
+	/// 開始関数。
+	/// </summary>
+	bool Start();
+	/// <summary>
+	/// 更新関数。
+	/// </summary>
+	void Update();
+	static Game* GetGame() {
+		return m_game;
+	}
+	Player* GetPlayer() const {
+		return m_player;
+	}
+	sensya* GetSensya() const {
+		return m_sensya;
+	}
+	EnemyGeneralCommander* GetEGC() const {
+		return m_EGC;
+	}
+	Enemy* GetEnemy() const {
+		return m_enemy;
+	}
+
+private:
+	static Game*			m_game;
+	GameCamera*				m_gameCamera = nullptr;
+	Level					m_level;
+	SkinModel				m_model;
+	ShadowMap				m_shadowMap;				//シャドウマップ。
+	sensya*					m_sensya = nullptr;
+	Player*					m_player = nullptr;
+	EnemyGeneralCommander*	m_EGC = nullptr;
+	Enemy*					m_enemy = nullptr;
+	Ground*					m_ground = nullptr;
+	ClearPoint*				m_clearPoint = nullptr;
+	int						m_timer = 0;
+	bool					m_fadeflg = false;
+	CSoundSource			m_bgm;						//BGM。
+	CSoundSource			m_se;						//SE。
+	enum ClearOrDeath {
+		en_clear,										//クリア。
+		en_death,										//死んだ。
+		en_neither										//初期化。どちらでもない。
+	};
+	ClearOrDeath			m_CorD = en_neither;		//死んだかクリアしたか。
+	Sky*					m_sky = nullptr;			//空。
+	float					m_skyScale = 20000.0f;		//空の大きさ。
+};
+
+static inline Game* GetGame() {
+	return Game::GetGame();
+}

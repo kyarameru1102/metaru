@@ -57,5 +57,6 @@ private:
 	CVector3			m_scl = CVector3::One();					//拡大率。
 	Player*				m_player = nullptr;							//プレイヤー。
 	bool				m_c4On = false;								//c4があるかどうかのフラグ。
+	ID3D11ShaderResourceView*	m_specMapSRV = nullptr;				//スペキュラマップのSRV
 };
 

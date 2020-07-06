@@ -1,0 +1,712 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{aa2dff80-cc46-4aaa-9c9e-7784c2a0cdf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\modelData">
+      <UniqueIdentifier>{a27dfd5d-af93-4623-b084-aad00b7739c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="character">
+      <UniqueIdentifier>{c57b7107-f9f3-4b72-8f3e-8644593ed533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{b7a9a0ab-a792-43fe-a5a7-760b8c976aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\animation">
+      <UniqueIdentifier>{d83ac002-5cd8-4ff4-977a-e7b5ebce5263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="level">
+      <UniqueIdentifier>{73eacaf4-a5db-4539-ab55-83b9c5d4807c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HID">
+      <UniqueIdentifier>{bbdeed04-d9d3-4ff9-bb44-9d888be6899a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{39e7f303-3dac-4bde-bedf-33a5497f262e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics">
+      <UniqueIdentifier>{1eed4cab-11aa-4e90-960a-a01360c5a392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{48b58c60-bbe2-40d8-9d2f-e81d065b6820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GO">
+      <UniqueIdentifier>{40eba7f1-4bfa-41c5-9569-c4cc3f7b64c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame">
+      <UniqueIdentifier>{3fac80a1-29ec-43a2-92b7-91f400a8c9ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameTime">
+      <UniqueIdentifier>{12c5ba1b-d889-414c-a505-09194d783178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Camera">
+      <UniqueIdentifier>{fd6e1a80-2f71-4419-a3b8-4a66c5a19e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\sprite">
+      <UniqueIdentifier>{78353d47-13e5-4685-afa1-5c2e113b3d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\class2D">
+      <UniqueIdentifier>{4cca7bbb-e930-48b3-8363-defcc0ac6d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Astar">
+      <UniqueIdentifier>{78b90ab9-3fb7-4abf-bebe-b0a140f421a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Item">
+      <UniqueIdentifier>{fffbf138-837f-4575-b2b9-8ae71760de37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human">
+      <UniqueIdentifier>{44e88440-5df1-46fa-b782-c699ea171816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Player">
+      <UniqueIdentifier>{0cbc20ce-97bd-4c84-ada7-6639874b39a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Player\PlayerState">
+      <UniqueIdentifier>{2e45026d-a11b-42ea-a60b-2a7d4e435bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Enemy">
+      <UniqueIdentifier>{0a6e92bf-085f-4368-bd96-9446c8082a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\Human\Enemy\EnemyState">
+      <UniqueIdentifier>{035a1421-1705-492e-95a8-394d82c3b495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NowGame\sound">
+      <UniqueIdentifier>{861572d1-0483-4cde-8fe9-82cf5a1fd793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\PostEffect">
+      <UniqueIdentifier>{d767df2e-96b9-4653-920c-b557864b7cc1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="math\Vector.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\kMath.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Matrix.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\GraphicsEngine.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\SkinModel.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\SkinModelDataManager.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Skeleton.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\SkinModelEffect.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Shader.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\ShaderResources.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\animation\Animation.cpp">
+      <Filter>graphics\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\animation\AnimationClip.cpp">
+      <Filter>graphics\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\animation\AnimationPlayController.cpp">
+      <Filter>graphics\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="HID\Pad.cpp">
+      <Filter>HID</Filter>
+    </ClCompile>
+    <ClCompile Include="system\system.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Camera.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\RigidBody.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\Physics.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\MeshCollider.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\CapsuleCollider.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\PhysicsStaticObject.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="character\CharacterController.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="level\Level.cpp">
+      <Filter>level</Filter>
+    </ClCompile>
+    <ClCompile Include="level\MapChip.cpp">
+      <Filter>level</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Font.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Game.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameTime.cpp">
+      <Filter>GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Ground.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\main.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\RenderTarget.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\ShadowMap.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\SphereCollider.cpp">
+      <Filter>physics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\stdafx.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\StopWatch.cpp">
+      <Filter>GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateBattlePosture.cpp">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateHesitate.cpp">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateVigilance.cpp">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyStateVigilanceCancel.cpp">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Enemy.cpp">
+      <Filter>NowGame\Human\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateHoldGun.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateIdle.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerStateMove.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Player.cpp">
+      <Filter>NowGame\Human\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\CameraCollisionSolver.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\FPSCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameObject.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameObjectManager.cpp">
+      <Filter>GO</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Astar.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\NaviMesh.cpp">
+      <Filter>NowGame\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\EnemyGeneralCommander.cpp">
+      <Filter>NowGame\Human\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Title.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\UI.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\sensya.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\DirectionLight.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Sprite.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Bullet.cpp">
+      <Filter>NowGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\C4.cpp">
+      <Filter>NowGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Clear.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\ClearPoint.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Fade.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\AfterTitle.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GameOver.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Human.cpp">
+      <Filter>NowGame\Human</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerReloadState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\FontRender.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\BeforeTheGame.cpp">
+      <Filter>NowGame\class2D</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\SoundEngine.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\SoundSource.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFile.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\WaveFileBank.cpp">
+      <Filter>NowGame\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerCreepState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\PlayerCreepMoveState.cpp">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\SpringCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Result.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Bloom.cpp">
+      <Filter>graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\GaussianBlur.cpp">
+      <Filter>graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\SkinModelRender.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="NowGame\Sky.cpp">
+      <Filter>NowGame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="math\Vector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\kMath.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\GraphicsEngine.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\SkinModel.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\SkinModelDataManager.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Skeleton.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\SkinModelEffect.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Shader.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\SkinModelShaderConst.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\ShaderResources.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\animation\Animation.h">
+      <Filter>graphics\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\animation\AnimationClip.h">
+      <Filter>graphics\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="HID\Pad.h">
+      <Filter>HID</Filter>
+    </ClInclude>
+    <ClInclude Include="system\system.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Camera.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\RigidBody.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\Physics.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\ICollider.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\MeshCollider.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\CapsuleCollider.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\CollisionAttr.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\PhysicsStaticObject.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="character\CharacterController.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="level\Level.h">
+      <Filter>level</Filter>
+    </ClInclude>
+    <ClInclude Include="level\MapChip.h">
+      <Filter>level</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Font.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Game.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameTime.h">
+      <Filter>GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Ground.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\RenderTarget.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\ShadowMap.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\SphereCollider.h">
+      <Filter>physics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\stdafx.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\StopWatch.h">
+      <Filter>GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Path.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyState.h">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateBattlePosture.h">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateHesitate.h">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateVigilance.h">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyStateVigilanceCancel.h">
+      <Filter>NowGame\Human\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Enemy.h">
+      <Filter>NowGame\Human\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateHoldGun.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateIdle.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerStateMove.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Player.h">
+      <Filter>NowGame\Human\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\CameraCollisionSolver.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\FPSCamera.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameCamera.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameObject.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameObjectManager.h">
+      <Filter>GO</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Astar.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\NaviMesh.h">
+      <Filter>NowGame\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\EnemyGeneralCommander.h">
+      <Filter>NowGame\Human\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Title.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\UI.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\sensya.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\DirectionLight.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Sprite.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Bullet.h">
+      <Filter>NowGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\C4.h">
+      <Filter>NowGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Clear.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\ClearPoint.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Fade.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\AfterTitle.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GameOver.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Human.h">
+      <Filter>NowGame\Human</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerReloadState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\FontRender.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\BeforeTheGame.h">
+      <Filter>NowGame\class2D</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\SoundEngine.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\SoundSource.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\WaveFile.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="sound\WaveFileBank.h">
+      <Filter>NowGame\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerCreepState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\PlayerCreepMoveState.h">
+      <Filter>NowGame\Human\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Body.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\SpringCamera.h">
+      <Filter>NowGame\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Result.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Bloom.h">
+      <Filter>graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\GaussianBlur.h">
+      <Filter>graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\animation\AnimationPlayController.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\SkinModelRender.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\Sky.h">
+      <Filter>NowGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\unityChan.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\ground.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\takatozin.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\Obstacle.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\dangan.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\ground_test.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\yazirusi.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\souko.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\assault_rifle_01.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heisi.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heisi_enemy.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\bullet.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\sensya.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\sensyaCollider.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\c4.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\wall.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\bou.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\heri.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\ground_back.fbx">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\AbsoluteWall.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Title.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\kaasoru.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Clear.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\SuccessfulDestructionOfTarget.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\fade.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\GameOver.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Break_Down_Tank.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\black.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\Mission.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\mozi2.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\damage.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\damage2.png" />
+    <ImageContentTask Include="Assets\sprite\rankA.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankB.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\sprite\rankS.png">
+      <Filter>Assets\sprite</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec1.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec2.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec3.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\heisi_spec4.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\WallSpec.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\WallSpec2.tga">
+      <Filter>Assets\modelData</Filter>
+    </ImageContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\kyara\Desktop\授業用unity\Assets_sagasu\Assets\LowPolySoldiers_demo\models\Materials\demo_soldier_512.tga">
+      <Filter>Assets\modelData</Filter>
+    </Image>
+    <Image Include="Assets\modelData\38T.png">
+      <Filter>Assets\modelData</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
