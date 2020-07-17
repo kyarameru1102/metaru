@@ -46,7 +46,7 @@
 #include "SkinModelRender.h"
 #include "StopWatch.h"
 #include "GameTime.h"
-
+#include "CascadeShadow.h"
 
 
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。

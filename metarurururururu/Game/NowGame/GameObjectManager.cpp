@@ -96,7 +96,7 @@ void GameObjectManager::PreRender()
 
 	CVector3 lightDer = g_camera3D.GetTarget() - m_lightPos;
 	lightDer.Normalize();
-	ShadowMap::GetShadowMap().UpdateFromLightDir(m_lightPos, lightDer);
+	//ShadowMap::GetShadowMap().UpdateFromLightDir(m_lightPos, lightDer);
 	//ShadowMap::GetShadowMap().RenderToShadowMap();
 	CascadeShadow::GetCascadeShadowMap().Update();
 }
