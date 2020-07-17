@@ -2,6 +2,8 @@
 #include "SkinModel.h"
 #include "SkinModelDataManager.h"
 
+
+
 SkinModel::~SkinModel()
 {
 	if (m_cb != nullptr) {
@@ -171,8 +173,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mWorld = m_worldMatrix;
 	vsCb.mProj = projMatrix;
 	vsCb.mView = viewMatrix;
-	vsCb.mLightProj = ShadowMap::GetShadowMap().GetLightProjMatrix();
-	vsCb.mLightView = ShadowMap::GetShadowMap().GetLightViewMatrix();
+	//vsCb.mLightProj = ShadowMap::GetShadowMap().GetLightProjMatrix();
+	//vsCb.mLightView = ShadowMap::GetShadowMap().GetLightViewMatrix();
+	vsCb.mLightProj = CascadeShadow::GetCascadeShadowMap().GetLightProjMatrix();
+	vsCb.mLightView = CascadeShadow::GetCascadeShadowMap().GetLightViewMatrix();
 	if (m_isShadowReciever == true) {
 		vsCb.isShadowReciever = 1;
 	}
@@ -215,7 +219,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	//アルベドテクスチャを設定する。
 	d3dDeviceContext->PSSetShaderResources(0, 1, &m_albedoTextureSRV);
 	//シャドウマップを設定する。
-	m_shadowMapSRV = ShadowMap::GetShadowMap().GetShadowMapSRV();
+	//m_shadowMapSRV = ShadowMap::GetShadowMap().GetShadowMapSRV();
+	m_shadowMapSRV = CascadeShadow::GetCascadeShadowMap().GetShadowMapSRV();
 	d3dDeviceContext->PSSetShaderResources(2, 1, &m_shadowMapSRV);
 	if (m_specularMapSRV != nullptr) {
 		//スペキュラマップが設定されていたらレジスタt3に設定する。

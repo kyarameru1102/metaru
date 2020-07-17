@@ -37,7 +37,7 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 	m_height = (float)h;
 	//D3Dデバイスを取得。
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
-	//1.レンダリングターゲットとなるテクスチャを作成。
+	//レンダリングターゲットとなるテクスチャを作成。
 	D3D11_TEXTURE2D_DESC texDesc = { 0 };
 	{
 		//////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 		//テクスチャを作成。
 		d3dDevice->CreateTexture2D(&texDesc, nullptr, &m_renderTargetTex);
 	}
-	//2.レンダリングターゲットビューの作成
+	//レンダリングターゲットビューの作成
 	{
 		//////////////////////////////////////////////////////////////
 		//ここからレンダリングターゲットビューの作成。
@@ -88,7 +88,7 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 		//レンダリングターゲットビューの作成。
 		d3dDevice->CreateRenderTargetView(m_renderTargetTex, &viewDesc, &m_renderTargetView);
 	}
-	//3.シェーダーリソースビューの作成
+	//シェーダーリソースビューの作成
 	{
 
 		//////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 		//SRVを作成する。
 		d3dDevice->CreateShaderResourceView(m_renderTargetTex, &srvDesc, &m_renderTargetSRV);
 	}
-	//4.デプスステンシルテクスチャの作成
+	//デプスステンシルテクスチャの作成
 	D3D11_TEXTURE2D_DESC depthTexDesc = texDesc;
 	{
 		//////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 		//デプスステンシルテクスチャを作成する。
 		d3dDevice->CreateTexture2D(&depthTexDesc, nullptr, &m_depthStencilTex);
 	}
-	//5.デプスステンシルビューの作成
+	//デプスステンシルビューの作成
 	{
 		//////////////////////////////////////////////////////////////
 		//ここからデプスステンシルビューの作成。

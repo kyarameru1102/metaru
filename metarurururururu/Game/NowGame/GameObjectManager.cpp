@@ -2,6 +2,7 @@
 #include "GameObjectManager.h"
 
 
+
 void GameObjectManager::Init(int gameObjectPrioMax)
 {
 	if (gameObjectPrioMax <= 255)
@@ -96,7 +97,8 @@ void GameObjectManager::PreRender()
 	CVector3 lightDer = g_camera3D.GetTarget() - m_lightPos;
 	lightDer.Normalize();
 	ShadowMap::GetShadowMap().UpdateFromLightDir(m_lightPos, lightDer);
-	ShadowMap::GetShadowMap().RenderToShadowMap();
+	//ShadowMap::GetShadowMap().RenderToShadowMap();
+	CascadeShadow::GetCascadeShadowMap().Update();
 }
 
 void GameObjectManager::Render3D()

@@ -2,6 +2,7 @@
 #include "SkinModelRender.h"
 #include "GameTime.h"
 
+
 SkinModelRender::SkinModelRender()
 {
 }
@@ -115,7 +116,8 @@ void SkinModelRender::Update()
 	m_skinModel.SetShadowReciever(m_shadowRecieverOn);
 	if (m_shadowCasterOn) {
 		//シャドウマップに登録
-		ShadowMap::GetShadowMap().RegistShadowCaster(&m_skinModel);
+		//ShadowMap::GetShadowMap().RegistShadowCaster(&m_skinModel);
+		CascadeShadow::GetCascadeShadowMap().RegistShadowCaster(&m_skinModel);
 	}
 	m_renderOK = true;
 }

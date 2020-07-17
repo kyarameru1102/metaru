@@ -70,6 +70,43 @@ public:
 	{
 		return m_front;
 	}
+	/// <summary>
+	/// カメラの画角を取得
+	/// </summary>
+	float GetViewAngle()
+	{
+		return m_viewAngle;
+	}
+	/// <summary>
+	/// カメラの近平面までの距離を取得。
+	/// </summary>
+	float GetNear()
+	{
+		return m_near;
+	}
+	/// <summary>
+	/// カメラの遠平面までの距離を取得。
+	/// </summary>
+	float GetFar()
+	{
+		return m_far;
+	}
+	/// <summary>
+	/// 横。
+	/// </summary>
+	/// <returns></returns>
+	float GetWidth()
+	{
+		return m_width;
+	}
+	/// <summary>
+	/// 縦。
+	/// </summary>
+	/// <returns></returns>
+	float GetHeight()
+	{
+		return m_height;
+	}
 	/*!
 	 * @brief	視点を設定。
 	 */
@@ -158,6 +195,7 @@ private:
 	float m_near = 1.0f;							//近平面までの距離。
 	float m_width = 1280.0f;						//平行投影の幅。
 	float m_height = 720.0f;						//平行投影の高さ。
+
 	EnUpdateProjMatrixFunc m_updateProjMatrixFunc = enUpdateProjMatrixFunc_Perspective;
 };
 

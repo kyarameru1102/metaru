@@ -4,7 +4,7 @@
 /// </summary>
 
 #include <vector>		//可変長配列。
-#include"GameObject.h"
+#include "GameObject.h"
 #include "util/Util.h"
 #include "Sprite.h"
 #include "RenderTarget.h"
@@ -47,8 +47,6 @@ private:
 	/// <param name="d3dDeviceContext">D3Dデバイスコンテキスト</param>
 	/// <param name="renderTarget">レンダリングターゲット</param>
 	/// <param name="viewport">ビューポート</param>
-	/*void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
-	void ChangeRenderTarget(ID3D11DeviceContext* d3dDeviceContext, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);*/
 public:
 	/// <summary>
 	/// 初期化関数。
