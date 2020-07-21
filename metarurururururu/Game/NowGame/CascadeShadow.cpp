@@ -25,8 +25,8 @@ void CascadeShadow::Update()
 {
 	CVector3 cameraPos = g_camera3D.GetPosition();								//カメラの位置。
 	float halfviewAngle = g_camera3D.GetViewAngle() * 0.5f;						//カメラの画角の半分。
-	float nearDistance = g_camera3D.GetFar();									//カメラの近平面までの距離。
-	float farDistance = g_camera3D.GetNear();									//カメラの遠平面までの距離。
+	float nearDistance = g_camera3D.GetNear();									//カメラの近平面までの距離。
+	float farDistance = 4000.0f;//g_camera3D.GetFar();									//カメラの遠平面までの距離。
 
 	//横用。
 	float x1 = tan(halfviewAngle) * nearDistance;								//近いほう。
@@ -62,7 +62,7 @@ void CascadeShadow::Update()
 	vertex[7] += (g_camera3D.GetUp() * -y2);									//8つ目。
 
 	//8頂点の中心を求める。
-	CVector3 center;
+	CVector3 center = CVector3::Zero();
 	for (int i = 0; i < 8; i++) {
 		center += vertex[i];
 	}
