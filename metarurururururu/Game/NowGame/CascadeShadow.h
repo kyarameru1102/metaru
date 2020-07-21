@@ -50,6 +50,10 @@ public:
 	{
 		return m_shadowMapRT[0].GetRenderTargetSRV();
 	}
+	CVector3 GetLightPos()
+	{
+		return m_lightCameraPosition;
+	}
 	void Update();
 public:
 	static const int	m_numCascade = 3;			//レンダリングターゲットの数。
