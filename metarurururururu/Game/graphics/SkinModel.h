@@ -150,8 +150,8 @@ private:
 		CMatrix mWorld;
 		CMatrix mView;
 		CMatrix mProj;
-		CMatrix mLightView;		//ライトビュー行列。
-		CMatrix mLightProj;		//ライトプロジェクション行列。
+		CMatrix mLightView[3];		//ライトビュー行列。
+		CMatrix mLightProj[3];		//ライトプロジェクション行列。
 		int isShadowReciever;	//シャドウレシーバーのフラグ。
 		int isHasSpecuraMap;	//スペキュラマップを保持しているかどうかのフラグ。
 		int isAlpha;			//スペキュラマップがαに入っているかどうか。
@@ -180,7 +180,7 @@ private:
 	ID3D11Buffer*				m_lightCb = nullptr;			//ライト用の定数バッファ。
 	Light						m_Light;						//ライト。
 	ID3D11ShaderResourceView*	m_albedoTextureSRV = nullptr;	//アルベドテクスチャのSRV。
-	ID3D11ShaderResourceView*   m_shadowMapSRV = nullptr;		//シャドウマップのSRV.
+	ID3D11ShaderResourceView*   m_shadowMapSRV[3];				//シャドウマップのSRV.
 	ID3D11ShaderResourceView*	m_specularMapSRV = nullptr;		//スペキュラマップのSRV
 	bool						m_isShadowReciever = false;		//シャドウレシーバーのフラグ。
 	bool						isHasSpecuraMap = false;		//スペキュラマップのフラグ。

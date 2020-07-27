@@ -56,6 +56,7 @@ bool Game::Start()
 			return 0;
 		}
 	);
+	
 	//敵キャラ以外のレベルデータをロード。
 	m_level.Init(L"Assets/level/stage_test.tkl",
 		[&](LevelObjectData& obiData)->int {

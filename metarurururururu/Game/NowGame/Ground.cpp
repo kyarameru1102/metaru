@@ -57,4 +57,6 @@ bool Ground::Start()
 
 void Ground::Update()
 {
+	m_skinModelRender1->SetShadowCaster(false);
+	m_skinModelRender2->SetShadowCaster(false);
 }

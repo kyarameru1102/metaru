@@ -8,7 +8,9 @@
 /////////////////////////////////////////////////////////////
 //アルベドテクスチャ。
 Texture2D<float4> albedoTexture : register(t0);	
-Texture2D<float4> g_shadowMap : register(t2);
+Texture2D<float4> g_shadowMap0 : register(t2);
+Texture2D<float4> g_shadowMap1 : register(t5);
+Texture2D<float4> g_shadowMap2 : register(t6);
 Texture2D<float4> specularMap : register(t3);		//スペキュラマップ。
 TextureCube<float4> skyCubeMapReflection : register(t4);	//スカイキューブマップ。
 
@@ -31,8 +33,8 @@ cbuffer VSPSCb : register(b0){
 	float4x4 mView;
 	float4x4 mProj;
 	//ライトビュー行列。
-	float4x4 mLightView;	//ライトビュー行列。
-	float4x4 mLightProj;	//ライトプロジェクション行列。
+	float4x4 mLightView[3];	//ライトビュー行列。
+	float4x4 mLightProj[3];	//ライトプロジェクション行列。
 	int isShadowReciever;	//シャドウレシーバーフラグ。
 	int isHasSpecularMap;	//スペキュラマップあるかどうか。
 	int	isAlpha;			//スペキュラマップがαに入っているかどうか。
@@ -89,8 +91,8 @@ struct PSInput{
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
-	float4 posInLVP		: TEXCOORD1;	//ライトビュープロジェクション空間での座標。
-	float4 WorldPos		: TEXCOORD2;
+    float4 WorldPos     : TEXCOORD1; //ライトビュープロジェクション空間での座標。
+    float4 posInLVP[3]  : TEXCOORD2;
 };
 
 /// <summary>
@@ -133,9 +135,12 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 	psInput.Tangent = normalize(mul(mWorld, In.Tangent));
 	if (isShadowReciever == 1) {
 		//続いて、ライトビュープロジェクション空間に変換。
-		psInput.posInLVP = mul(mLightView, worldPos);
-		psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
-	}
+        for (int i = 0; i < 3; i++)
+        {
+            psInput.posInLVP[i] = mul(mLightView[i], worldPos);
+            psInput.posInLVP[i] = mul(mLightProj[i], psInput.posInLVP[i]);
+        }
+    }
 
 	//UV座標はそのままピクセルシェーダーに渡す。
 	psInput.TexCoord = In.TexCoord;
@@ -181,9 +186,12 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	
 	if (isShadowReciever == 1) {
 		//続いて、ライトビュープロジェクション空間に変換。
-		psInput.posInLVP = mul(mLightView, psInput.WorldPos);
-		psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
-	}
+        for (int i = 0; i < 3; i++)
+        {
+            psInput.posInLVP[i] = mul(mLightView[i], psInput.WorldPos);
+            psInput.posInLVP[i] = mul(mLightProj[i], psInput.posInLVP[i]);
+        }
+    }
 
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
@@ -238,27 +246,45 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//スペキュラ反射の計算結果をligに加算する。
 	lig += spec * drg.dligColor * specPower;
 	if (isShadowReciever == 1) {	//シャドウレシーバー。
+        for (int i = 0; i < 3; i++)
+        {
 		//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
-		float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
-		shadowMapUV *= float2(0.5f, -0.5f);
-		shadowMapUV += 0.5f;
+            float2 shadowMapUV = In.posInLVP[i].xy / In.posInLVP[i].w;
+            shadowMapUV *= float2(0.5f, -0.5f);
+            shadowMapUV += 0.5f;
 		//シャドウマップの範囲内かどうかを判定する。
-		if (shadowMapUV.x < 1.0f
+            if (shadowMapUV.x < 1.0f
 			&& shadowMapUV.x > 0.0f
 			&& shadowMapUV.y < 1.0f
 			&& shadowMapUV.y > 0.0f
-			) {
+			)
+            {
 			///LVP空間での深度値を計算。
-			float zInLVP = In.posInLVP.z / In.posInLVP.w;
+                float zInLVP = In.posInLVP[i].z / In.posInLVP[i].w;
 			//シャドウマップに書き込まれている深度値を取得。
-			float zInShadowMap = g_shadowMap.Sample(Sampler, shadowMapUV);
-
-			if (zInLVP > zInShadowMap + 0.0001f) {
+                float zInShadowMap;
+                if (i == 0)
+                {
+                    zInShadowMap = g_shadowMap0.Sample(Sampler, shadowMapUV);
+                }
+                else if (i == 1)
+                {
+                    zInShadowMap = g_shadowMap1.Sample(Sampler, shadowMapUV);
+                }
+                else if (i == 2)
+                {
+                    zInShadowMap = g_shadowMap2.Sample(Sampler, shadowMapUV);
+                }
+                if (zInLVP > zInShadowMap + 0.0001f)
+                {
 				//影が落ちているので、光を弱くする
-				lig *= 0.5f;
-			}
-		}
-	}
+                    lig *= 0.5f;
+                  
+                }
+                break;
+            }
+        }
+    }
 	float4 final = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	float4 skyColor = skyCubeMapReflection.Sample(Sampler, In.Normal);
 

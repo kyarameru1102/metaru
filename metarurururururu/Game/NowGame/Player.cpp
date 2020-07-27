@@ -261,6 +261,9 @@ void Player::Update()
 				//移動アニメーション。
 				MoveAnimation();
 			}
+			if (g_pad[0].IsPress(enButtonRB2)) {
+				//m_moveSpeed.y += 1000.0f;
+			}
 			//重力。
 			m_moveSpeed.y -= 980.0f * GameTime().GetFrameDeltaTime();
 			//キャラクターコントローラーをもとに座標を設定。

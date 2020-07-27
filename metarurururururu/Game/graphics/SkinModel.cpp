@@ -175,8 +175,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mView = viewMatrix;
 	//vsCb.mLightProj = ShadowMap::GetShadowMap().GetLightProjMatrix();
 	//vsCb.mLightView = ShadowMap::GetShadowMap().GetLightViewMatrix();
-	vsCb.mLightProj = CascadeShadow::GetCascadeShadowMap().GetLightProjMatrix();
-	vsCb.mLightView = CascadeShadow::GetCascadeShadowMap().GetLightViewMatrix();
+	for (int i = 0; i < 3; i++) {
+		vsCb.mLightProj[i] = CascadeShadow::GetCascadeShadowMap().GetLightProjMatrix(i);
+		vsCb.mLightView[i] = CascadeShadow::GetCascadeShadowMap().GetLightViewMatrix(i);
+	}
 	if (m_isShadowReciever == true) {
 		vsCb.isShadowReciever = 1;
 	}
@@ -220,8 +222,12 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	d3dDeviceContext->PSSetShaderResources(0, 1, &m_albedoTextureSRV);
 	//シャドウマップを設定する。
 	//m_shadowMapSRV = ShadowMap::GetShadowMap().GetShadowMapSRV();
-	m_shadowMapSRV = CascadeShadow::GetCascadeShadowMap().GetShadowMapSRV();
-	d3dDeviceContext->PSSetShaderResources(2, 1, &m_shadowMapSRV);
+	for (int i = 0; i < 3; i++) {
+		m_shadowMapSRV[i] = CascadeShadow::GetCascadeShadowMap().GetShadowMapSRV(i);
+	}
+	d3dDeviceContext->PSSetShaderResources(2, 1, &m_shadowMapSRV[0]);
+	d3dDeviceContext->PSSetShaderResources(5, 1, &m_shadowMapSRV[1]);
+	d3dDeviceContext->PSSetShaderResources(6, 1, &m_shadowMapSRV[2]);
 	if (m_specularMapSRV != nullptr) {
 		//スペキュラマップが設定されていたらレジスタt3に設定する。
 		d3dDeviceContext->PSSetShaderResources(3, 1, &m_specularMapSRV);
