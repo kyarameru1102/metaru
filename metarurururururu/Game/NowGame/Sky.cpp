@@ -30,7 +30,7 @@ bool Sky::Start()
 		m_skyCube->AddRef();
 	}
 	m_psSkyShader.Load("Assets/shader/model.fx", "PSMain_SkyCube", Shader::EnType::PS);
-	//マテリアルにクエリをかけて、シェーダーとテクスチャを差し替えるぜ。
+	//マテリアルにクエリをかけて、シェーダーとテクスチャを差し替える。
 	m_skinModelRender->FindMaterial([&](ModelEffect* mat) {
 		mat->SetRender3DModelPSShader(m_psSkyShader);
 		mat->SetAlbedoTexture(m_skyCube);

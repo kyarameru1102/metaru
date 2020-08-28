@@ -95,12 +95,8 @@ void GameCamera::Update()
 	camePos += camRight * m_rightLength;
 
 	CVector3 targetNewPos;
-	//ターゲットのコライダーの座標計算実行。
-	//m_targetCollider.Execute(targetNewPos, m_target, nowTarget);　　　イラン。
 	CVector3 NewPosition;
-	//カメラのコライダーの座標計算実行。
-	//m_cameraCollider.Execute(NewPosition, camePos, targetNewPos);
-	//m_target = targetNewPos;											いらん。
+	
 	//へりきた。
 	if (m_heri) {
 		m_heriTimer--;

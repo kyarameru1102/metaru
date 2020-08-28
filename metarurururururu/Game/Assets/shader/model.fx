@@ -7,11 +7,11 @@
 // Shader Resource View
 /////////////////////////////////////////////////////////////
 //アルベドテクスチャ。
-Texture2D<float4> albedoTexture : register(t0);	
-Texture2D<float4> g_shadowMap0 : register(t2);
-Texture2D<float4> g_shadowMap1 : register(t5);
-Texture2D<float4> g_shadowMap2 : register(t6);
-Texture2D<float4> specularMap : register(t3);		//スペキュラマップ。
+Texture2D<float4> albedoTexture : register(t0);	            //アルベド。
+Texture2D<float4> g_shadowMap0 : register(t2);              //シャドウマップ1枚目。
+Texture2D<float4> g_shadowMap1 : register(t5);              //シャドウマップ2枚目。
+Texture2D<float4> g_shadowMap2 : register(t6);              //シャドウマップ3枚目。
+Texture2D<float4> specularMap : register(t3);		        //スペキュラマップ。
 TextureCube<float4> skyCubeMapReflection : register(t4);	//スカイキューブマップ。
 
 //ボーン行列
@@ -91,8 +91,8 @@ struct PSInput{
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
-    float4 WorldPos     : TEXCOORD1; //ライトビュープロジェクション空間での座標。
-    float4 posInLVP[3]  : TEXCOORD2;
+    float4 WorldPos     : TEXCOORD1;    
+    float4 posInLVP[3]  : TEXCOORD2;        //ライトビュープロジェクション空間での座標。
 };
 
 /// <summary>
@@ -118,6 +118,83 @@ float4x4 CalcSkinMatrix(VSInputNmTxWeights In)
     skinning += boneMatrix[In.Indices[3]] * (1.0f - w);
     return skinning;
 }
+
+
+//float Beckmann(float m, float t)
+//{
+//    float M = m * m;
+//    float T = t * t;
+//    return exp((T - 1) / (M * T)) / (M * T * T);
+//}
+
+//float spcFresnel(float f0, float u)
+//{
+//    // from Schlick
+//    return f0 + (1 - f0) * pow(1 - u, 5);
+//}
+
+//float BRDF(float3 L, float3 V, float3 N)
+//{
+//    float microfacet = 1.0f;
+//    float f0 = 0.5;
+//    bool include_F = 0;
+//    bool include_G = 0;
+//    // compute the half float3
+//    float3 H = normalize(L + V);
+
+//    float NdotH = dot(N, H);
+//    float VdotH = dot(V, H);
+//    float NdotL = dot(N, L);
+//    float NdotV = dot(N, V);
+ 	
+//    float D = Beckmann(microfacet, NdotH);
+//    float F = spcFresnel(f0, VdotH);
+	
+//    float t = 2.0 * NdotH / VdotH;
+//    float G = max(0.0f, min(1.0, min(t * NdotV, t * NdotL)));
+//    float m = 3.14159265 * NdotV * NdotL;
+//	/*
+//    NdotH = NdotH + NdotH;
+//    float G = (NdotV < NdotL) ? 
+//        ((NdotV*NdotH < VdotH) ?
+//         NdotH / VdotH :
+//         oneOverNdotV)
+//        :
+//        ((NdotL*NdotH < VdotH) ?
+//         NdotH*NdotL / (VdotH*NdotV) :
+//         oneOverNdotV);
+//	*/
+//    //if (include_G) G = oneOverNdotV;
+//    return max(F * D * G / m, 0.0);
+//}
+
+//float SchlickFresnel(float u, float f0, float f90)
+//{
+//    return f0 + (f90 - f0) * pow(1.0f - u, 5.0f);
+//}
+
+//float3 NormalizedDisneyDiffuse(float3 N, float3 L, float3 V, float roughness)
+//{
+//  //光源に向かうベクトルと視線に向かうベクトルのハーフベクトルを求める。
+//    float3 H = normalize(L + V);
+
+//    float energyBias = lerp(0.0f, 0.5f, roughness);
+//    float energyFactor = lerp(1.0f, 1.0f / 1.51f, roughness);
+//  //光源に向かうベクトルとハーフベクトルがどれだけ似ているかを内積で求める。
+//    float dotLH = saturate(dot(L, H));
+//  //法線と光源に向かうベクトルがどれだけ似ているかを内積で求める。
+//    float dotNL = saturate(dot(N, L));
+//  //法線と視線に向かうベクトルがどれだけ似ているかを内積で求める。
+//    float dotNV = saturate(dot(N, V));
+
+//    float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
+  
+//    float FL = SchlickFresnel(1.0f, Fd90, dotNL);
+//    float FV = SchlickFresnel(1.0f, Fd90, dotNV);
+//    return (FL * FV) / PI;
+//}
+
+
 /*!--------------------------------------------------------------------------------------
  * @brief	スキンなしモデル用の頂点シェーダー。
 -------------------------------------------------------------------------------------- */
@@ -299,15 +376,15 @@ float4 PSMain( PSInput In ) : SV_Target0
 	final.xyz = albedo.xyz * lig;
 	
 	//セピア調にする。
-	/*{
-		float4 NewColor;
-		NewColor.r = (final.r * 0.593) + (final.g * 0.969) + (final.b * 0.389);
-		NewColor.g = (final.r * 0.449) + (final.g * 0.786) + (final.b * 0.268);
-		NewColor.b = (final.r * 0.272) + (final.g * 0.534) + (final.b * 0.131);
-		final.r = NewColor * 1.2;
-		final.g = NewColor * 1.1;
-		final.b = NewColor * 1.1;
-	}*/
+	//{
+    //    float4 NewColor;
+    //    NewColor.r = (final.r * 0.593) + (final.g * 0.969) + (final.b * 0.389);
+    //    NewColor.g = (final.r * 0.449) + (final.g * 0.786) + (final.b * 0.268);
+    //    NewColor.b = (final.r * 0.272) + (final.g * 0.534) + (final.b * 0.131);
+    //+   final.r = NewColor * 1.2;
+    //    final.g = NewColor * 1.1;
+    //    final.b = NewColor * 1.1;
+    //}
 	return float4(final.xyz, 1.0f);
 }
 /// <summary>

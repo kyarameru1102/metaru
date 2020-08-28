@@ -318,6 +318,9 @@
     <ClCompile Include="NowGame\CascadeShadow.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="NowGame\TitleCamera.cpp">
+      <Filter>NowGame\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -577,6 +580,9 @@
     </ClInclude>
     <ClInclude Include="NowGame\CascadeShadow.h">
       <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NowGame\TitleCamera.h">
+      <Filter>NowGame\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
